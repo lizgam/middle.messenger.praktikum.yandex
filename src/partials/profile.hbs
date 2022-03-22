@@ -1,0 +1,24 @@
+<section class="messages-board form_container profile_mode">
+    <div class="avatar_block">
+        <img src="../img/avatar.png" alt="">
+        <span class="form_editMode avatar_block__span">Edit</span>
+    </div>
+    <form action="#" method="post">
+
+        {{> input label="First name" name="f_name" inputType="text" edit=true}}
+
+        {{> input label="Last name" name="l_name" inputType="text" edit=true}}
+       
+        {{> input label="Display name" name="displayed_name" inputType="text" edit=true}}
+
+        {{> input label="Login" name="login" inputType="text" edit=true}}
+       
+        {{> input label="Email" name="email" inputType="email" edit=true}}
+
+        {{> input label="Phone" name="phone" inputType="tel" edit=true}}
+
+        {{> input label="Password" name="password" inputType="password" edit=true}}
+
+        {{> button submitBtn="doneBtn" btn_text="Done"}}
+    </form>
+</section>

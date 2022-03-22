@@ -1,0 +1,15 @@
+<div class="overlay">
+    <section class="modal">   
+        <div class="modal_content">
+            <h3>{{this.pageName}}</h3>
+            {{> input class=this.name placeholderMsg=this.placeholderMsg name=this.name inputType=this.inputType}}
+            {{#if this.password}}
+                {{> input class=this.name placeholderMsg="New password" name="new_password" inputType="password"}}
+            {{/if}}
+            <div class="button-container">
+                {{> button submitBtn="closeBtn" btn_text="Close"}}
+                {{> button submitBtn=this.btn_action btn_text=this.btn_action_name }}
+            </div>
+        </div>
+    </section>
+</div>

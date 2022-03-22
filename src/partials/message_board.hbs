@@ -1,0 +1,13 @@
+<article class="messages-board">
+    <div class="messages-board__info-block">
+        <div>Anastasia</div>
+    </div>
+    <div class="messages-board__messages">
+        {{#if data.selectedUser}}
+        {{> message data.selectedUser}}
+        {{/if }}
+    </div>
+    <div class="chat-section__input">
+        {{> input placeholderMsg="Enter message" inputType="text" }}
+    </div>
+</article>
