@@ -4,6 +4,8 @@
     profile_mode: false,
     chat_mode: true,
     addgroup_mode: false,
+
+    #change to toggle modal-window view:
     modalWindow_mode: true,
 
     # in case field-editing-mode. Specify fields for editing:
@@ -17,8 +19,7 @@
         btn_action_name: "Save"
         },
 
-    # in case avatar changing mode:
-
+    # use in case avatar changing mode:
     #modalContent: { 
         #avatar: true,
         #name: "filename",
@@ -66,10 +67,6 @@
        {{#if modalWindow_mode}}
         {{> modal modalContent}}
        {{/if }}
-
-       {{!--when functional will provide: 
-       {{> addgroup_board}}
-       --}}
         
     </section>
 </div>
