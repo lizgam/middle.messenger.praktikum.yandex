@@ -1,10 +1,10 @@
 <article class="messages-board">
     <div class="messages-board__info-block">
-        <div>Anastasia</div>
+        <div class="item__selected">Yehunda</div>
     </div>
     <div class="messages-board__messages">
         {{#if data.selectedUser}}
-        {{> message data.selectedUser}}
+            {{> message data.selectedUser}}
         {{/if }}
     </div>
     <div class="chat-section__input">

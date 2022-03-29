@@ -1,34 +1,34 @@
 ---
-{
-    # update this options to see different tabs in chat:
-    profile_mode: false,
-    chat_mode: true,
-    addgroup_mode: false,
 
-    #change to toggle modal-window view:
-    modalWindow_mode: true,
+# update this options to see different tabs in chat:
+profile_mode: false
+chat_mode: true
+addgroup_mode: false
 
-    # in case field-editing-mode. Specify fields for editing:
-    modalContent: { 
-        password: true,
-        name: "password",
-        pageName: "Change password", 
-        placeholderMsg: "Old password",
-        inputType: "password",
-        btn_action: "saveBtn",
-        btn_action_name: "Save"
-        },
+#change to toggle modal-window view:
+modalWindow_mode: false
 
-    # use in case avatar changing mode:
-    #modalContent: { 
-        #avatar: true,
-        #name: "filename",
-        #pageName: "Change avatar", 
-        #inputType: "file",
-        #btn_action: "saveBtn",
-        #btn_action_name: "Save"
-        #}
-}
+# in case field-editing-mode. Specify fields for editing:
+modalContent: { 
+    password: true,
+    name: "password",
+    pageName: "Change password", 
+    placeholderMsg: "Old password",
+    inputType: "password",
+    btn_action: "saveBtn",
+    btn_action_name: "Save",
+    }
+
+# use in case avatar changing mode:
+#modalContent: { 
+    #avatar: true,
+    #name: "filename",
+    #pageName: "Change avatar", 
+    #inputType: "file",
+    #btn_action: "saveBtn",
+    #btn_action_name: "Save",
+    #}
+
 ---
 
 
@@ -40,8 +40,8 @@
             {{> input placeholderMsg="Enter name" inputType="search" }}
         </div>
         <div class="cards-section__chat-panel">
-            <ul>
-                 {{#each data.users}}
+            <ul class="card-section__nav-list">
+                {{#each data.users}}
                 <li>
                     {{> card this}}
                 </li>
@@ -52,21 +52,21 @@
     </section>
     <section class="main-board-section">
         <nav class="main-board__navigation">
-            <ul>
+            <ul class="main-board__nav-list">
                 <li>My profile</li>
                 <li>Chat</li>
                 <li>Add group</li>
             </ul>
         </nav>
-       {{#if profile_mode}}
-        {{> profile }}
-       {{/if }}
+        {{#if profile_mode}}
+            {{> profile }}
+        {{/if }}
         {{#if chat_mode}}
-        {{> message_board}}
-       {{/if }}
-       {{#if modalWindow_mode}}
-        {{> modal modalContent}}
-       {{/if }}
+            {{> message_board}}
+        {{/if }}
+        {{#if modalWindow_mode}}
+            {{> modal modalContent}}
+        {{/if }}
         
     </section>
 </div>

@@ -33,11 +33,11 @@
   justify-content: flex-start;
 
   & .cards-section__chat-panel {
-    background-color: #6cc9cc;
+    background-color: $bg-color-additional;
     border-radius: 30px;
     height: 100%;
     overflow: hidden;
-    & ul {
+    & .card-section__nav-list {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -49,8 +49,8 @@
           flex-direction: row;
           justify-content: flex-start;
           border-radius: 30px;
-          border: 1px solid #9dd2d3;
-          img {
+          border: 1px solid $bg-color-additional;
+          .card-avatar {
             width: 75px;
             height: 75px;
             border-radius: 30%;
@@ -63,7 +63,7 @@
             justify-content: space-between;
             & .card-msg {
               width: 126px;
-              & p {
+              & .card-msg__text {
                 font-size: 11px;
                 white-space: nowrap;
                 overflow: hidden;
@@ -79,13 +79,13 @@
             }
           }
         }
-        .card_selected {
-          background-color: #9dd2d3;
-          border-radius: 30px;
-        }
       }
     }
   }
+}
+.card_selected {
+  background-color: $bg-color-selected-light;
+  border-radius: 30px;
 }
 
 //Main board
@@ -98,7 +98,7 @@
 
 .main-board__navigation {
   flex-basis: 13%;
-  & ul {
+  & .main-board__nav-list {
     display: flex;
     justify-content: flex-end;
     & li {
@@ -140,7 +140,7 @@
   position: absolute;
   top: -25px;
   left: 0px;
-  background-color: #ffffff;
+  background-color: $bg-color-selected-light;
   padding: 10px 73px 10px 10px;
   border-radius: 30px;
 }

@@ -1,17 +1,17 @@
 <div class="form_input" class="{{name}}">
     {{#if label}}
-    <label for="{{name}}" class="input_label">{{label}}</label>
+        <label for="{{name}}" class="input_label">{{label}}</label>
     {{/if}}
 
     {{#if avatar}}
-    <input type={{inputType}} name="{{name}}" >
-    
+        <input type={{inputType}} name="{{name}}" >
+
     {{else}}
-    <input type={{inputType}} name="{{name}}" placeholder="{{placeholderMsg}}" value="{{value}}">
+        <input type={{inputType}} name="{{name}}" placeholder="{{placeholderMsg}}" value="{{value}}">
     {{/if}}
 
     {{#if edit}}
-    <span class="form_editMode">Edit</span>
+        <span class="form_editMode">Edit</span>
     {{/if}}
 </div>
 
