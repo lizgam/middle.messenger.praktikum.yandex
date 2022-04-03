@@ -1,0 +1,21 @@
+---
+pageName: "Login page"
+---
+
+{{!< main}}
+
+<section class="form_container">
+    <h2>{{pageName}}</h2>
+    <form action="#" method="post">
+        {{> input label="Login" name="login"}}
+
+        {{> input label="Password" name="password" inputType="password"}}
+
+        {{> button submitBtn="loginBtn" btn_text="Log in"}}
+
+        <aside>
+            <p>Don’t have a Chatopolis account? <a href="./registration.hbs">Join Now</a>.</p>
+        </aside>
+    </form>
+</section>
+
