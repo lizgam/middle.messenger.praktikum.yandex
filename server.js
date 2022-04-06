@@ -1,3 +1,7 @@
+/* global __dirname*/
+/* eslint @typescript-eslint/no-var-requires: "off" */
+/* eslint no-undef: "off"*/
+
 const express = require("express");
 const path = require("path");
 const PORT = 3000;
