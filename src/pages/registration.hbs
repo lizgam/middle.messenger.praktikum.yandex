@@ -1,5 +1,7 @@
 ---
 pageName: "Create Page"
+textForReffering: "Already have a Chatopolis account?"
+href: "./login"
 ---
 {{!< main }}
 
@@ -20,8 +22,7 @@ pageName: "Create Page"
 
         {{> button submitBtn="registerBtn" btn_text="Register"}}
 
-        <aside>
-            <p>Already have a Chatopolis account?<a href="./login.hbs">Login</a>.</p>
-        </aside>
+        {{> link reasonText=textForReffering address=href linkText="Log in"}}
+
     </form>
 </section>
