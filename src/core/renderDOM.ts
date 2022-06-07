@@ -10,5 +10,6 @@ export default function renderDOM(BlockPage: typeof Block) {
     console.log("+++renderedBlock++++++", renderedBlock);
 
     root!.appendChild(renderedBlock);
-    block.dispatchComponentDidMount(); //must be вызoв после того как компонент появился в дереве DOM
+    // block.dispatchComponentDidMount(); //must be вызoв после того как компонент появился в дереве DOM
+    // block.componentDidMount(); //must be вызoв после того как компонент появился в дереве DOM
 }

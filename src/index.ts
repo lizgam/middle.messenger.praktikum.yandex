@@ -9,6 +9,7 @@ import Button from "./components/Button";
 import InputControl from "./components/InputControl";
 import Input from "./components/Input";
 import Link from "./components/Link";
+import ErrorLabel from "./components/ErrorLabel";
 
 import "./sass/style.scss";
 
@@ -16,6 +17,7 @@ registerComponent(Button);
 registerComponent(Input);
 registerComponent(InputControl);
 registerComponent(Link);
+registerComponent(ErrorLabel);
 
 // const components = require("./components/**/index.ts") as {
 //     [key: string]: { default: typeof Block };

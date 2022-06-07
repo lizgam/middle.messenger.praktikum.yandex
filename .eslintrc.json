@@ -16,11 +16,6 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "max-len": [
-            2,
-            120,
-            4
-        ],
         "semi": [
             "error",
             "always"

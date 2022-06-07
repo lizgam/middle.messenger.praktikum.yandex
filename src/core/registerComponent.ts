@@ -2,7 +2,7 @@ import Block from "./Block";
 import Handlebars, { HelperOptions } from "handlebars";
 
 interface BlockConstructable<Props = any> {
-    new (props: Props): Block; //------- ??????ß
+    new (props: Props): Block;
     componentName: string;
 }
 
@@ -29,35 +29,33 @@ export default function registerComponent<Props = any>(
             }
 
             const { children, refs } = data.root;
-            console.log(">>> in RegirsterComponent: DATA.root ", data.root);
+            console.log(">>> in RegirsterComponent: DATA.ROOT ", data.root);
 
             /**
              * Костыль для того, чтобы передавать переменные
              * внутрь блоков вручную подменяя значение
              */
-            // (Object.keys(hash) as any).forEach((key: keyof Props) => {
-            //     if (this[key]) {
-            //         hash[key] = hash[key].replace(
-            //             new RegExp(`{{${key}}}`, "i"),
-            //             this[key]
-            //         );
-            //     }
-            // });
+            (Object.keys(hash) as any).forEach((key: keyof Props) => {
+                if (this[key] && typeof this[key] === "string") {
+                    console.log("hash[key]:", hash[key]);
+                    hash[key] = hash[key].replace(
+                        new RegExp(`{{${key}}}`, "i"),
+                        this[key]
+                    );
+                    console.log("hash[key]2> :", hash[key]);
+                }
+            });
 
             const component = new Component(hash);
-            console.log(
-                ">>> in RegirsterComponent- component/it's hash:",
-                component,
-                hash
-            );
 
             //rendering of the dummy
             children[component.id] = component;
 
             if (ref) {
                 //мех-зм позволяюший обратиться к DOM elements
-                console.log(">>> in RegirsterComponent- it's ref: ", ref);
-                refs[ref] = component.getContent();
+                console.log(">>> in RegirsterComponent- it's REFS: ", refs);
+                refs[ref] = component;
+                //refs[ref] = component.getContent();
             }
 
             return `<div data-id="id-${component.id}"></div>`; //dummy

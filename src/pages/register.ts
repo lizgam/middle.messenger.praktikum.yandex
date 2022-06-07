@@ -1,32 +1,16 @@
+import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
 
+interface RegisterPageProps {
+    onRegister: () => void;
+}
+
 export class RegisterPage extends Block {
-    protected getStateFromProps() {
-        this.state = {
-            staticData: {
-                pageName: "Registration Page",
-                textForReffer: "Already have a Chatopolis account?",
-                href: "/login",
-                linkText: "Log in",
-            },
-            values: {
-                email: "",
-                login: "",
-                first_name: "",
-                second_name: "",
-                password: "",
-                phone: "",
-            },
-            errors: {
-                email: "",
-                login: "",
-                first_name: "",
-                second_name: "",
-                password: "",
-                phone: "",
-            },
-            onRegister: () => {
-                const registerData = {
+    constructor(props: RegisterPageProps) {
+        super({
+            ...props,
+            onRegister: (e: SubmitEvent) => {
+                const loginData: any = {
                     login: (
                         document.getElementById("login") as HTMLInputElement
                     ).value,
@@ -50,119 +34,91 @@ export class RegisterPage extends Block {
                         document.getElementById("phone") as HTMLInputElement
                     ).value,
                 };
-                console.log(">>>>>REGISTER", registerData);
-                //return;
 
-                //VALIDATION:
-                //for every click: clean object with errors & save values
-                const errorState = {
-                    errors: {
-                        email: "",
-                        login: "",
-                        first_name: "",
-                        second_name: "",
-                        password: "",
-                        phone: "",
-                    },
-                    values: { ...registerData }, //save values in state
-                };
+                /*
+                1. можно ли как-то со страницы логина/регистрации дернуть вызов метода c дочернего компонента (onBlur/onFocus - это мои ивенты на Input-компонентах)?
+                (я хочу на клик кнопки Логина проверить валидны ли инпуты, но чтобы не делать проверки на странице Логина)
+                    let temp = this.refs.login.setProps(onblur) -?
 
-                const validateLogin = (login: string) => {
-                    const res = /(?!^\d+$)^[\w|-]*$/.test(login);
-                    console.log("login>>>", res);
-                    return res;
-                };
+                2. мне надо получить доступ к полю с текстом об ошибке со страницы регистрации. Структура такая:
+                  RegisterPage:
+                             | -> {{ ControlledInput }}, {{Button}}
+                                             |-> {{Input}} , {{Error}}
+                Я использую вот такую запись:
+                const passwordError = this.refs.password.refs.error.props.errorMsg;
+                только TS ругается:...
 
-                const validateEmail = (email: string) => {
-                    const res =
-                        /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[A-Za-z0-9]+\.[A-Za-z]{2,}$/.test(
-                            email
-                        );
-                    console.log(">>>", res);
-                    return res;
-                };
+                С таким вот указанием типов вроде ошибки TS перестал показывать, но меня смущает как выглядит эта запись (или нормально? я не уверенна...)
+                const passwordError = ((this.refs.password as RegisterPage).refs.error as RegisterPage).props.errorMsg;
+                Что мне нужно исправить/На что обратить внимание? Или такой вариант имеет место быть?
+                */
 
-                const validateName = (name: string) => {
-                    const res = /^[A-Z][a-z-]*$/.test(name);
-                    console.log(">>>", res);
-                    return res;
-                };
-
-                const validatePassword = (password: string) => {
-                    const res = /^(?=.+[A-Z])(?=.+\d).*$/.test(password);
-                    console.log("psw>>>", res);
-                    return res;
-                };
-
-                const validatePhone = (phone: string) => {
-                    const res = /^\+?[0-9]{10,15}$/.test(phone);
-                    console.log("phone>>>", res);
-                    return res;
-                };
-
-                if (!validateLogin(registerData.login)) {
-                    errorState.errors.login =
-                        "Numbers, letters ,'_' ,'-' are allowed. No space.";
-                } else if (
-                    registerData.login.length < 3 ||
-                    registerData.login.length > 20
-                ) {
-                    errorState.errors.login =
-                        "Login must contain 3 to 20 symbols";
+                if (this.checkFormValide()) {
+                    e.preventDefault();
+                    console.log("SUBMITED values on the Page:", loginData);
                 }
-
-                if (!validateName(registerData.first_name)) {
-                    errorState.errors.first_name =
-                        "First letter with uppercase. '-' are allowed.";
-                }
-
-                if (!validateName(registerData.second_name)) {
-                    errorState.errors.second_name =
-                        "First letter with uppercase. '-' are allowed.";
-                }
-
-                if (!validatePhone(registerData.phone)) {
-                    errorState.errors.phone =
-                        "Numbers (10 to 15). May start with '+'.";
-                }
-
-                if (!validateEmail(registerData.email)) {
-                    errorState.errors.email =
-                        "Check the format. Ex: 'email@gmail.com'";
-                }
-
-                if (!validatePassword(registerData.password)) {
-                    errorState.errors.password =
-                        "At least one uppercase letter, at least one number";
-                } else if (
-                    registerData.password.length < 8 ||
-                    registerData.password.length > 40
-                ) {
-                    errorState.errors.password =
-                        "Login must contain 8 to 40 symbols";
-                }
-
-                this.setState(errorState); ////??????setProps???
-
-                console.log("Collected Data:>> ", registerData);
             },
-        };
+        });
+    }
+
+    checkFormValide() {
+        const loginError = (this.refs.login as RegisterPage).refs.error;
+        const passwordError = (this.refs.password as RegisterPage).refs.error;
+        const first_nameError = (this.refs.first_name as RegisterPage).refs
+            .error;
+        const second_nameError = (this.refs.second_name as RegisterPage).refs
+            .error;
+        const emailError = (this.refs.email as RegisterPage).refs.error;
+        const phoneError = (this.refs.phone as RegisterPage).refs.error;
+
+        const inputMsgValidArray = [
+            loginError,
+            passwordError,
+            first_nameError,
+            second_nameError,
+            emailError,
+            phoneError,
+        ];
+
+        if (
+            inputMsgValidArray.every(
+                (msgInput) => (msgInput as RegisterPage).props.errorMsg === ""
+            )
+        ) {
+            return true;
+        } else {
+            inputMsgValidArray
+                .filter(
+                    (errorLabel) =>
+                        (errorLabel as RegisterPage).props.errorMsg ===
+                        undefined
+                )
+                .map((errorLabel) =>
+                    errorLabel.setProps({
+                        errorMsg: "Field can not be empty",
+                    })
+                );
+            return false;
+        }
     }
 
     render() {
-        const { staticData, errors, values } = this.state;
-        console.log("RENDERING state:", { ...this.state });
-        console.log(this.state);
+        const staticData = {
+            pageName: "Registration Page",
+            textForReffer: "Already have a Chatopolis account?",
+            href: "/login",
+            linkText: "Log in",
+        };
         return `
             <section class="form_container">
                 <h2>${staticData.pageName}</h2>
                 <form action="#" method="post">
-                    {{{ Input label="Email" id="email" name="email" ref="email" inputType="email" placeholder="email@gmail.com" error="${errors.email}" value="${values.email}"}}}
-                    {{{ Input label="Login" id="login" name="login" ref="login" inputType="text" error="${errors.login}" value="${values.login}"}}}
-                    {{{ Input label="First Name" id="first_name" name="first_name" ref="first_name" inputType="text" error="${errors.first_name}" value="${values.first_name}"}}}
-                    {{{ Input label="Second Name" id="second_name" name="second_name" ref="second_name" inputType="text" error="${errors.second_name}" value="${values.second_name}"}}}
-                    {{{ Input label="Password" id="password" name="password" ref="password" inputType="password"  error="${errors.password}" value="${values.password}"}}}
-                    {{{ Input label="Phone" id="phone" name="phone" ref="tel" inputType="tel" placeholder="+1234567890" error="${errors.phone}" value="${values.phone}"}}}
+                    {{{ Input label="Email" id="email" name="email" ref="email" validationRule = "${ValidationRule.Email}" inputType="email" placeholder="email@gmail.com"}}}
+                    {{{ Input label="Login" id="login" name="login" ref="login" validationRule = "${ValidationRule.Login}" inputType="text" }}}
+                    {{{ Input label="First Name" id="first_name" name="first_name" ref="first_name" validationRule = "${ValidationRule.First_name}" inputType="text" }}}
+                    {{{ Input label="Second Name" id="second_name" name="second_name" ref="second_name" validationRule = "${ValidationRule.Second_name}" inputType="text" }}}
+                    {{{ Input label="Password" id="password" name="password" ref="password" validationRule = "${ValidationRule.Password}" inputType="password" }}}
+                    {{{ Input label="Phone" id="phone" name="phone" ref="phone" validationRule = "${ValidationRule.Phone}" inputType="tel" placeholder="+1234567890" }}}
                     {{{ Button btn_text="Register" onClick=onRegister}}}
                     <span>${staticData.textForReffer}</span>
                     {{{ Link reasonText=textForReffer address="${staticData.href}" linkText="${staticData.linkText}"}}}

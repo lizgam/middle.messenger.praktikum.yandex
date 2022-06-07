@@ -17,7 +17,8 @@ export default class Block<P = any> {
     } as const;
 
     public id = nanoid(6);
-    private readonly _meta: BlockMeta;
+    static componentName: string;
+    //private readonly _meta: BlockMeta;
     protected _element: Nullable<HTMLElement> = null;
     protected readonly props: P;
     protected children: { [id: string]: Block } = {};
@@ -25,14 +26,14 @@ export default class Block<P = any> {
     eventBus: () => EventBus<Events>;
 
     protected state: any = {};
-    protected refs: { [key: string]: HTMLElement } = {};
+    protected refs: { [key: string]: Block } = {};
 
     public constructor(props?: P) {
         const eventBus = new EventBus<Events>();
 
-        this._meta = {
-            props,
-        };
+        // this._meta = {
+        //     props,
+        // };
 
         this.getStateFromProps(props);
 
@@ -76,11 +77,11 @@ export default class Block<P = any> {
 
     _componentDidMount(props: P) {
         this.componentDidMount(props);
-        console.log("CDM");
+        //console.log("CDM");
         //последовательно стриггерить componentDidMount hook для всех потомков компонента:
-        // Object.values(this.children).forEach(child => {
-        //     child.dispatchComponentDidMount();
-        // });
+        Object.values(this.children).forEach((child) => {
+            child.dispatchComponentDidMount();
+        });
     }
 
     dispatchComponentDidMount() {
@@ -99,7 +100,7 @@ export default class Block<P = any> {
             return;
         }
         //this._render(); -----?????  почему так не вызывать ? разница?
-        console.log("_CDU");
+        // console.log("_CDU");
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
@@ -109,12 +110,12 @@ export default class Block<P = any> {
         return true;
     }
 
-    // setProps = (nextProps: P) => {
-    //     if (!nextProps) {
-    //         return;
-    //     }
-    //     Object.assign(this.props, nextProps);
-    // };
+    setProps = (nextProps: P) => {
+        if (!nextProps) {
+            return;
+        }
+        Object.assign(this.props, nextProps);
+    };
 
     setState = (nextState: any) => {
         if (!nextState) {
@@ -157,7 +158,7 @@ export default class Block<P = any> {
         return new Proxy(props as unknown as object, {
             get(target: Record<string, unknown>, prop: string) {
                 const value = target[prop];
-                console.log("PROXY . GET", value);
+                //console.log("PROXY . GET", value);
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target: Record<string, unknown>, prop: string, value: unknown) {
@@ -178,7 +179,6 @@ export default class Block<P = any> {
 
     _render() {
         //return dom-node (fragment) from compile
-        console.log("RENDER");
         const fragment = this._compile();
         this._removeEvents();
         const newElement = fragment.firstElementChild!;
@@ -224,7 +224,7 @@ export default class Block<P = any> {
         const fragment = this._createDocumentElement(
             "template"
         ) as HTMLTemplateElement;
-        const template = Handlebars.compile(this.render()); //compiled function
+        const template = Handlebars.compile(this.render()); // !!! compiled function
         //template - принимает контекст-> return string
         // переменные заменены на то что передалт в props
         //starting registerComponent, all renderings of the component

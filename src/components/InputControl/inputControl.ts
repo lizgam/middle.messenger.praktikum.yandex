@@ -7,7 +7,7 @@ export interface InputControlProps {
     placeholder?: string;
     value?: string;
 
-    onChange: () => void;
+    onChange?: () => void;
     onFocus?: () => void;
     onBlur?: () => void;
 }
