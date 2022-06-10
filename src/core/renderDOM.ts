@@ -1,7 +1,7 @@
 import Block from "./Block";
 
-export default function renderDOM(BlockPage: typeof Block) {
-    const block = new BlockPage();
+export default function renderDOM(block: Block) {
+    //const block = new BlockPage();
 
     const root = document.querySelector("#app");
 

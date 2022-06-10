@@ -1,16 +1,14 @@
 import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
 
-interface LoginPageProps {
-    onLogin: () => void;
-}
+export interface LoginPageProps {}
 
 export class LoginPage extends Block {
     constructor(props: LoginPageProps) {
         super({
             ...props,
-            onLogin: (e: SubmitEvent) => {
-                const loginData = {
+            onLogin: () => {
+                const loginData: Partial<UserData> = {
                     login: (
                         document.getElementById("login") as HTMLInputElement
                     ).value,
@@ -19,15 +17,12 @@ export class LoginPage extends Block {
                     ).value,
                 };
                 if (this.checkFormValidity()) {
-                    e.preventDefault();
-                    console.log("SUBMITED values on the Page:", loginData);
+                    //e.preventDefault();
+                    console.log("Submited values on the Page:", loginData);
                 }
             },
         });
     }
-
-    // submitHandler(e: Event) {
-    //     e.preventDefault();
 
     checkFormValidity() {
         const loginError = (this.refs.login as LoginPage).refs.error;
@@ -91,7 +86,6 @@ export class LoginPage extends Block {
 
                 <span>${staticData.textForReffer}</span>
                 {{{ Link
-                    reasonText=textForReffer
                     address="${staticData.href}"
                     linkText="${staticData.linkText}"
                 }}}

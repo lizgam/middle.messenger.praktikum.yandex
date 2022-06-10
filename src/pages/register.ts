@@ -2,15 +2,20 @@ import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
 
 interface RegisterPageProps {
-    onRegister: () => void;
+    pageName?: string;
+    textForReffer?: string;
+    href?: string;
+    linkText?: string;
+    errorMsg?: string;
+    onRegister?: () => void;
 }
 
-export class RegisterPage extends Block {
+export class RegisterPage extends Block<RegisterPageProps> {
     constructor(props: RegisterPageProps) {
         super({
             ...props,
-            onRegister: (e: SubmitEvent) => {
-                const loginData: any = {
+            onRegister: () => {
+                const loginData: Partial<UserData> = {
                     login: (
                         document.getElementById("login") as HTMLInputElement
                     ).value,
@@ -35,26 +40,8 @@ export class RegisterPage extends Block {
                     ).value,
                 };
 
-                /*
-                1. можно ли как-то со страницы логина/регистрации дернуть вызов метода c дочернего компонента (onBlur/onFocus - это мои ивенты на Input-компонентах)?
-                (я хочу на клик кнопки Логина проверить валидны ли инпуты, но чтобы не делать проверки на странице Логина)
-                    let temp = this.refs.login.setProps(onblur) -?
-
-                2. мне надо получить доступ к полю с текстом об ошибке со страницы регистрации. Структура такая:
-                  RegisterPage:
-                             | -> {{ ControlledInput }}, {{Button}}
-                                             |-> {{Input}} , {{Error}}
-                Я использую вот такую запись:
-                const passwordError = this.refs.password.refs.error.props.errorMsg;
-                только TS ругается:...
-
-                С таким вот указанием типов вроде ошибки TS перестал показывать, но меня смущает как выглядит эта запись (или нормально? я не уверенна...)
-                const passwordError = ((this.refs.password as RegisterPage).refs.error as RegisterPage).props.errorMsg;
-                Что мне нужно исправить/На что обратить внимание? Или такой вариант имеет место быть?
-                */
-
                 if (this.checkFormValide()) {
-                    e.preventDefault();
+                    //e.preventDefault();
                     console.log("SUBMITED values on the Page:", loginData);
                 }
             },

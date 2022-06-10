@@ -2,9 +2,9 @@ import EventBus from "./EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 
-interface BlockMeta<P = any> {
-    props: P;
-}
+// interface BlockMeta<P = any> {
+//     props: P;
+// }
 
 type Events = Values<typeof Block.EVENTS>;
 
@@ -86,7 +86,7 @@ export default class Block<P = any> {
 
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-        console.log("DISPATCH CDM");
+        //console.log("DISPATCH CDM");
     }
 
     //mount - inserted into the tree (a good place for subscriptions / load data from a remote endpoint - to instantiate the network request)
@@ -133,7 +133,6 @@ export default class Block<P = any> {
     getContent(): HTMLElement {
         ///-----?????
         // Хак, чтобы вызвать CDM только после добавления в DOM
-        console.log("getContent: this.element", this.element);
         if (
             this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE
         ) {
@@ -142,7 +141,6 @@ export default class Block<P = any> {
                     this.element?.parentNode?.nodeType !==
                     Node.DOCUMENT_FRAGMENT_NODE
                 ) {
-                    console.log("cdm after added in DOM. getContent");
                     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
                 }
             }, 100);
@@ -184,8 +182,6 @@ export default class Block<P = any> {
         const newElement = fragment.firstElementChild!;
         this._element!.replaceWith(newElement);
         this._element = newElement as HTMLElement;
-
-        console.log("Render. new element:", this._element);
         this._addEvents();
     }
 
@@ -221,9 +217,8 @@ export default class Block<P = any> {
     // })
     _compile(): DocumentFragment {
         //ставит заглушки
-        const fragment = this._createDocumentElement(
-            "template"
-        ) as HTMLTemplateElement;
+        //const fragment = this._createDocumentElement("template") as HTMLTemplateElement;
+        const fragment = document.createElement("template");
         const template = Handlebars.compile(this.render()); // !!! compiled function
         //template - принимает контекст-> return string
         // переменные заменены на то что передалт в props
@@ -242,7 +237,20 @@ export default class Block<P = any> {
             if (!stub) {
                 return;
             }
-            stub.replaceWith(component.getContent());
+            const stubChilds = stub.childNodes.length ? stub.childNodes : [];
+            /**
+             * Заменяем заглушку на component._element
+             */
+            const content = component.getContent();
+            stub.replaceWith(content);
+            /**
+             * Ищем элемент layout-а, куда вставлять детей
+             */
+            const layoutContent = content.querySelector('[data-layout="1"]');
+
+            if (layoutContent && stubChilds.length) {
+                layoutContent.append(...stubChilds);
+            }
         });
 
         return fragment.content;
@@ -253,6 +261,7 @@ export default class Block<P = any> {
     }
 
     hide() {
+        console.log("HIDDEN");
         this.getContent().style.display = "none";
     }
 }
