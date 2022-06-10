@@ -6,8 +6,9 @@ import { ChatPage } from "./pages/chat";
 import { LoginPage } from "./pages/login";
 import { RegisterPage } from "./pages/register";
 import { ErrorPage } from "./pages/errorPage";
-// import { EditInfoPage } from "./pages/editInfo";
+import { EditInfoPage } from "./pages/editInfo";
 
+import Addgroup from "./components/Addgroup";
 import Button from "./components/Button";
 import Card from "./components/Card";
 import Chat from "./components/Chat";
@@ -19,10 +20,10 @@ import Link from "./components/Link";
 import MessageBoard from "./components/MessageBoard";
 import Message from "./components/Message";
 import Profile from "./components/Profile";
-import Addgroup from "./components/Addgroup";
 
 import "./sass/style.scss";
 
+registerComponent(Addgroup);
 registerComponent(Button);
 registerComponent(Card);
 registerComponent(Chat);
@@ -34,7 +35,6 @@ registerComponent(Link);
 registerComponent(MessageBoard);
 registerComponent(Message);
 registerComponent(Profile);
-registerComponent(Addgroup);
 
 // const components = require("./components/**/index.ts") as {
 //     [key: string]: { default: typeof Block };
@@ -53,12 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
         renderDOM(new ChatPage({}));
     } else if (document.location.pathname === "/errorPage") {
         renderDOM(new ErrorPage({}));
-        console.log("ErrorPage");
     } else if (document.location.pathname === "/editInfo") {
-        //renderDOM(new EditInfoPage({ }));
-        console.log("editInfoPage");
+        renderDOM(new EditInfoPage({}));
     } else {
-        console.log("Default page - ChatPage(if loged in)");
-        // renderDOM(new ChatPage({}));
+        console.log("Default page");
+        renderDOM(new LoginPage({}));
     }
 });

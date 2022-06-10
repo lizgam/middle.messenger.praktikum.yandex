@@ -40,7 +40,7 @@ export class RegisterPage extends Block<RegisterPageProps> {
                     ).value,
                 };
 
-                if (this.checkFormValide()) {
+                if (this.checkFormValidity()) {
                     //e.preventDefault();
                     console.log("SUBMITED values on the Page:", loginData);
                 }
@@ -48,7 +48,7 @@ export class RegisterPage extends Block<RegisterPageProps> {
         });
     }
 
-    checkFormValide() {
+    checkFormValidity() {
         const loginError = (this.refs.login as RegisterPage).refs.error;
         const passwordError = (this.refs.password as RegisterPage).refs.error;
         const first_nameError = (this.refs.first_name as RegisterPage).refs

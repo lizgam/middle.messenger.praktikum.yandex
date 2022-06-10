@@ -69,7 +69,8 @@ export class Input extends Block {
                 {{{InputControl
                     id=id
                     inputType=inputType
-                    ref=ref name=name
+                    ref=ref
+                    name=name
                     placeholder=placeholder
                     value=value
                     onChange=onChange

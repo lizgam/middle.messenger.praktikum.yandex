@@ -1,5 +1,5 @@
 export enum ValidationRule {
-    Login = "LOGIN",
+    Login = "login",
     Password = "PASSWORD",
     Email = "EMAIL",
     First_name = "FIRST_NAME",
