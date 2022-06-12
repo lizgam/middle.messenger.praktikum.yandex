@@ -1,5 +1,6 @@
 import { Block } from "core";
 import { CardsSectionStub } from "../../data/data";
+// import { Mode } from "model/types/types";
 
 interface ChatBoardProps {
     mode: Mode;
@@ -7,52 +8,27 @@ interface ChatBoardProps {
     chat_mode?: boolean;
     addgroup_mode?: boolean;
     users: CardInfo[];
+    setMode?: () => void;
 }
 
-export class ChatBoard extends Block<ChatBoardProps> {
+export class ChatBoard extends Block {
     static componentName = "ChatBoard";
 
     constructor({ ...props }: ChatBoardProps) {
         super({
             ...props,
             users: CardsSectionStub,
+            setMode: () => {},
         });
         this.props.profile_mode = this.props.mode === "Profile";
         this.props.chat_mode = this.props.mode === "Chat";
         this.props.addgroup_mode = this.props.mode === "Addgroup";
     }
-    // protected getStateFromProps() {
-    //     console.log("input getStateFromProps");
-    //     console.log("this.id", this.id);
-    //     this.state = {
-    //         values: {
-    //             login: "abc",
-    //             password: "67",
-    //         },
-    //         errors: {
-    //             login: "test",
-    //             errorMsg: "cool test",
-    //         },
-    //         onBlur: (e: FocusEvent) => {
-    //             const input = e.target as HTMLInputElement;
-    //             const value = input.value;
-    //             console.log("blur");
-    //             const result = "Error finale";
-    //             const newState = {
-    //                 errors: {
-    //                     errorMsg: result,
-    //                 },
-    //             };
-    //             debugger;
-    //             console.log("blur, this.state", this.state);
+    protected getStateFromProps() {
+        this.state = {};
+    }
 
-    //             this.setState(newState);
-    //             console.log("blur, this.state", this.state);
-    //         },
-    //     };
-    // }
-
-    protected render(): string {
+    render(): string {
         return `
             <div class="chat-board">
                 <section class="cards-section">
@@ -60,7 +36,7 @@ export class ChatBoard extends Block<ChatBoardProps> {
                         {{{ Input placeholder="Enter searching name" inputType="search" }}}
                     </div>
                     <div class="cards-section__chat-panel">
-                        <ul class="card-section__nav-list">
+                        <ul id="nav-list" class="card-section__nav-list">
                             {{#each users}}
                             <li>
                                 {{{ Card
@@ -80,13 +56,7 @@ export class ChatBoard extends Block<ChatBoardProps> {
                 </section>
                 <section class="main-board-section">
 
-                    <nav class="main-board__navigation">
-                        <ul class="main-board__nav-list">
-                            <li class="{{#if profile_mode}}active-mode{{/if}}">My profile</li>
-                            <li class="{{#if chat_mode}}active-mode{{/if}}">Chat</li>
-                            <li class="{{#if addgroup_mode}}active-mode{{/if}}">Add group</li>
-                        </ul>
-                    </nav>
+                    {{{Navigation onClick=setMode}}}
 
                     {{#if profile_mode}}
                         {{{ Profile }}}

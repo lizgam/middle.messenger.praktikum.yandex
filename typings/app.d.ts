@@ -1,8 +1,8 @@
 declare global {
     export type Nullable<T> = T | null;
-
     export type Keys<T extends Record<string, unknown>> = keyof T;
     export type Values<T extends Record<string, unknown>> = T[Keys<T>];
+
     export type UserData = {
         id: number;
         avatar: string;
@@ -28,7 +28,6 @@ declare global {
         count?: number;
         selected?: boolean;
     };
-
     export type Message = {
         text: string;
         date: string; //TODO: change to new Date() ->

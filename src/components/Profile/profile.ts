@@ -1,4 +1,3 @@
-import { ValidationRule } from "../../utilities/validation";
 import { UserInfoProfileStub } from "../../data/data";
 import Block from "../../core/Block";
 
@@ -17,7 +16,6 @@ export class Profile extends Block<ProfileProps> {
                 //open Modal Window?/New Page? for editing Input Value
             },
             onLogout: () => {
-                //e.preventDefault();
                 console.log("LOGED OUT from the Page");
             },
         });

@@ -1,16 +1,9 @@
 import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
 
-interface RegisterPageProps {
-    pageName?: string;
-    textForReffer?: string;
-    href?: string;
-    linkText?: string;
-    errorMsg?: string;
-    onRegister?: () => void;
-}
+interface RegisterPageProps {}
 
-export class RegisterPage extends Block<RegisterPageProps> {
+export class RegisterPage extends Block {
     constructor(props: RegisterPageProps) {
         super({
             ...props,
@@ -89,11 +82,11 @@ export class RegisterPage extends Block<RegisterPageProps> {
         }
     }
 
-    render() {
+    protected render() {
         const staticData = {
             pageName: "Registration Page",
             textForReffer: "Already have a Chatopolis account?",
-            href: "/login",
+            href: "#login",
             linkText: "Log in",
         };
         return `
@@ -114,4 +107,3 @@ export class RegisterPage extends Block<RegisterPageProps> {
         `;
     }
 }
-//

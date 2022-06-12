@@ -1,13 +1,11 @@
 import Block from "../core/Block";
 
-export interface ErrorPageProps {}
-
 export class ErrorPage extends Block {
-    render() {
+    protected render() {
         const staticData = {
             pageName: "404",
             errorTitle: "We cannot find the requested page",
-            href: "/login",
+            href: "#login",
             linkText: "Back to Login Page",
         };
         return `

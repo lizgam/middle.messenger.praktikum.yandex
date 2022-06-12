@@ -17,7 +17,6 @@ export class Message extends Block<MessageProps> {
     }
 
     protected render(): string {
-        console.log("RENDER IN Message");
         const hostId = this.props.userId == this.props.hostId;
         return `
             <div class="message {{#if ${hostId} }}host-msg{{/if}}">

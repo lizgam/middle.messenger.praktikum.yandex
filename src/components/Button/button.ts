@@ -13,10 +13,9 @@ export class Button extends Block {
     static componentName = "Button";
 
     protected render(): string {
-        console.log("RENDER IN BUTTON");
         return `
             <div class="button-block">
-                <button type="button" class="button button_form">{{btn_text}}</button>
+                <button type="button" class="button button_form {{#if passive}}{{passive}}{{/if}}">{{btn_text}}</button>
             </div>
          `;
 

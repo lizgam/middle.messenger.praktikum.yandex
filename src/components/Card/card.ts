@@ -16,7 +16,6 @@ export class Card extends Block {
     static componentName = "Card";
 
     protected render(): string {
-        console.log("RENDER IN Card");
         return `
             <div class="card {{#if selected}}card_selected{{/if}}">
                 {{#if this.avatar}}

@@ -29,7 +29,6 @@ export default function registerComponent<Props = any>(
             }
 
             const { children, refs } = data.root;
-            console.log(">>> in RegirsterComponent: DATA.ROOT ", data.root);
 
             /**
              * Костыль для того, чтобы передавать переменные
@@ -51,7 +50,6 @@ export default function registerComponent<Props = any>(
 
             if (ref) {
                 //мех-зм позволяюший обратиться к DOM elements
-                console.log(">>> in RegirsterComponent- it's REFS: ", refs);
                 refs[ref] = component;
                 //refs[ref] = component.getContent();
             }

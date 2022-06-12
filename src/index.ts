@@ -19,6 +19,7 @@ import Input from "./components/Input";
 import Link from "./components/Link";
 import MessageBoard from "./components/MessageBoard";
 import Message from "./components/Message";
+import Navigation from "./components/Navigation";
 import Profile from "./components/Profile";
 
 import "./sass/style.scss";
@@ -34,26 +35,19 @@ registerComponent(InputControl);
 registerComponent(Link);
 registerComponent(MessageBoard);
 registerComponent(Message);
+registerComponent(Navigation);
 registerComponent(Profile);
 
-// const components = require("./components/**/index.ts") as {
-//     [key: string]: { default: typeof Block };
-// };
-// console.log(components);
-// Object.values(components).forEach((component) => {
-//     registerComponent(component.default);
-// });
-
 document.addEventListener("DOMContentLoaded", () => {
-    if (document.location.pathname === "/register") {
+    if (document.location.hash === "#register") {
         renderDOM(new RegisterPage({}));
-    } else if (document.location.pathname === "/login") {
+    } else if (document.location.hash === "#login") {
         renderDOM(new LoginPage({}));
-    } else if (document.location.pathname === "/chat") {
+    } else if (document.location.hash === "#chat") {
         renderDOM(new ChatPage({}));
-    } else if (document.location.pathname === "/errorPage") {
+    } else if (document.location.hash === "#errorPage") {
         renderDOM(new ErrorPage({}));
-    } else if (document.location.pathname === "/editInfo") {
+    } else if (document.location.hash === "#editInfo") {
         renderDOM(new EditInfoPage({}));
     } else {
         console.log("Default page");

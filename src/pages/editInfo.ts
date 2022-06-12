@@ -1,23 +1,21 @@
-import { ValidationRule } from "../utilities/validation";
 import { UserInfoProfileStub } from "../data/data";
 import Block from "../core/Block";
 
 type UserDataKey = keyof UserData;
 
-export interface EditInfoPageProps {
+interface EditInfoPageProps {
+    userInfo?: UserData;
+    editedField?: UserDataKey;
     onClose?: () => void;
     onSave?: () => void;
-    userInfo: UserData;
-    editedField: UserDataKey;
-    errorMsg: string;
 }
 
-export class EditInfoPage extends Block<EditInfoPageProps> {
+export class EditInfoPage extends Block {
     constructor(props: EditInfoPageProps) {
         super({
             ...props,
             userInfo: UserInfoProfileStub,
-            editedField: "login",
+            editedField: "login", // stub value for selected edited info. TODO: get from store
             onSave: () => {
                 const field = this.props.editedField;
                 const editedData = {
@@ -30,16 +28,14 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                     .error;
 
                 if ((fieldError as EditInfoPage).props.errorMsg === "") {
-                    console.log("New", field, "was setted!");
+                    console.log("New", field, "was setted!", editedData);
                 }
             },
-            onClose: () => {
-                document.location.pathname = "/chat";
-            },
+            onClose: () => {},
         });
     }
 
-    render() {
+    protected render() {
         const userDataObj = this.props.userInfo;
         const editField = this.props.editedField;
         const val = userDataObj[editField];
@@ -63,6 +59,7 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                             {{{ Button
                                 btn_text="Close"
                                 onClick=onClose
+                                passive="passive"
                             }}}
                             {{{ Button
                                 btn_text="Save"

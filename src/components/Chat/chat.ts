@@ -1,4 +1,3 @@
-import { ValidationRule } from "../../utilities/validation";
 import { SelectedUserStub } from "../../data/data";
 import Block from "../../core/Block";
 

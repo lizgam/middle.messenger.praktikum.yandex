@@ -2,10 +2,6 @@ import EventBus from "./EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 
-// interface BlockMeta<P = any> {
-//     props: P;
-// }
-
 type Events = Values<typeof Block.EVENTS>;
 
 export default class Block<P = any> {
@@ -18,7 +14,6 @@ export default class Block<P = any> {
 
     public id = nanoid(6);
     static componentName: string;
-    //private readonly _meta: BlockMeta;
     protected _element: Nullable<HTMLElement> = null;
     protected readonly props: P;
     protected children: { [id: string]: Block } = {};
@@ -30,10 +25,6 @@ export default class Block<P = any> {
 
     public constructor(props?: P) {
         const eventBus = new EventBus<Events>();
-
-        // this._meta = {
-        //     props,
-        // };
 
         this.getStateFromProps(props);
 
@@ -48,7 +39,6 @@ export default class Block<P = any> {
     }
 
     _registerEvents(eventBus: EventBus<Events>) {
-        // eventBus.on(Block.EVENTS.INIT, this._createResources.bind(this));
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -77,7 +67,6 @@ export default class Block<P = any> {
 
     _componentDidMount(props: P) {
         this.componentDidMount(props);
-        //console.log("CDM");
         //последовательно стриггерить componentDidMount hook для всех потомков компонента:
         Object.values(this.children).forEach((child) => {
             child.dispatchComponentDidMount();
@@ -86,7 +75,6 @@ export default class Block<P = any> {
 
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-        //console.log("DISPATCH CDM");
     }
 
     //mount - inserted into the tree (a good place for subscriptions / load data from a remote endpoint - to instantiate the network request)
@@ -94,19 +82,15 @@ export default class Block<P = any> {
     protected componentDidMount(props: P) {}
 
     _componentDidUpdate(oldProps: P, newProps: P) {
-        //отрисует новые данные
         const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
             return;
         }
-        //this._render(); -----?????  почему так не вызывать ? разница?
-        // console.log("_CDU");
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
     componentDidUpdate(oldProps: P, newProps: P) {
         //todo: later - util for deep compare
-        console.log("CDU = TRUE");
         return true;
     }
 
@@ -161,7 +145,6 @@ export default class Block<P = any> {
             },
             set(target: Record<string, unknown>, prop: string, value: unknown) {
                 const oldProps = { ...target };
-                console.log("PROXY . SET- old/new", oldProps, target);
                 target[prop] = value;
 
                 // Запускаем обновление компоненты
@@ -229,7 +212,6 @@ export default class Block<P = any> {
             children: this.children,
             refs: this.refs,
         });
-        console.log("--in _compile. refs/children:", this.refs, this.children);
 
         //as helper return the dummy = > make dummy here and replace to real component
         Object.entries(this.children).forEach(([id, component]) => {

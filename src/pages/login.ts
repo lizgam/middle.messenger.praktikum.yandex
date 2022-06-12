@@ -1,7 +1,7 @@
 import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
 
-export interface LoginPageProps {}
+interface LoginPageProps {}
 
 export class LoginPage extends Block {
     constructor(props: LoginPageProps) {
@@ -51,11 +51,11 @@ export class LoginPage extends Block {
         }
     }
 
-    render() {
+    protected render() {
         const staticData = {
             pageName: "Login page",
             textForReffer: "Don’t have a Chatopolis account?",
-            href: "/register",
+            href: "#register",
             linkText: "Register",
             values: "12",
         };

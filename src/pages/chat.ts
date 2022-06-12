@@ -1,26 +1,22 @@
 import Block from "core/Block";
 
-type ChatPageProps = {
-    mode?: Mode;
-};
+interface ChatPageProps {
+    // mode: Mode; // "Profile" | "Chat" | "Addgroup"
+}
 
-export class ChatPage extends Block<ChatPageProps> {
+export class ChatPage extends Block {
     static componentName = "ChatPage";
 
     constructor(props: ChatPageProps) {
-        super({ ...props });
-        //console.log("MODE", this.props.mode);
-        // this.setProps({
-        //     onLogout: () => this.props.store.dispatch(logout),
-        // });
+        super(props);
+        this.setState({
+            mode: "Chat",
+        });
     }
 
     render() {
-        const staticData = {
-            mode: "Addgroup", // "Profile" | "Chat" | "Addgroup"
-        };
         return `
-        {{#ChatBoard mode="${staticData.mode}" }}
+        {{#ChatBoard  mode="${this.state.mode}"}}
 
         {{/ChatBoard}}
     `;

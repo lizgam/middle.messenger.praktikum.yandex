@@ -57,4 +57,7 @@
   color: $text-color-light;
   cursor: pointer;
   text-decoration: none;
+  &.passive{
+    background-color: lighten($button-color, 5%);
+  }
 }
