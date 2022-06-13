@@ -2,7 +2,7 @@
 
 **_to PR:_**
 
-https://github.com/lizgam/middle.messenger.praktikum.yandex/pull/1
+https://github.com/lizgam/middle.messenger.praktikum.yandex/pull/2
 
 **_to Netlify:_**
 
