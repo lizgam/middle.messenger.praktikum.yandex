@@ -1,12 +1,7 @@
 import { Block } from "core";
 import { CardsSectionStub } from "../../data/data";
-// import { Mode } from "model/types/types";
 
 interface ChatBoardProps {
-    mode: Mode;
-    profile_mode?: boolean;
-    chat_mode?: boolean;
-    addgroup_mode?: boolean;
     users: CardInfo[];
     setMode?: () => void;
 }
@@ -14,18 +9,22 @@ interface ChatBoardProps {
 export class ChatBoard extends Block {
     static componentName = "ChatBoard";
 
-    constructor({ ...props }: ChatBoardProps) {
+    constructor({ setMode, ...props }: ChatBoardProps) {
         super({
             ...props,
             users: CardsSectionStub,
-            setMode: () => {},
+            setMode: (e: Event) => {
+                const item = (e.target as HTMLUListElement).getAttribute(
+                    "name"
+                );
+                this.setProps({
+                    mode: item,
+                });
+                this.props.profile_mode = this.props.mode === "Profile";
+                this.props.chat_mode = this.props.mode === "Chat";
+                this.props.addgroup_mode = this.props.mode === "Addgroup";
+            },
         });
-        this.props.profile_mode = this.props.mode === "Profile";
-        this.props.chat_mode = this.props.mode === "Chat";
-        this.props.addgroup_mode = this.props.mode === "Addgroup";
-    }
-    protected getStateFromProps() {
-        this.state = {};
     }
 
     render(): string {
@@ -56,7 +55,7 @@ export class ChatBoard extends Block {
                 </section>
                 <section class="main-board-section">
 
-                    {{{Navigation onClick=setMode}}}
+                    {{{ Navigation onClick=setMode mode="${this.props.mode}"}}}
 
                     {{#if profile_mode}}
                         {{{ Profile }}}

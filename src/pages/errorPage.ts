@@ -17,6 +17,6 @@ export class ErrorPage extends Block {
                     linkText="${staticData.linkText}"
                 }}}
             </section>
-                    `;
+        `;
     }
 }

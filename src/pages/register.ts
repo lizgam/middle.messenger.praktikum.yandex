@@ -1,7 +1,9 @@
 import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
 
-interface RegisterPageProps {}
+interface RegisterPageProps {
+    onRegister?: () => void;
+}
 
 export class RegisterPage extends Block {
     constructor(props: RegisterPageProps) {
@@ -34,7 +36,6 @@ export class RegisterPage extends Block {
                 };
 
                 if (this.checkFormValidity()) {
-                    //e.preventDefault();
                     console.log("SUBMITED values on the Page:", loginData);
                 }
             },

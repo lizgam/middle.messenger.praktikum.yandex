@@ -59,6 +59,56 @@
   }
 }
 
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  & .card-name {
+    padding-left: 4px;
+  }
+
+  .card-avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    align-self: center;
+    margin-left: 6px;
+    background: lighten($button-color, 10%);
+  }
+}
+
+.addgroup_mode {
+  & form :nth-child(3) {
+    width: 92%;
+    padding-top: 25px;
+  }
+
+  & input:last-of-type {
+    border-radius: 20px;
+  }
+
+  .card {
+    padding: 10px 0;
+
+    & .card-msg {
+      position: relative;
+
+      & .card-name {
+        padding-left: 8px;
+      }
+
+      & .card_delete {
+        font-size: 10px;
+        position: absolute;
+        left: 145px;
+        bottom: 2px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .cards-section {
   box-sizing: border-box;
   flex-basis: 27%;
@@ -67,8 +117,6 @@
   justify-content: flex-start;
 
   & .cards-section__chat-panel {
-    //background-color: $bg-color-additional;
-    background-image: linear-gradient(to left, rgb(83 184 187), rgb(111 196 199));
     border-radius: 30px;
     height: 100%;
     overflow-y: auto;
@@ -107,34 +155,17 @@
             & .card__msg-details {
               position: relative;
               font-size: 9px;
-              &__msg-time {
-                  position: absolute;
-                  top: 13px;
-                  right: 5px;
-                }
 
+              &__msg-time {
+                position: absolute;
+                top: 13px;
+                right: 5px;
+              }
             }
           }
         }
       }
     }
-  }
-}
-.card {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  & .card-name {
-      padding-left: 4px;
-    }
-
-  .card-avatar {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    align-self: center;
-    margin-left: 6px;
-    background: gray;//$bg-color-primary;
   }
 }
 
@@ -148,7 +179,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: $bg-color-additional-light;
+  background-image: linear-gradient($bg-color-additional-light, $bg-color-primary);
   border-radius: 20px;
   margin: -5px 0 0 10px;
   overflow-y: auto;
@@ -157,27 +188,31 @@
     padding: 20px 15px 0;
     overflow-y: auto;
   }
+
   & .message {
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
+
     p.message-text {
       display: block;
       border: 1px solid $bg-color-primary;
+      background: lighten($bg-color-selected-light, 5%);
       border-radius: 20px;
       margin: 10px;
       padding: 5px;
     }
-        span.message-time {
-          font-size: 8px;
-        }
+
+    span.message-time {
+      font-size: 8px;
+    }
   }
 
   .message.host-msg {
     justify-content: flex-end;
 
     & .message-text {
-        background: $bg-color-selected-light;
-        order: 2;
+      background: $color-white;
+      order: 2;
     }
   }
 }
@@ -190,22 +225,23 @@
   border-radius: 30px;
 
   .icon-info {
-        position: absolute;
-        right: 20px;
+    position: absolute;
+    right: 20px;
   }
 }
 
 span.card__msg-details__msg_counter {
-    background: #dff1f0;
-    border-radius: 50%;
-    align-self: end;
-    padding: 2px 4px;
-    position: absolute;
-    bottom: 21px;
-    right: 7px;
+  background: $bg-color-additional-light;
+  border-radius: 50%;
+  align-self: end;
+  padding: 2px 4px;
+  position: absolute;
+  bottom: 21px;
+  right: 7px;
 }
 
-.profile_mode, .addgroup_mode {
+.profile_mode,
+.addgroup_mode {
   background-color: $bg-color-primary;
   align-self: center;
   flex-wrap: wrap-reverse;
@@ -231,10 +267,10 @@ span.card__msg-details__msg_counter {
     align-items: center;
 
     & .profile-avatar {
-          width: 95px;
-          height: 95px;
-          background: $bg-color-selected-light;
-          border-radius: 50%;
+      width: 95px;
+      height: 95px;
+      background: $bg-color-selected-light;
+      border-radius: 50%;
     }
 
     & img {
@@ -246,33 +282,6 @@ span.card__msg-details__msg_counter {
       padding-top: 10px;
       font-size: 10px;
       cursor: pointer;
-    }
-  }
-}
-
-.addgroup_mode {
-  & form :nth-child(3){
-    width: 92%;
-    padding-top: 25px;
-  }
-  & input:last-of-type {
-    border-radius: 20px;
-  }
-  .card {
-    padding: 10px 0;
-
-    & .card-msg {
-        position: relative;
-      & .card-name {
-          padding-left: 8px;
-      }
-      & .card_delete {
-        font-size: 10px;
-        position: absolute;
-        left: 145px;
-        bottom: 2px;
-        cursor: pointer;
-      }
     }
   }
 }

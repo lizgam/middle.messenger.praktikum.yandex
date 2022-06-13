@@ -47,8 +47,4 @@ export class InputControl extends Block {
          />
          `;
     }
-    //or TODO deepCompare
-    // componentDidUpdate(oldProps: any, newProps: any): boolean {
-    //     return oldProps.prop !== newProps.prop;
-    // }
 }

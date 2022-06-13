@@ -16,7 +16,6 @@ export const SelectedUserStub: CardInfo = {
     message: "nat many words in message. Blablabla",
     date: "12 Feb",
     count: 1,
-    avatar: "../path",
     selected: true,
 };
 
@@ -53,8 +52,7 @@ export const CardsSectionStub: CardInfo[] = [
         id: 1007,
         name: "Liza",
         message: "darmstadt",
-        date: "10 Mar", //TODO: change to new Date() ->
-        //use format: get Date()/ getMonth() and getHours(): getMinutes()
+        date: "10 Mar",
         count: 0,
     },
     {
@@ -68,7 +66,6 @@ export const CardsSectionStub: CardInfo[] = [
     {
         id: 1008,
         name: "Nils",
-        avatar: "../img/avatar.png",
         message: "darmstadt",
         date: "10 Mar",
         count: 4,
@@ -83,7 +80,6 @@ export const CardsSectionStub: CardInfo[] = [
     {
         id: 1008,
         name: "Nils",
-        avatar: "../img/avatar.png",
         message: "darmstadt",
         date: "10 Mar",
         count: 4,
@@ -91,7 +87,6 @@ export const CardsSectionStub: CardInfo[] = [
     {
         id: 1008,
         name: "Yehuda",
-        avatar: "../img/avatar.png",
         message: "a lot of words in message. Blablabla",
         date: "12 Feb",
         count: 1,
@@ -99,12 +94,10 @@ export const CardsSectionStub: CardInfo[] = [
     {
         id: 1008,
         name: "Nils",
-        avatar: "../img/avatar.png",
     },
     {
         id: 1008,
         name: "Yehuda",
-        avatar: "../img/avatar.png",
         message: "a lot of words in message. Blablabla",
         date: "12 Feb",
         count: 1,
@@ -112,7 +105,6 @@ export const CardsSectionStub: CardInfo[] = [
     {
         id: 1008,
         name: "Nils",
-        avatar: "../img/avatar.png",
         message: "darmstadt",
         date: "10 Mar",
         count: 4,
@@ -122,7 +114,6 @@ export const CardsSectionStub: CardInfo[] = [
 export const CardsGroupStub: CardInfo[] = [
     {
         id: 1007,
-        avatar: "../img/avatar.png",
         name: "Liza",
     },
     {

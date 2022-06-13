@@ -1,7 +1,9 @@
 import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
 
-interface LoginPageProps {}
+interface LoginPageProps {
+    onLogin?: () => void;
+}
 
 export class LoginPage extends Block {
     constructor(props: LoginPageProps) {
@@ -17,7 +19,6 @@ export class LoginPage extends Block {
                     ).value,
                 };
                 if (this.checkFormValidity()) {
-                    //e.preventDefault();
                     console.log("Submited values on the Page:", loginData);
                 }
             },

@@ -33,7 +33,7 @@ export class Input extends Block {
             },
             onEnter: (e: KeyboardEvent) => {
                 const input = e.target as HTMLInputElement;
-                let value = input.value;
+                const value = input.value;
                 if (e.key === "Enter" && value) {
                     input.value = "";
                     console.log("Entered Message: ", value);

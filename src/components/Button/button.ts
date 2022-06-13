@@ -18,14 +18,5 @@ export class Button extends Block {
                 <button type="button" class="button button_form {{#if passive}}{{passive}}{{/if}}">{{btn_text}}</button>
             </div>
          `;
-
-        /*
-      return this._compile(template, {...this.props})
-      //spread -> менять объект новый созданный а не сам обьект props
-      */
     }
-    //or TODO deepCompare
-    // componentDidUpdate(oldProps: any, newProps: any): boolean {
-    //     return oldProps.prop !== newProps.prop;
-    // }
 }

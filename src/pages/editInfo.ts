@@ -6,6 +6,8 @@ type UserDataKey = keyof UserData;
 interface EditInfoPageProps {
     userInfo?: UserData;
     editedField?: UserDataKey;
+    isPassword?: boolean;
+    errorMsg?: string;
     onClose?: () => void;
     onSave?: () => void;
 }
@@ -15,7 +17,8 @@ export class EditInfoPage extends Block {
         super({
             ...props,
             userInfo: UserInfoProfileStub,
-            editedField: "login", // stub value for selected edited info. TODO: get from store
+            editedField: "login",
+            isPassword: false,
             onSave: () => {
                 const field = this.props.editedField;
                 const editedData = {
@@ -31,14 +34,28 @@ export class EditInfoPage extends Block {
                     console.log("New", field, "was setted!", editedData);
                 }
             },
-            onClose: () => {},
         });
     }
 
     protected render() {
         const userDataObj = this.props.userInfo;
         const editField = this.props.editedField;
-        const val = userDataObj[editField];
+        let val = this.props.isPassword ? "" : userDataObj[editField];
+        let infoType = "";
+        switch (editField) {
+            case "email":
+                infoType = "email";
+                break;
+            case "password":
+                infoType = "password";
+                val = "";
+                break;
+            case "phone":
+                infoType = "tel";
+                break;
+            default:
+                infoType = "text";
+        }
 
         return `
             <div class="chat-board edit_mode">
@@ -46,14 +63,24 @@ export class EditInfoPage extends Block {
                     <h2>Edit ${editField}:</h2>
                     <form action="#" method="post">
                         {{{Input
-                            label = "Login"
-                            id="login"
-                            name = "login"
+                            label = "${editField}"
+                            id="${editField}"
+                            name = "${editField}"
                             validationRule = "${editField}"
                             value="${val}"
-                            ref="login"
-                            inputType = "text"
+                            ref="${editField}"
+                            inputType = "${infoType}"
                         }}}
+                        {{#if isPassword}}
+                            {{{Input
+                                label = "Repeat password"
+                                id="passwordConfermed"
+                                name = "password"
+                                value="${val}"
+                                ref="passwordConfermed"
+                                inputType = "password"
+                            }}}
+                        {{/if}}
 
                         <div class="button-container">
                             {{{ Button

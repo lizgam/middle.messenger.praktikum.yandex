@@ -23,6 +23,12 @@
         "quotes": [
             "error",
             "double"
+        ],
+        "@typescript-eslint/no-this-alias": [
+            "error",
+            {
+                "allowedNames": ["self"]
+            }
         ]
     }
 }

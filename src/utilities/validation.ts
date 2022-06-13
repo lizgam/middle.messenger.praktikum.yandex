@@ -1,10 +1,10 @@
 export enum ValidationRule {
     Login = "login",
-    Password = "PASSWORD",
-    Email = "EMAIL",
-    First_name = "FIRST_NAME",
-    Second_name = "SECOND_NAME",
-    Phone = "PHONE",
+    Password = "password",
+    Email = "email",
+    First_name = "first_name",
+    Second_name = "second_name",
+    Phone = "phone",
 }
 
 const validateLogin = (login: string) => {
@@ -18,6 +18,7 @@ const validatePassword = (password: string) => {
 };
 const validateEmail = (email: string) => {
     const res =
+        //eslint-disable-next-line
         /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[A-Za-z0-9]+\.[A-Za-z]{2,}$/.test(
             email
         );
@@ -64,6 +65,5 @@ export function validateInput(rule: ValidationRule, value: string): string {
             return "Check the format. Ex: 'email@gmail.com'";
         }
     }
-
     return "";
 }

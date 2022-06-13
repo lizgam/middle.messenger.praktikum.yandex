@@ -8,8 +8,11 @@ interface NavigationProps {
 export class Navigation extends Block {
     constructor({ onClick, ...props }: NavigationProps) {
         super({
-            ...props,
             events: { click: onClick },
+            ...props,
+            isProfile: props.mode === "Profile",
+            isChat: props.mode === "Chat",
+            isAddgroup: props.mode === "Addgroup",
         });
     }
 
@@ -18,10 +21,10 @@ export class Navigation extends Block {
     protected render(): string {
         return `
             <nav class="main-board__navigation">
-                <ul class="main-board__nav-list" onClick=setMode>
-                    <li class="{{#if profile_mode}}active-mode{{/if}}">My profile</li>
-                    <li class="{{#if chat_mode}}active-mode{{/if}}">Chat</li>
-                    <li class="{{#if addgroup_mode}}active-mode{{/if}}">Add group</li>
+                <ul class="main-board__nav-list">
+                    <li class="{{#if isProfile}} active-mode{{/if}}" name="Profile">My profile</li>
+                    <li class="{{#if isChat}} active-mode{{/if}}" name="Chat">Chat</li>
+                    <li class="{{#if isAddgroup}} active-mode{{/if}}" name="Addgroup">Add group</li>
                 </ul>
             </nav>
          `;

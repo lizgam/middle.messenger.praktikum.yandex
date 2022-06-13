@@ -3,7 +3,6 @@ import Block from "../../core/Block";
 
 interface ProfileProps {
     userInfo: UserData;
-    onEdit?: () => void;
     onLogout?: () => void;
 }
 
@@ -12,9 +11,6 @@ export class Profile extends Block<ProfileProps> {
         super({
             ...props,
             userInfo: UserInfoProfileStub,
-            onEdit: () => {
-                //open Modal Window?/New Page? for editing Input Value
-            },
             onLogout: () => {
                 console.log("LOGED OUT from the Page");
             },

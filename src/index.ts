@@ -1,5 +1,3 @@
-//require("babel-core/register");
-
 import { Block, renderDOM, registerComponent } from "./core/index";
 
 import { ChatPage } from "./pages/chat";
@@ -50,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (document.location.hash === "#editInfo") {
         renderDOM(new EditInfoPage({}));
     } else {
-        console.log("Default page");
-        renderDOM(new LoginPage({}));
+        renderDOM(new ChatPage({}));
     }
 });

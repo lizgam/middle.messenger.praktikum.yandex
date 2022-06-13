@@ -9,13 +9,8 @@ interface BlockConstructable<Props = any> {
 export default function registerComponent<Props = any>(
     Component: BlockConstructable
 ) {
-    //console.log(">>> in RegisterComponent C:", Component);
-    //console.log(">>> in RegisterComponent C.name:", Component.name);
-    //console.log(">>> in RegisterComponent_C.componentName:",Component.componentName);
     Handlebars.registerHelper(
         Component.componentName,
-        //hash - its parameters in Component ({{Button label="singin"}}) - label
-        //data - all that was provided in to templator
         function (
             this: Props,
             { hash: { ref, ...hash }, data }: HelperOptions
@@ -45,16 +40,13 @@ export default function registerComponent<Props = any>(
 
             const component = new Component(hash);
 
-            //rendering of the dummy
             children[component.id] = component;
 
             if (ref) {
-                //мех-зм позволяюший обратиться к DOM elements
                 refs[ref] = component;
-                //refs[ref] = component.getContent();
             }
 
-            return `<div data-id="id-${component.id}"></div>`; //dummy
+            return `<div data-id="id-${component.id}"></div>`;
         }
     );
 }

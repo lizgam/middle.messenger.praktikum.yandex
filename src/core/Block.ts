@@ -46,7 +46,6 @@ export default class Block<P = any> {
     }
 
     _createResources() {
-        // can be removed later
         this._element = this._createDocumentElement("div");
     }
 
@@ -55,19 +54,15 @@ export default class Block<P = any> {
     }
 
     protected getStateFromProps(props: any): void {
-        //on props's base prepare state for component
         this.state = {};
     }
 
     init() {
-        // ------???? почему init дергает сразу render?  А не CDM как в теориию Тема Трггеры
-        this._createResources(); //delete - explanation on min 50
+        this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
     }
 
     _componentDidMount(props: P) {
-        this.componentDidMount(props);
-        //последовательно стриггерить componentDidMount hook для всех потомков компонента:
         Object.values(this.children).forEach((child) => {
             child.dispatchComponentDidMount();
         });
@@ -76,10 +71,6 @@ export default class Block<P = any> {
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     }
-
-    //mount - inserted into the tree (a good place for subscriptions / load data from a remote endpoint - to instantiate the network request)
-    //we should redefine it in components class:
-    protected componentDidMount(props: P) {}
 
     _componentDidUpdate(oldProps: P, newProps: P) {
         const response = this.componentDidUpdate(oldProps, newProps);
@@ -90,7 +81,6 @@ export default class Block<P = any> {
     }
 
     componentDidUpdate(oldProps: P, newProps: P) {
-        //todo: later - util for deep compare
         return true;
     }
 
@@ -105,8 +95,6 @@ export default class Block<P = any> {
         if (!nextState) {
             return;
         }
-        //add new props to state
-        //if state changed -> rerender block
         Object.assign(this.state, nextState);
     };
 
@@ -115,8 +103,6 @@ export default class Block<P = any> {
     }
 
     getContent(): HTMLElement {
-        ///-----?????
-        // Хак, чтобы вызвать CDM только после добавления в DOM
         if (
             this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE
         ) {
@@ -133,22 +119,17 @@ export default class Block<P = any> {
     }
 
     _makePropsProxy(props: any): any {
-        // Можно и так передать this
-        // Такой способ больше не применяется с приходом ES6+
         const self = this;
 
         return new Proxy(props as unknown as object, {
             get(target: Record<string, unknown>, prop: string) {
                 const value = target[prop];
-                //console.log("PROXY . GET", value);
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target: Record<string, unknown>, prop: string, value: unknown) {
                 const oldProps = { ...target };
                 target[prop] = value;
 
-                // Запускаем обновление компоненты
-                // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
                 self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, target);
                 return true;
             },
@@ -159,7 +140,6 @@ export default class Block<P = any> {
     }
 
     _render() {
-        //return dom-node (fragment) from compile
         const fragment = this._compile();
         this._removeEvents();
         const newElement = fragment.firstElementChild!;
@@ -173,8 +153,6 @@ export default class Block<P = any> {
     }
 
     _removeEvents() {
-        //TODO: avoid memoryleaking! Props have changed => reffer to element can be lost
-        //! save link to element ahead
         const events: Record<string, () => void> = (this.props as any).events;
         if (!events || !this._element) {
             return;
@@ -194,18 +172,9 @@ export default class Block<P = any> {
         });
     }
 
-    //take template and props/locals/context
-    // compile(template: any, context: any {
-
-    // })
     _compile(): DocumentFragment {
-        //ставит заглушки
-        //const fragment = this._createDocumentElement("template") as HTMLTemplateElement;
         const fragment = document.createElement("template");
-        const template = Handlebars.compile(this.render()); // !!! compiled function
-        //template - принимает контекст-> return string
-        // переменные заменены на то что передалт в props
-        //starting registerComponent, all renderings of the component
+        const template = Handlebars.compile(this.render());
         fragment.innerHTML = template({
             ...this.state,
             ...this.props,
@@ -213,7 +182,6 @@ export default class Block<P = any> {
             refs: this.refs,
         });
 
-        //as helper return the dummy = > make dummy here and replace to real component
         Object.entries(this.children).forEach(([id, component]) => {
             const stub = fragment.content.querySelector(`[data-id="id-${id}"]`);
             if (!stub) {
@@ -228,7 +196,7 @@ export default class Block<P = any> {
             /**
              * Ищем элемент layout-а, куда вставлять детей
              */
-            const layoutContent = content.querySelector('[data-layout="1"]');
+            const layoutContent = content.querySelector("[data-layout='1']");
 
             if (layoutContent && stubChilds.length) {
                 layoutContent.append(...stubChilds);

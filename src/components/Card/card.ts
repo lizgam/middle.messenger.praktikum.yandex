@@ -19,7 +19,7 @@ export class Card extends Block {
         return `
             <div class="card {{#if selected}}card_selected{{/if}}">
                 {{#if this.avatar}}
-                    <img class="card-avatar" src="{{this.avatar}}" alt="">
+                    <img class="card-avatar" src="{{{this.avatar}}}" alt="">
                 {{else}}
                     <div class="card-avatar"></div>
                 {{/if}}
