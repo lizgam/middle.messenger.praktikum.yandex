@@ -62,7 +62,7 @@ export class EditInfoPage extends Block {
                 <section class="form_container">
                     <h2>Edit ${editField}:</h2>
                     <form action="#" method="post">
-                        {{{Input
+                        {{{InputControl
                             label = "${editField}"
                             id="${editField}"
                             name = "${editField}"
@@ -72,7 +72,7 @@ export class EditInfoPage extends Block {
                             inputType = "${infoType}"
                         }}}
                         {{#if isPassword}}
-                            {{{Input
+                            {{{InputControl
                                 label = "Repeat password"
                                 id="passwordConfermed"
                                 name = "password"
@@ -84,12 +84,12 @@ export class EditInfoPage extends Block {
 
                         <div class="button-container">
                             {{{ Button
-                                btn_text="Close"
+                                btnText="Close"
                                 onClick=onClose
                                 passive="passive"
                             }}}
                             {{{ Button
-                                btn_text="Save"
+                                btnText="Save"
                                 onClick=onSave
                             }}}
                         </div>

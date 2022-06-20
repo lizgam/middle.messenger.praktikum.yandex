@@ -1,4 +1,4 @@
-export enum ValidationRule {
+export const enum ValidationRule {
     Login = "login",
     Password = "password",
     Email = "email",

@@ -31,7 +31,7 @@ export class Card extends Block {
                         {{#if delete}}<span class="card_delete">Delete</span>{{/if}}
                     </div>
                     <div class="card__msg-details">
-                        <span class="card__msg-details__msg-time">{{this.date}}</span>
+                        <time class="card__msg-details__msg-time">{{this.date}}</time>
                         {{#if this.count}}
                             <span class="card__msg-details__msg_counter">{{this.count}}</span>
                         {{/if}}

@@ -33,8 +33,8 @@ export class Addgroup extends Block<AddgroupProps> {
                     {{/if}}
                     <span class="form_edit avatar_block__span">Edit</span>
                 </div>
-                {{{ Input label="Group Name" id="group_name" name="group_name" ref="group_name" inputType="text" validationRule = "${ValidationRule.First_name}"}}}
-                {{{ Input label="Add new member" placeholder="Enter member name" inputType="search" }}}
+                {{{ InputControl label="Group Name" id="group_name" name="group_name" ref="group_name" inputType="text" validationRule = "${ValidationRule.First_name}"}}}
+                {{{ InputControl label="Add new member" placeholder="Enter member name" inputType="search" }}}
                 {{#each users}}
                     {{{ Card
                         ref="card"
@@ -43,7 +43,7 @@ export class Addgroup extends Block<AddgroupProps> {
                         delete=true
                     }}}
                 {{/each}}
-                {{{ Button ref="create_btn" btn_text="Create group" onClick=onCreate }}}
+                {{{ Button ref="create_btn" btnText="Create group" onClick=onCreate }}}
             </form>
         </section>
 

@@ -32,12 +32,12 @@ export class ChatBoard extends Block {
             <div class="chat-board">
                 <section class="cards-section">
                     <div class="chat-section__input">
-                        {{{ Input placeholder="Enter searching name" inputType="search" }}}
+                        {{{ InputControl placeholder="Enter searching name" inputType="search" }}}
                     </div>
                     <div class="cards-section__chat-panel">
                         <ul id="nav-list" class="card-section__nav-list">
                             {{#each users}}
-                            <li>
+                            <li class="user-card">
                                 {{{ Card
                                     selected=this.selected
                                     ref="card"

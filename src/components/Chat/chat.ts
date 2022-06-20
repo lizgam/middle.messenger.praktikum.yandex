@@ -27,7 +27,7 @@ export class Chat extends Block<ChatProps> {
                 {{/if }}
 
                 <div class="chat-section__input">
-                    {{{ Input name="message" id="message" ref="message" onEnter=onEnter placeholderMsg="Enter message" inputType="text"}}}
+                    {{{ InputControl name="message" id="message" ref="message" onEnter=onEnter placeholderMsg="Enter message" inputType="text"}}}
                 </div>
             </article>
 

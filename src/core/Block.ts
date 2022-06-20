@@ -38,18 +38,18 @@ export default class Block<P = any> {
         eventBus.emit(Block.EVENTS.INIT, this.props);
     }
 
-    _registerEvents(eventBus: EventBus<Events>) {
+    private _registerEvents(eventBus: EventBus<Events>) {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
 
-    _createResources() {
+    private _createResources() {
         this._element = this._createDocumentElement("div");
     }
 
-    _createDocumentElement(tagName: string) {
+    private _createDocumentElement(tagName: string) {
         return document.createElement(tagName);
     }
 
@@ -57,12 +57,12 @@ export default class Block<P = any> {
         this.state = {};
     }
 
-    init() {
+    private init() {
         this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
     }
 
-    _componentDidMount(props: P) {
+    private _componentDidMount(props: P) {
         Object.values(this.children).forEach((child) => {
             child.dispatchComponentDidMount();
         });
@@ -72,7 +72,7 @@ export default class Block<P = any> {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     }
 
-    _componentDidUpdate(oldProps: P, newProps: P) {
+    private _componentDidUpdate(oldProps: P, newProps: P) {
         const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
             return;
@@ -211,7 +211,6 @@ export default class Block<P = any> {
     }
 
     hide() {
-        console.log("HIDDEN");
         this.getContent().style.display = "none";
     }
 }

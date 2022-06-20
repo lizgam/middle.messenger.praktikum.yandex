@@ -6,16 +6,21 @@ interface LoginPageProps {
 }
 
 export class LoginPage extends Block {
+    protected getStateFromProps(): void {
+        this.state = {
+
+        }
+    }
     constructor(props: LoginPageProps) {
         super({
             ...props,
             onLogin: () => {
                 const loginData: Partial<UserData> = {
                     login: (
-                        document.getElementById("login") as HTMLInputElement
+                        this.element?.querySelector('[name="login"]') as HTMLInputElement
                     ).value,
                     password: (
-                        document.getElementById("password") as HTMLInputElement
+                        this.element?.querySelector('[name="password"]') as HTMLInputElement
                     ).value,
                 };
                 if (this.checkFormValidity()) {
@@ -64,7 +69,7 @@ export class LoginPage extends Block {
             <section class="form_container">
                 <h2>${staticData.pageName}</h2>
                 <form action="#" method="post">
-                {{{Input
+                {{{InputControl
                     label = "Login"
                     id="login"
                     name = "login"
@@ -72,7 +77,7 @@ export class LoginPage extends Block {
                     ref="login"
                     inputType = "text"
                 }}}
-                {{{Input
+                {{{InputControl
                     label = "Password"
                     id="password"
                     name = "password"
@@ -81,7 +86,7 @@ export class LoginPage extends Block {
                     inputType = "password"
                 }}}
                 {{{ Button
-                    btn_text="Log in"
+                    btnText="Log in"
                     onClick=onLogin
                 }}}
 

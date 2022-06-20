@@ -1,1 +1,1 @@
-export { InputControl as default, InputControlProps } from "./inputControl";
+export { InputControl as default } from "./inputControl";

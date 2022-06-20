@@ -12,26 +12,22 @@ export class RegisterPage extends Block {
             onRegister: () => {
                 const loginData: Partial<UserData> = {
                     login: (
-                        document.getElementById("login") as HTMLInputElement
+                        this.element?.querySelector('[name="login"]') as HTMLInputElement
                     ).value,
                     first_name: (
-                        document.getElementById(
-                            "first_name"
-                        ) as HTMLInputElement
+                        this.element?.querySelector('[name="first_name"]') as HTMLInputElement
                     ).value,
                     second_name: (
-                        document.getElementById(
-                            "second_name"
-                        ) as HTMLInputElement
+                        this.element?.querySelector('[name="second_name"]') as HTMLInputElement
                     ).value,
                     email: (
-                        document.getElementById("email") as HTMLInputElement
+                        this.element?.querySelector('[name="email"]') as HTMLInputElement
                     ).value,
                     password: (
-                        document.getElementById("password") as HTMLInputElement
+                        this.element?.querySelector('[name="password"]') as HTMLInputElement
                     ).value,
                     phone: (
-                        document.getElementById("phone") as HTMLInputElement
+                        this.element?.querySelector('[name="phone"]') as HTMLInputElement
                     ).value,
                 };
 
@@ -94,13 +90,13 @@ export class RegisterPage extends Block {
             <section class="form_container">
                 <h2>${staticData.pageName}</h2>
                 <form action="#" method="post">
-                    {{{ Input label="Email" id="email" name="email" ref="email" validationRule = "${ValidationRule.Email}" inputType="email" placeholder="email@gmail.com"}}}
-                    {{{ Input label="Login" id="login" name="login" ref="login" validationRule = "${ValidationRule.Login}" inputType="text" }}}
-                    {{{ Input label="First Name" id="first_name" name="first_name" ref="first_name" validationRule = "${ValidationRule.First_name}" inputType="text" }}}
-                    {{{ Input label="Second Name" id="second_name" name="second_name" ref="second_name" validationRule = "${ValidationRule.Second_name}" inputType="text" }}}
-                    {{{ Input label="Password" id="password" name="password" ref="password" validationRule = "${ValidationRule.Password}" inputType="password" }}}
-                    {{{ Input label="Phone" id="phone" name="phone" ref="phone" validationRule = "${ValidationRule.Phone}" inputType="tel" placeholder="+1234567890" }}}
-                    {{{ Button btn_text="Register" onClick=onRegister}}}
+                    {{{ InputControl label="Email" id="email" name="email" ref="email" validationRule = "${ValidationRule.Email}" inputType="email" placeholder="email@gmail.com"}}}
+                    {{{ InputControl label="Login" id="login" name="login" ref="login" validationRule = "${ValidationRule.Login}" inputType="text" }}}
+                    {{{ InputControl label="First Name" id="first_name" name="first_name" ref="first_name" validationRule = "${ValidationRule.First_name}" inputType="text" }}}
+                    {{{ InputControl label="Second Name" id="second_name" name="second_name" ref="second_name" validationRule = "${ValidationRule.Second_name}" inputType="text" }}}
+                    {{{ InputControl label="Password" id="password" name="password" ref="password" validationRule = "${ValidationRule.Password}" inputType="password" }}}
+                    {{{ InputControl label="Phone" id="phone" name="phone" ref="phone" validationRule = "${ValidationRule.Phone}" inputType="tel" placeholder="+1234567890" }}}
+                    {{{ Button btnText="Register" onClick=onRegister}}}
                     <span>${staticData.textForReffer}</span>
                     {{{ Link reasonText=textForReffer address="${staticData.href}" linkText="${staticData.linkText}"}}}
                 </form>

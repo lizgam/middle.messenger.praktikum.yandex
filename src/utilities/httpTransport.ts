@@ -1,4 +1,4 @@
-const enum METHODS {
+const enum Methods {
     GET = "GET",
     POST = "POST",
     PUT = "PUT",
@@ -7,7 +7,7 @@ const enum METHODS {
 interface RequestOptions {
     headers?: { [key: string]: string };
     timeout?: number;
-    method?: METHODS;
+    method?: Methods;
     data?: any;
 }
 
@@ -23,13 +23,13 @@ export class HTTPTransport {
     get = (url: string, options: RequestOptions = {}) => {
         const dataUrl = queryStringify(options.data);
         const getUrl = dataUrl ? `${url}${dataUrl}` : url;
-        return this.request(getUrl, { ...options, method: METHODS.GET });
+        return this.request(getUrl, { ...options, method: Methods.GET });
     };
 
     post = (url: string, options: RequestOptions = {}) => {
         return this.request(
             url,
-            { ...options, method: METHODS.POST },
+            { ...options, method: Methods.POST },
             options.timeout
         );
     };
@@ -37,7 +37,7 @@ export class HTTPTransport {
     put = (url: string, options: RequestOptions = {}) => {
         return this.request(
             url,
-            { ...options, method: METHODS.PUT },
+            { ...options, method: Methods.PUT },
             options.timeout
         );
     };
@@ -45,7 +45,7 @@ export class HTTPTransport {
     delete = (url: string, options: RequestOptions = {}) => {
         return this.request(
             url,
-            { ...options, method: METHODS.DELETE },
+            { ...options, method: Methods.DELETE },
             options.timeout
         );
     };
@@ -75,7 +75,7 @@ export class HTTPTransport {
             xhr.timeout = timeout;
             xhr.ontimeout = reject;
 
-            if (method === METHODS.GET || !data) {
+            if (method === Methods.GET || !data) {
                 xhr.send();
             } else {
                 xhr.send(data);
