@@ -1,0 +1,17 @@
+{
+  "extends": "stylelint-config-standard",
+  "ignoreFiles": [
+    "dist/*",
+    "src/sass/base/*"
+  ],
+   "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "color-hex-case": "lower",
+    "color-hex-length": "long",
+    "property-no-vendor-prefix": null,
+    "at-rule-no-unknown": null,
+    "selector-class-pattern": null
+  }
+}

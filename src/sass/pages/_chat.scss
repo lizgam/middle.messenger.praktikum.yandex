@@ -1,3 +1,37 @@
+.main-board-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  position: relative;
+}
+
+.main-board__navigation {
+  flex-basis: 13%;
+
+  & .main-board__nav-list {
+    display: flex;
+    justify-content: flex-end;
+
+    & li {
+      list-style: none;
+      cursor: pointer;
+      border: 0.5px solid $bg-color-additional-light;
+      border-radius: 30px;
+      padding: 6px 21px;
+
+      &:hover {
+        background-color: $bg-color-additional-light;
+        opacity: 0.7;
+      }
+
+      &.active-mode {
+        background-color: $bg-color-additional-light;
+      }
+    }
+  }
+}
+
 .chat-board {
   width: 100%;
   height: 80vh;
@@ -15,6 +49,7 @@
   padding: 10px;
   margin: 10px 0;
   border: none;
+
   & input {
     width: 100%;
     border-radius: 30px;
@@ -24,58 +59,108 @@
   }
 }
 
-//Card section
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  & .card-name {
+    padding-left: 4px;
+  }
+
+  .card-avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    align-self: center;
+    margin-left: 6px;
+    background: lighten($button-color, 10%);
+  }
+}
+
+.addgroup_mode {
+  & form :nth-child(3) {
+    width: 92%;
+    padding-top: 25px;
+  }
+
+  & input:last-of-type {
+    border-radius: 20px;
+  }
+
+  .card {
+    padding: 10px 0;
+
+    & .card-msg {
+      position: relative;
+
+      & .card-name {
+        padding-left: 8px;
+      }
+
+      & .card_delete {
+        font-size: 10px;
+        position: absolute;
+        left: 145px;
+        bottom: 2px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .cards-section {
   box-sizing: border-box;
-  flex-basis: 25%;
+  flex-basis: 27%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 
   & .cards-section__chat-panel {
-    background-color: $bg-color-additional;
     border-radius: 30px;
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
+
     & .card-section__nav-list {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       margin: 0;
-      & li {
+
+      & .user-card {
         margin-bottom: 1px;
+
         & .card {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-start;
           border-radius: 30px;
-          border: 1px solid $bg-color-additional;
-          .card-avatar {
-            width: 75px;
-            height: 75px;
-            border-radius: 30%;
-            align-self: center;
-            margin-left: 6px;
-          }
+          border: 0.5px solid $bg-color-selected-light;
+
           & .card-info {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+
             & .card-msg {
-              width: 126px;
+              width: 165px;
+
               & .card-msg__text {
                 font-size: 11px;
+                padding-right: 7px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 color: $text-color-light;
               }
             }
+
             & .card__msg-details {
-              display: flex;
-              flex-direction: column;
-              justify-content: space-around;
+              position: relative;
               font-size: 9px;
+
+              &__msg-time {
+                position: absolute;
+                top: 13px;
+                right: 5px;
+              }
             }
           }
         }
@@ -83,79 +168,85 @@
     }
   }
 }
+
 .card_selected {
   background-color: $bg-color-selected-light;
   border-radius: 30px;
 }
 
-//Main board
-.main-board-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
-}
-
-.main-board__navigation {
-  flex-basis: 13%;
-  & .main-board__nav-list {
-    display: flex;
-    justify-content: flex-end;
-    & li {
-      list-style: none;
-      padding: 0 10px;
-      cursor: pointer;
-      border: 1px solid $bg-color-additional-light;
-      border-radius: 30px;
-      padding: 6px 21px;
-      &:hover {
-        background-color: $bg-color-additional-light;
-      }
-    }
-  }
-}
-
-//Messages component
 .messages-board {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
-  background-color: $bg-color-additional-light;
-  border-radius: 30px;
-  margin: -10px 0 0 10px;
+  background-image: linear-gradient($bg-color-additional-light, $bg-color-primary);
+  border-radius: 20px;
+  margin: -5px 0 0 10px;
+  overflow-y: auto;
+
+  .messages-board__messages {
+    padding: 20px 15px 0;
+    overflow-y: auto;
+  }
+
   & .message {
-    p {
+    display: flex;
+    align-items: center;
+
+    p.message-text {
       display: block;
       border: 1px solid $bg-color-primary;
+      background: lighten($bg-color-selected-light, 5%);
       border-radius: 20px;
       margin: 10px;
       padding: 5px;
+    }
+
+    span.message-time {
+      font-size: 8px;
+    }
+  }
+
+  .message.host-msg {
+    justify-content: flex-end;
+
+    & .message-text {
+      background: $color-white;
+      order: 2;
     }
   }
 }
 
 .messages-board__info-block {
   position: absolute;
-  top: -25px;
-  left: 0px;
+  top: 40px;
   background-color: $bg-color-selected-light;
   padding: 10px 73px 10px 10px;
   border-radius: 30px;
+
+  .icon-info {
+    position: absolute;
+    right: 20px;
+  }
 }
 
 span.card__msg-details__msg_counter {
+  background: $bg-color-additional-light;
+  border-radius: 50%;
   align-self: end;
+  padding: 2px 4px;
+  position: absolute;
+  bottom: 21px;
+  right: 7px;
 }
 
-//Profile-mode styles
-.profile_mode {
-  padding: 0;
+.profile_mode,
+.addgroup_mode {
   background-color: $bg-color-primary;
   align-self: center;
-  flex-direction: row;
-  width: 57%;
+  flex-wrap: wrap-reverse;
+  width: 100%;
+  overflow-y: auto;
 
   & .form_input {
     position: relative;
@@ -170,16 +261,23 @@ span.card__msg-details__msg_counter {
   }
 
   & .avatar_block {
-    flex-basis: 100px;
-    align-self: flex-start;
     padding-top: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    & img {
-      height: 120px;
+    & .profile-avatar {
+      width: 95px;
+      height: 95px;
+      background: $bg-color-selected-light;
+      border-radius: 50%;
     }
+
+    & img {
+      height: 100px;
+      width: 100px;
+    }
+
     & .avatar_block__span {
       padding-top: 10px;
       font-size: 10px;
