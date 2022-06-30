@@ -9,7 +9,7 @@ export class ErrorLabel extends Block {
 
     protected render(): string {
         return `
-            <span>{{errorMsg}}</span>
+            <p style="color: red;">{{errorMsg}}</p>
          `;
     }
 }

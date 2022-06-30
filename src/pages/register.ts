@@ -83,7 +83,7 @@ export class RegisterPage extends Block {
         const staticData = {
             pageName: "Registration Page",
             textForReffer: "Already have a Chatopolis account?",
-            href: "#login",
+            href: "/login",
             linkText: "Log in",
         };
         return `

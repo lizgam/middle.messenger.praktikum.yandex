@@ -3,6 +3,23 @@ declare global {
     export type Keys<T extends Record<string, unknown>> = keyof T;
     export type Values<T extends Record<string, unknown>> = T[Keys<T>];
 
+    export type Indexed<T = unknown> = {
+        [key in string]: T;
+    };
+
+    type PlainObject<T = unknown> = {
+    [k in string]: T;
+};
+
+    export type AppState = {
+        isLoading: boolean;
+        page: Page | null,
+        loginFormError: string | null,
+        user: UserData | null,
+        mode: Mode | null,
+        cards: CardInfo[] | null,
+        selectedCard: CardInfo | null,
+    }
     export type UserData = {
         id: number;
         avatar: string;
@@ -11,7 +28,7 @@ declare global {
         second_name: string;
         displayed_name?: string;
         email: string;
-        password: string;
+        password?: string;
         phone: string;
     };
     export enum Mode {

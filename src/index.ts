@@ -1,4 +1,13 @@
-import { Block, renderDOM, registerComponent } from "./core/index";
+import {
+    renderDOM,
+    registerComponent,
+    Router,
+    Store
+} from "./core/index";
+import { defaultState } from './data/appState';
+import { diffObjectsDeep } from './helpers/diffObjectsDeep';
+
+import { initApp } from './services/initApp';
 
 import { ChatPage } from "./pages/chat";
 import { LoginPage } from "./pages/login";
@@ -36,18 +45,67 @@ registerComponent(Message);
 registerComponent(Navigation);
 registerComponent(Profile);
 
+
+declare global {
+  interface Window {
+    store: Store<AppState>;
+    router: Router;
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
-    if (document.location.hash === "#register") {
-        renderDOM(new RegisterPage({}));
-    } else if (document.location.hash === "#login") {
-        renderDOM(new LoginPage({}));
-    } else if (document.location.hash === "#chat") {
-        renderDOM(new ChatPage({}));
-    } else if (document.location.hash === "#errorPage") {
-        renderDOM(new ErrorPage({}));
-    } else if (document.location.hash === "#editInfo") {
-        renderDOM(new EditInfoPage({}));
-    } else {
-        renderDOM(new ChatPage({}));
-    }
+    const store = new Store<AppState>(defaultState);
+    const router = new Router();
+
+    /**
+     * Помещаем роутер и стор в глобальную область для доступа в хоках with*
+     * @warning Не использовать такой способ на реальный проектах
+     */
+    window.router = router;
+    window.store = store;
+
+    /**
+     * Глобальный слушатель изменений в сторе
+     * для переключения активного экрана
+     */
+    store.on('updated', (prevState, nextState) => {
+        if (process.env.DEBUG) {
+        console.log(
+            '%cstore updated',
+            'background: #222; color: #bada55',
+            nextState,
+        );
+        console.log(JSON.stringify(diffObjectsDeep.map(prevState, nextState)));
+        }
+
+        if (prevState.page !== nextState.page) {
+            // const UIBlock = getScreenComponent(nextState.page);
+            const UIBlock = LoginPage;
+            renderDOM(new UIBlock({}));
+        }
+    });
+
+    /**
+     * Инициализируем роутинг
+     */
+
+    router
+        .use('/login', LoginPage)
+        .use('/register', RegisterPage)
+        .use('/chat', ChatPage)
+        .use('/errorPage', ErrorPage)
+        .use('/editInfo', EditInfoPage)
+        .use('/', LoginPage)
+        .use('*', LoginPage)
+        .start()
+
+
+    /**
+     * Загружаем данные для приложения
+     */
+    setTimeout(() => {
+        store.dispatch(initApp);
+    }, 100);
+
 });

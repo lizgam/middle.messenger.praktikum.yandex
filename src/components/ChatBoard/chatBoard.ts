@@ -35,6 +35,7 @@ export class ChatBoard extends Block {
                         {{{ InputControl placeholder="Enter searching name" inputType="search" }}}
                     </div>
                     <div class="cards-section__chat-panel">
+                        <div style="display: block;position: absolute;left: 1000px;top: 150px;width: 20%;">Hello, ${this.props.mode}</div>
                         <ul id="nav-list" class="card-section__nav-list">
                             {{#each users}}
                             <li class="user-card">

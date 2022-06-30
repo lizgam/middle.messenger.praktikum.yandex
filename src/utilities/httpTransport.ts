@@ -19,7 +19,15 @@ function queryStringify(data: any = {}) {
     return `?${str.join("&")}`;
 }
 
-export class HTTPTransport {
+export default class HTTPTransport {
+    static API_URL = 'https://ya-praktikum.tech/api/v2';
+    protected prefix: string;
+
+    constructor(prefix: string) {
+        this.prefix = prefix;
+        console.log('constructor prefix', this.prefix);
+    }
+
     get = (url: string, options: RequestOptions = {}) => {
         const dataUrl = queryStringify(options.data);
         const getUrl = dataUrl ? `${url}${dataUrl}` : url;
@@ -27,6 +35,7 @@ export class HTTPTransport {
     };
 
     post = (url: string, options: RequestOptions = {}) => {
+        console.log('post url', url);
         return this.request(
             url,
             { ...options, method: Methods.POST },
@@ -53,6 +62,12 @@ export class HTTPTransport {
     request = (url: string, options: RequestOptions = {}, timeout = 5000) => {
         const { method, data, headers = {} } = options;
 
+        const nomilizedUrl = `${HTTPTransport.API_URL}${this.prefix}${url}`
+        console.log('request normalizedUrl', nomilizedUrl);
+
+        console.log('request data', data);
+
+
         return new Promise((resolve, reject) => {
             if (!method) {
                 reject("No method");
@@ -60,7 +75,7 @@ export class HTTPTransport {
             }
             const xhr = new XMLHttpRequest();
 
-            xhr.open(method, url);
+            xhr.open(method, nomilizedUrl);
 
             Object.keys(headers).forEach((key) => {
                 xhr.setRequestHeader(key, headers[key]);
@@ -74,11 +89,12 @@ export class HTTPTransport {
             xhr.onerror = reject;
             xhr.timeout = timeout;
             xhr.ontimeout = reject;
+            xhr.withCredentials = true;
 
             if (method === Methods.GET || !data) {
                 xhr.send();
             } else {
-                xhr.send(data);
+                xhr.send(JSON.stringify(data));
             }
         });
     };

@@ -1,17 +1,18 @@
 import { ValidationRule } from "../utilities/validation";
-import Block from "../core/Block";
+import { Block, Router, Store } from "../core/index";
+import { login } from "../services/auth";
+import { withStore, withRouter } from 'utilities';
 
-interface LoginPageProps {
+type LoginPageProps = {
     onLogin?: () => void;
-}
+    router: Router;
+    store: Store<AppState>;
+    formError?: () => string | null;
+};
 
-export class LoginPage extends Block {
-    protected getStateFromProps(): void {
-        this.state = {
-
-        }
-    }
+export class LoginPage extends Block<LoginPageProps> {
     constructor(props: LoginPageProps) {
+        super(props);
         super({
             ...props,
             onLogin: () => {
@@ -25,9 +26,31 @@ export class LoginPage extends Block {
                 };
                 if (this.checkFormValidity()) {
                     console.log("Submited values on the Page:", loginData);
+                    // console.log('props', { ...this.props });
+                    // this.props.store.dispatch(login, loginData);
+                    // login(loginData);
+                    //new ChatsAPI().request(...filters)
                 }
             },
         });
+
+        console.log('props', { ...this.props });
+
+        this.setProps({
+            // formError: () => this.props.store.getState().loginFormError,
+        });
+    }
+
+    protected getStateFromProps(): void {
+        this.state = {
+
+        }
+    }
+    componentDidMount() {
+        if (this.props.store.getState().user) {
+            debugger;
+            this.props.router.go('/profile');
+        }
     }
 
     checkFormValidity() {
@@ -61,7 +84,7 @@ export class LoginPage extends Block {
         const staticData = {
             pageName: "Login page",
             textForReffer: "Don’t have a Chatopolis account?",
-            href: "#register",
+            href: "/register",
             linkText: "Register",
             values: "12",
         };
@@ -89,6 +112,7 @@ export class LoginPage extends Block {
                     btnText="Log in"
                     onClick=onLogin
                 }}}
+                {{{ErrorLabel ref="error" errorMsg="formError"}}}
 
                 <span>${staticData.textForReffer}</span>
                 {{{ Link
@@ -100,3 +124,5 @@ export class LoginPage extends Block {
                     `;
     }
 }
+
+export default withRouter(withStore(LoginPage));
