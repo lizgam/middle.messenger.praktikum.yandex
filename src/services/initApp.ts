@@ -15,7 +15,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         const api: AuthAPI = new AuthAPI();
 
         const response = await api.readUser();
-        console.log("initApp", response);
+        console.log("initApp>> RESPONSE:", response);
 
         if (hasError(response)) {
             console.log("hasError");

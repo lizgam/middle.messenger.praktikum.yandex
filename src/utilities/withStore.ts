@@ -7,8 +7,9 @@ export function withStore<P extends WithStateProps>(WrappedBlock: BlockClass<P>)
   return class extends WrappedBlock<P> {
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
 
-    constructor(props: P) {
-      super({ ...props, store: window.store });
+      constructor(props: P) {
+        console.log('enter withStore');
+        super({ ...props, store: window.store });
     }
 
     __onChangeStoreCallback = () => {

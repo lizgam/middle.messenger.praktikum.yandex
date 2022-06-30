@@ -64,7 +64,6 @@ export default class HTTPTransport {
 
         const nomilizedUrl = `${HTTPTransport.API_URL}${this.prefix}${url}`
         console.log('request normalizedUrl', nomilizedUrl);
-
         console.log('request data', data);
 
 

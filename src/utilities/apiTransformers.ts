@@ -1,6 +1,7 @@
 import { UserDataDTO } from 'api/types';
 
 export const transformUser = (data: UserDataDTO): UserData => {
+    console.log("in transform", data);
     return {
         id: data.id,
         avatar: data.avatar,

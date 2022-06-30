@@ -1,4 +1,6 @@
 import Block from "core/Block";
+import { withStore, withRouter } from 'utilities';
+
 
 export class ChatPage extends Block {
     static componentName = "ChatPage";
@@ -11,3 +13,5 @@ export class ChatPage extends Block {
         `;
     }
 }
+
+export default withRouter(withStore(ChatPage));

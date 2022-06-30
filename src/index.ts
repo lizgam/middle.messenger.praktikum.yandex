@@ -9,8 +9,8 @@ import { diffObjectsDeep } from './helpers/diffObjectsDeep';
 
 import { initApp } from './services/initApp';
 
-import { ChatPage } from "./pages/chat";
-import { LoginPage } from "./pages/login";
+import ChatPage from "./pages/chat";
+import LoginPage from "./pages/login";
 import { RegisterPage } from "./pages/register";
 import { ErrorPage } from "./pages/errorPage";
 import { EditInfoPage } from "./pages/editInfo";
@@ -80,9 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (prevState.page !== nextState.page) {
+            console.log('**** shit ****');
             // const UIBlock = getScreenComponent(nextState.page);
-            const UIBlock = LoginPage;
-            renderDOM(new UIBlock({}));
+            // const UIBlock = getPageComponent(Pages.Login);
+            // renderDOM(new UIBlock({}));
         }
     });
 
@@ -104,8 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * Загружаем данные для приложения
      */
-    setTimeout(() => {
-        store.dispatch(initApp);
-    }, 100);
+    // setTimeout(() => {
+    //     store.dispatch(initApp);
+    // }, 100);
 
 });

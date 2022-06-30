@@ -1,5 +1,6 @@
 import { ValidationRule } from "../utilities/validation";
 import Block from "../core/Block";
+import { register } from "../services/auth";
 
 interface RegisterPageProps {
     onRegister?: () => void;
@@ -33,6 +34,8 @@ export class RegisterPage extends Block {
 
                 if (this.checkFormValidity()) {
                     console.log("SUBMITED values on the Page:", loginData);
+                    register(loginData);
+                    //this.props.store.dispatch(register, loginData)
                 }
             },
         });

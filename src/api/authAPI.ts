@@ -23,13 +23,14 @@ export default class AuthAPI extends BaseAPI {
     }
 
     signUp(data: SignUpData): Promise<unknown> {
-        return this.http.post('/signup', { data });
+        return this.http.post('/signup', { data, headers: { "Content-Type": "application/json" } });
         // return this.http.post('/signup', { data, headers: { "Content-Type": "application/json" } });
     }
 
-    singIn(data: SignInData): Promise<unknown> {
+    signIn(data: SignInData): Promise<unknown> {
         return this.http.post('/signin', { data, headers: { "Content-Type": "application/json" } })
             .then(data => {
+                console.log("readUser on register: ", data);
                 return data;
             })
         /*return authAPIInstance.post<LoginRequest, LoginResponse>('/login', user)

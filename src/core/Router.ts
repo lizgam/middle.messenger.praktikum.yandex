@@ -9,7 +9,7 @@ function isEqual(lhs: string, rhs: string): boolean {
 
 class Route <P = any>{
     #pathname: string;
-    private _blockClass: BlockClass<P>;
+    #blockClass: BlockClass<P>;
     #block: Block | null = null;
     #props: props;
     #isPrefixId: boolean | undefined
@@ -17,7 +17,7 @@ class Route <P = any>{
     constructor(pathname: string, view: BlockClass<P>, props: props) {
         this.#isPrefixId = pathname.includes(':id')
         this.#pathname = pathname.replace('/:id', '');
-        this._blockClass = view;
+        this.#blockClass = view;
         this.#props = props;
     }
     //метод для отображения вьюшки, если переданный URL совпадает с URL текущего Route;
@@ -43,10 +43,11 @@ class Route <P = any>{
     }
     //создаёт блок, если тот ещё не был создан (нужно создавать блок только после первого перехода на страницу), иначе вызывает у блока метод show
     render() {
+        console.log('enter Router render');
         const {id} = this.#prefixHandler();
         if (!this.#block) {
-            this.#block = new this._blockClass(this.#props);
-            // this.#block = new this.#blockClass({...this.#props, idPath: id});
+            // this.#block = new this._blockClass({...this.#props, idPath: id});
+            this.#block = new this.#blockClass({...this.#props, idPath: id});
             renderDOM(this.#block)
             return;
         }
@@ -80,6 +81,7 @@ export default class Router {
     }
 //по событию onpopstate запускает приложение
     start() {
+        console.log('enter Router start');
         window.onpopstate = ((event) => {
             this._onRoute(event.currentTarget?.location.pathname);
         });
@@ -88,6 +90,7 @@ export default class Router {
     }
 
     _onRoute(pathname: string) {
+        console.log('enter Router _onRoute');
         let route = this.getRoute(pathname);
         if (!route) {
             return;

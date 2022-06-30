@@ -1,10 +1,11 @@
 import { ValidationRule } from "../utilities/validation";
-import { Block, Router, Store } from "../core/index";
+import { Block, Router, Store } from "core";
 import { login } from "../services/auth";
 import { withStore, withRouter } from 'utilities';
 
 type LoginPageProps = {
     onLogin?: () => void;
+    errorMsg?: string;
     router: Router;
     store: Store<AppState>;
     formError?: () => string | null;
@@ -12,7 +13,7 @@ type LoginPageProps = {
 
 export class LoginPage extends Block<LoginPageProps> {
     constructor(props: LoginPageProps) {
-        super(props);
+        console.log('enter LoginPage');
         super({
             ...props,
             onLogin: () => {
@@ -25,19 +26,13 @@ export class LoginPage extends Block<LoginPageProps> {
                     ).value,
                 };
                 if (this.checkFormValidity()) {
-                    console.log("Submited values on the Page:", loginData);
-                    // console.log('props', { ...this.props });
-                    // this.props.store.dispatch(login, loginData);
-                    // login(loginData);
-                    //new ChatsAPI().request(...filters)
+                    this.props.store.dispatch(login, loginData);
                 }
             },
         });
 
-        console.log('props', { ...this.props });
-
         this.setProps({
-            // formError: () => this.props.store.getState().loginFormError,
+            formError: () => this.props.store.getState().authError,
         });
     }
 

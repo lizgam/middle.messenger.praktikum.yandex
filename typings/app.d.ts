@@ -14,7 +14,7 @@ declare global {
     export type AppState = {
         isLoading: boolean;
         page: Page | null,
-        loginFormError: string | null,
+        authError: string | null,
         user: UserData | null,
         mode: Mode | null,
         cards: CardInfo[] | null,
