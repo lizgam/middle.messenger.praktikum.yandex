@@ -24,8 +24,9 @@ export class Profile extends Block<ProfileProps> {
     static componentName = "Profile";
 
     render() {
-        let user = this.props.store.getState().user;
-        console.log("user", user);
+        //let user = this.props.store.getState().user;
+
+        //console.log("user", user);
         const { ...values } = this.props.userInfo;
         return `
         <section class="messages-board form_container profile_mode">

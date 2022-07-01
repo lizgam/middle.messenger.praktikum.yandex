@@ -1,12 +1,17 @@
-import { Block } from "core";
+import Card from "components/Card";
+import { Block, Router, Store } from "core";
+import { withStore, withRouter } from 'utilities';
 import { CardsSectionStub } from "../../data/data";
 
 interface ChatBoardProps {
     users: CardInfo[];
     setMode?: () => void;
+    router: Router;
+    store: Store<AppState>;
+    onChooseUser: () => void;
 }
 
-export class ChatBoard extends Block {
+export class ChatBoard extends Block<ChatBoardProps>{
     static componentName = "ChatBoard";
 
     constructor({ setMode, ...props }: ChatBoardProps) {
@@ -24,10 +29,31 @@ export class ChatBoard extends Block {
                 this.props.chat_mode = this.props.mode === "Chat";
                 this.props.addgroup_mode = this.props.mode === "Addgroup";
             },
+             onChooseUser: (e:Event) => {
+                debugger;
+                const selectedCard = e.target;
+                console.log(">>>", selectedCard);
+                // this.props.store.dispatch({selectedCard: card})
+                // call cardAPI(userId, ) create webSocket
+            }
+
         });
+        this.setProps({
+            // onChooseUser: (card: Card) => {
+            //     debugger;
+            //     const selectedCard = card;
+            //     console.log(">>>", selectedCard);
+                // this.props.store.dispatch({selectedCard: card})
+                //call cardAPI(userId, ) create webSocket
+            // }
+        })
     }
+    // hide(): void {
+    //     this.getContent().style.display = "block";
+    // }
 
     render(): string {
+        //let user = this.props.store.getState().user;
         return `
             <div class="chat-board">
                 <section class="cards-section">
@@ -40,13 +66,14 @@ export class ChatBoard extends Block {
                             {{#each users}}
                             <li class="user-card">
                                 {{{ Card
-                                    selected=this.selected
+                                    selected=store.state.selectedCard
                                     ref="card"
                                     name=this.name
                                     message=this.message
                                     date=this.date
                                     count=this.count
                                     avatar=this.avatar
+                                    onChooseUser=onChooseUser
                                 }}}
                             </li>
                             {{/each}}
@@ -73,3 +100,5 @@ export class ChatBoard extends Block {
     `;
     }
 }
+
+export default withRouter(withStore(ChatBoard));

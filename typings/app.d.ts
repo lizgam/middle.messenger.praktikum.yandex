@@ -31,7 +31,7 @@ declare global {
         password?: string;
         phone: string;
     };
-    export enum Mode {
+    export const enum Mode {
         Profile = "Profile",
         Chat = "Chat",
         Addgroup = "Addgroup",

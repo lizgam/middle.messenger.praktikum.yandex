@@ -3,13 +3,13 @@ import Block from "../../core/Block";
 export interface CardProps {
     users: CardInfo[];
     onDelete: () => void;
-    onClick: () => void;
+    onChooseUser: () => void;
 }
 
 export class Card extends Block {
-    constructor({ onDelete, onClick, ...props }: CardProps) {
+    constructor({ onDelete, onChooseUser, ...props }: CardProps) {
         super({
-            events: { select: onClick, delete: onDelete },
+            events: { click: onChooseUser, delete: onDelete },
             ...props,
         });
     }

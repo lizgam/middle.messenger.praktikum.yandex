@@ -5,7 +5,6 @@ import {
     Store
 } from "./core/index";
 import { defaultState } from './data/appState';
-import { diffObjectsDeep } from './helpers/diffObjectsDeep';
 
 import { initApp } from './services/initApp';
 
@@ -69,22 +68,23 @@ document.addEventListener("DOMContentLoaded", () => {
      * Глобальный слушатель изменений в сторе
      * для переключения активного экрана
      */
-    store.on('updated', (prevState, nextState) => {
-        if (process.env.DEBUG) {
+    store.on('changed', (prevState, nextState) => {
+        router.start();
+        //if (process.env.DEBUG) {
         console.log(
             '%cstore updated',
             'background: #222; color: #bada55',
-            nextState,
+            nextState
         );
-        console.log(JSON.stringify(diffObjectsDeep.map(prevState, nextState)));
-        }
+        // console.log(JSON.stringify(diffObjectsDeep.map(prevState, nextState)));
+        //}
 
-        if (prevState.page !== nextState.page) {
-            console.log('**** shit ****');
+        // if (prevState.page !== nextState.page) {
+        //     console.log('**** shit ****');
             // const UIBlock = getScreenComponent(nextState.page);
             // const UIBlock = getPageComponent(Pages.Login);
             // renderDOM(new UIBlock({}));
-        }
+        // }
     });
 
     /**
@@ -105,8 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * Загружаем данные для приложения
      */
-    // setTimeout(() => {
-    //     store.dispatch(initApp);
-    // }, 100);
+    setTimeout(() => {
+        store.dispatch(initApp);
+    }, 100);
 
 });

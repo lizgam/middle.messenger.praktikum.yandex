@@ -7,6 +7,8 @@ export function hasError(response: any): response is APIError {
   return response && response.reason;
 }
 
+import ChatAPI from "api/chatsAPI";
+
 export async function initApp(dispatch: Dispatch<AppState>) {
 
     dispatch({ isLoading: true });
@@ -15,7 +17,6 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         const api: AuthAPI = new AuthAPI();
 
         const response = await api.readUser();
-        console.log("initApp>> RESPONSE:", response);
 
         if (hasError(response)) {
             console.log("hasError");
