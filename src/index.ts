@@ -11,9 +11,9 @@ import { initApp } from './services/initApp';
 
 import ChatPage from "./pages/chat";
 import LoginPage from "./pages/login";
-import { RegisterPage } from "./pages/register";
-import { ErrorPage } from "./pages/errorPage";
-import { EditInfoPage } from "./pages/editInfo";
+import RegisterPage from "./pages/register";
+import ErrorPage from "./pages/errorPage";
+import EditInfoPage from "./pages/editInfo";
 
 import Addgroup from "./components/Addgroup";
 import Button from "./components/Button";

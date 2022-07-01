@@ -107,7 +107,7 @@ export class LoginPage extends Block<LoginPageProps> {
                     btnText="Log in"
                     onClick=onLogin
                 }}}
-                {{{ErrorLabel ref="error" errorMsg="formError"}}}
+                {{{ErrorLabel errorMsg=formError}}}
 
                 <span>${staticData.textForReffer}</span>
                 {{{ Link

@@ -1,4 +1,5 @@
-import Block from "../core/Block";
+import { Block, Router, Store } from "core";
+import { withStore, withRouter } from 'utilities';
 
 export class ErrorPage extends Block {
     protected render() {
@@ -20,3 +21,5 @@ export class ErrorPage extends Block {
         `;
     }
 }
+
+export default withRouter(withStore(ErrorPage));

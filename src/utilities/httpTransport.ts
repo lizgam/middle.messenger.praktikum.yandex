@@ -72,28 +72,34 @@ export default class HTTPTransport {
                 reject("No method");
                 return;
             }
-            const xhr = new XMLHttpRequest();
+            const req = new XMLHttpRequest();
+            req.responseType = 'json';
 
-            xhr.open(method, nomilizedUrl);
+            req.open(method, nomilizedUrl);
 
             Object.keys(headers).forEach((key) => {
-                xhr.setRequestHeader(key, headers[key]);
+                req.setRequestHeader(key, headers[key]);
             });
 
-            xhr.onload = function () {
-                resolve(xhr);
+            req.onload = function () {
+                const responsonseData = req.response;
+                if (req.status === 200 || (req.status >= 400 && req.status < 500)) {
+                    resolve(responsonseData);
+                } else {
+                    reject(responsonseData);
+                }
             };
 
-            xhr.onabort = reject;
-            xhr.onerror = reject;
-            xhr.timeout = timeout;
-            xhr.ontimeout = reject;
-            xhr.withCredentials = true;
+            req.onabort = reject;
+            req.onerror = reject;
+            req.timeout = timeout;
+            req.ontimeout = reject;
+            req.withCredentials = true;
 
             if (method === Methods.GET || !data) {
-                xhr.send();
+                req.send();
             } else {
-                xhr.send(JSON.stringify(data));
+                req.send(JSON.stringify(data));
             }
         });
     };

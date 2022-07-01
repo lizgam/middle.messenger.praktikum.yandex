@@ -1,9 +1,13 @@
 import { UserInfoProfileStub } from "../../data/data";
-import Block from "../../core/Block";
+import { Block, Router, Store } from "core";
+import { withStore, withRouter } from 'utilities';
+import { logout } from "../../services/auth";
 
 interface ProfileProps {
     userInfo: UserData;
     onLogout?: () => void;
+    router: Router;
+    store: Store<AppState>;
 }
 
 export class Profile extends Block<ProfileProps> {
@@ -12,7 +16,7 @@ export class Profile extends Block<ProfileProps> {
             ...props,
             userInfo: UserInfoProfileStub,
             onLogout: () => {
-                console.log("LOGED OUT from the Page");
+                this.props.store.dispatch(logout);
             },
         });
     }
@@ -20,6 +24,8 @@ export class Profile extends Block<ProfileProps> {
     static componentName = "Profile";
 
     render() {
+        let user = this.props.store.getState().user;
+        console.log("user", user);
         const { ...values } = this.props.userInfo;
         return `
         <section class="messages-board form_container profile_mode">
@@ -46,3 +52,5 @@ export class Profile extends Block<ProfileProps> {
         `;
     }
 }
+
+export default withRouter(withStore(Profile));

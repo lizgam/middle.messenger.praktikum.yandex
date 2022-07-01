@@ -13,9 +13,6 @@ export interface SignInData {
     login: string;
     password: string;
 }
-type APIError = {
-  reason: string;
-};
 
 export default class AuthAPI extends BaseAPI {
     constructor() {
@@ -24,18 +21,10 @@ export default class AuthAPI extends BaseAPI {
 
     signUp(data: SignUpData): Promise<unknown> {
         return this.http.post('/signup', { data, headers: { "Content-Type": "application/json" } });
-        // return this.http.post('/signup', { data, headers: { "Content-Type": "application/json" } });
     }
 
     signIn(data: SignInData): Promise<unknown> {
-        return this.http.post('/signin', { data, headers: { "Content-Type": "application/json" } })
-            .then(data => {
-                console.log("readUser on register: ", data);
-                return data;
-            })
-        /*return authAPIInstance.post<LoginRequest, LoginResponse>('/login', user)
-      .then(({user_id}) => user_id); // Обрабатываем получение данных из сервиса далее */
-
+        return this.http.post('/signin', { data, headers: { "Content-Type": "application/json" } });
     }
 
     logout(): Promise<unknown> {
@@ -43,14 +32,11 @@ export default class AuthAPI extends BaseAPI {
     }
 
     readUser(): Promise<unknown> {
-        return this.http.get('/user')
-            .then(data => {
-                console.log("readUser: ", data);
-                return data;
-            });
+        return this.http.get('/user');
     }
 
     create = undefined;
+    read = undefined;
     update = undefined;
     delete = undefined;
 }

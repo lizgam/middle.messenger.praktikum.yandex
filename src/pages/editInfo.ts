@@ -1,5 +1,7 @@
 import { UserInfoProfileStub } from "../data/data";
-import Block from "../core/Block";
+import { Block, Router, Store } from "core";
+//import {  } from "../../services/editUserInfo"; //TODO
+import { withStore, withRouter } from 'utilities';
 
 type UserDataKey = keyof UserData;
 
@@ -12,7 +14,7 @@ interface EditInfoPageProps {
     onSave?: () => void;
 }
 
-export class EditInfoPage extends Block {
+export class EditInfoPage extends Block<EditInfoPageProps> {
     constructor(props: EditInfoPageProps) {
         super({
             ...props,
@@ -99,3 +101,5 @@ export class EditInfoPage extends Block {
          `;
     }
 }
+
+export default withRouter(withStore(EditInfoPage));

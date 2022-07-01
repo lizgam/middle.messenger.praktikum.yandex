@@ -1,11 +1,7 @@
 import AuthAPI from "../api/authAPI";
 import { UserDataDTO, APIError } from "api/types";
 import type { Dispatch } from "core";
-import { transformUser } from "utilities";
-
-export function hasError(response: any): response is APIError {
-  return response && response.reason;
-}
+import { transformUser, isErrorResponse } from "utilities";
 
 type LoginPayload = {
   login: string;
@@ -32,61 +28,55 @@ export const login = async (
     console.log('controller', action);
 
     const response = await api.signIn(action);
-    console.log('api response', response);
 
-    if (hasError(response)) {
-        console.log("RESPONCE ERROR");
+    if (isErrorResponse(response)) {
+        console.log("RESPONCE ERROR", response);
         dispatch({ isLoading: false, authError: response.reason });
         return;
     }
 
     const responseReadUser = await api.readUser();
-    console.log('api responseReadUser', responseReadUser);
 
     dispatch({ isLoading: false, authError: null });
 
-    if (hasError(response)) {
+    if (isErrorResponse(response)) {
         dispatch(logout);
         return;
     }
 
     dispatch({ user: transformUser(responseReadUser as UserDataDTO) });
 
-    window.router.go('/chats');
+    window.router.go('/chat');
 };
 
 export const register = async (
-//   dispatch: Dispatch<AppState>,
-  //state: AppState,
+  dispatch: Dispatch<AppState>,
+  state: AppState,
   action: RegisterPayload,
 ) => {
-    AppStore.dispatch({ isLoading: true });
-    // dispatch({ isLoading: true });
+    dispatch({ isLoading: true });
 
     const api: AuthAPI = new AuthAPI();
-    console.log('controller', action);
 
     const response = await api.signUp(action);
-    console.log('api response', response);
 
-    if (hasError(response)) {
-        AppStore.dispatch({ isLoading: false, authError: response.reason });
+    if (isErrorResponse(response)) {
+        dispatch({ isLoading: false, authError: response.reason });
         return;
     }
 
     const responseReadUser = await api.readUser();
-    console.log('api responseReadUser', transformUser(responseReadUser as UserDataDTO));
 
-    AppStore.dispatch({ isLoading: false, authError: null });
+    dispatch({ isLoading: false, authError: null });
 
-    if (hasError(response)) {
-        AppStore.dispatch(logout);
+    if (isErrorResponse(response)) {
+        dispatch(logout);
         return;
     }
 
-    AppStore.dispatch({ user: transformUser(responseReadUser as UserDataDTO) });
+    dispatch({ user: transformUser(responseReadUser as UserDataDTO) });
 
-    window.router.go('/chats');
+    window.router.go('/chat');
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {

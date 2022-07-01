@@ -16,10 +16,12 @@
     "author": "Lisa Hamaliy",
     "license": "ISC",
     "alias": {
-        "core": "./src/core",
-        "pages": "./src/pages",
+        "api": "./src/api",
         "components": "./src/components",
+        "core": "./src/core",
         "model": "./src/model",
+        "pages": "./src/pages",
+        "services": "./src/services",
         "utilities": "./src/utilities"
     },
     "bugs": {
