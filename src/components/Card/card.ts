@@ -3,17 +3,18 @@ import Block from "../../core/Block";
 export interface CardProps {
     users: CardInfo[];
     onDelete: () => void;
-    onChooseUser: () => void;
+    onChooseCard: (card: CardInfo) => void;
 }
 
 export class Card extends Block {
-    constructor({ onDelete, onChooseUser, ...props }: CardProps) {
+    static componentName = "Card";
+    constructor({ onDelete, onChooseCard, ...props }: CardProps) {
         super({
-            events: { click: onChooseUser, delete: onDelete },
+            events: { click: onChooseCard, delete: onDelete },
             ...props,
         });
     }
-    static componentName = "Card";
+
 
     protected render(): string {
         return `

@@ -25,12 +25,10 @@ export const login = async (
     dispatch({ isLoading: true });
 
     const api: AuthAPI = new AuthAPI();
-    console.log('controller', action);
 
     const response = await api.signIn(action);
 
     if (isErrorResponse(response)) {
-        console.log("RESPONCE ERROR", response);
         dispatch({ isLoading: false, authError: response.reason });
         return;
     }

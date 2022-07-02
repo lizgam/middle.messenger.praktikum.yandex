@@ -43,7 +43,6 @@ class Route <P = any>{
     }
     //создаёт блок, если тот ещё не был создан (нужно создавать блок только после первого перехода на страницу), иначе вызывает у блока метод show
     render() {
-        console.log('enter Router render');
         const {id} = this.#prefixHandler();
         if (!this.#block) {
             // this.#block = new this._blockClass({...this.#props, idPath: id});
@@ -90,7 +89,6 @@ export default class Router {
     }
 
     _onRoute(pathname: string) {
-        console.log('enter Router _onRoute');
         let route = this.getRoute(pathname);
         if (!route) {
             return;

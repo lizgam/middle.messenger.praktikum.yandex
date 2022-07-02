@@ -28,5 +28,6 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         console.error(err);
     } finally {
         dispatch({ isLoading: false });
+        window.router.go('/chat');
     }
 }

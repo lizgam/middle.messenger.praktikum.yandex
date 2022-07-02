@@ -1,6 +1,6 @@
 import Card from "components/Card";
 import { Block, Router, Store } from "core";
-import { withStore, withRouter } from 'utilities';
+import { withStore, withRouter, withUser, Mode } from 'utilities';
 import { CardsSectionStub } from "../../data/data";
 
 interface ChatBoardProps {
@@ -8,7 +8,8 @@ interface ChatBoardProps {
     setMode?: () => void;
     router: Router;
     store: Store<AppState>;
-    onChooseUser: () => void;
+    onChooseCard: (e: Event) => void;
+    mode: Mode;
 }
 
 export class ChatBoard extends Block<ChatBoardProps>{
@@ -16,7 +17,7 @@ export class ChatBoard extends Block<ChatBoardProps>{
 
     constructor({ setMode, ...props }: ChatBoardProps) {
         super({
-            ...props,
+            props,
             users: CardsSectionStub,
             setMode: (e: Event) => {
                 const item = (e.target as HTMLUListElement).getAttribute(
@@ -25,17 +26,21 @@ export class ChatBoard extends Block<ChatBoardProps>{
                 this.setProps({
                     mode: item,
                 });
+
                 this.props.profile_mode = this.props.mode === "Profile";
                 this.props.chat_mode = this.props.mode === "Chat";
                 this.props.addgroup_mode = this.props.mode === "Addgroup";
+
+                // let user = this.props.store.getState().user;
+                // console.log("!!!!! user", user);
             },
-             onChooseUser: (e:Event) => {
-                debugger;
-                const selectedCard = e.target;
+             onChooseCard: (e: Event) => {
+                const selectedCard = e.currentTarget;
                 console.log(">>>", selectedCard);
                 // this.props.store.dispatch({selectedCard: card})
                 // call cardAPI(userId, ) create webSocket
-            }
+             }
+
 
         });
         this.setProps({
@@ -47,13 +52,11 @@ export class ChatBoard extends Block<ChatBoardProps>{
                 //call cardAPI(userId, ) create webSocket
             // }
         })
+        // debugger;
     }
-    // hide(): void {
-    //     this.getContent().style.display = "block";
-    // }
 
     render(): string {
-        //let user = this.props.store.getState().user;
+
         return `
             <div class="chat-board">
                 <section class="cards-section">
@@ -73,7 +76,7 @@ export class ChatBoard extends Block<ChatBoardProps>{
                                     date=this.date
                                     count=this.count
                                     avatar=this.avatar
-                                    onChooseUser=onChooseUser
+                                    onChooseCard=../onChooseCard
                                 }}}
                             </li>
                             {{/each}}
@@ -101,4 +104,4 @@ export class ChatBoard extends Block<ChatBoardProps>{
     }
 }
 
-export default withRouter(withStore(ChatBoard));
+export default withRouter(withStore(withUser(ChatBoard)));

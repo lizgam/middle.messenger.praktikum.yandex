@@ -1,13 +1,9 @@
-    export const enum Mode {
-        Profile = "Profile",
-        Chat = "Chat",
-        Addgroup = "Addgroup",
-    }
+import { Mode } from "utilities";
 
 export const defaultState: AppState = {
     isLoading: true,
     page: null,
-    authError: "test error from state",
+    authError: null,
     user: null,
     mode: Mode.Profile,
     cards: null,

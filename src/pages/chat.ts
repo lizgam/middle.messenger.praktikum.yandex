@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import { withStore, withRouter } from 'utilities';
+import { withStore, withRouter, withUser } from 'utilities';
 
 
 export class ChatPage extends Block {
@@ -7,11 +7,11 @@ export class ChatPage extends Block {
 
     protected render() {
         return `
-            {{#ChatBoard}}
+            {{#ChatBoard }}
 
             {{/ChatBoard}}
         `;
     }
 }
 
-export default withRouter(withStore(ChatPage));
+export default withRouter(withStore(withUser(ChatPage)));

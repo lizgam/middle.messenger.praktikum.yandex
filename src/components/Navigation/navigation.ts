@@ -17,9 +17,7 @@ export class Navigation extends Block {
     }
 
     static componentName = "Navigation";
-    // hide(): void {
-    //     this.getContent().style.display = "block";
-    // }
+
 
     protected render(): string {
         return `

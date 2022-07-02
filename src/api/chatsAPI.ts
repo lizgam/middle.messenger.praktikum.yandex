@@ -4,7 +4,7 @@ type ChatRequestData = {
    title: string;
 }
 
-type ChatsRequestData = {
+type CardsRequestData = {
    offset?: number;
    limit?: number;
    title?: string;
@@ -15,7 +15,7 @@ type ChatUserRequestData = {
    chatId: number;
 }
 
-export default class ChatAPI extends BaseAPI {
+export default class ChatsAPI extends BaseAPI {
    constructor() {
        super("/chats");
    }
@@ -24,7 +24,7 @@ export default class ChatAPI extends BaseAPI {
        return this.http.post("", { data, headers: { "Content-Type": "application/json" } });
    }
 
-   getChats(data: ChatsRequestData): Promise<unknown> {
+   getChats(data: CardsRequestData): Promise<unknown> {
        return this.http.get("", { data });
    }
 

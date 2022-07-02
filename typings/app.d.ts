@@ -8,15 +8,17 @@ declare global {
     };
 
     type PlainObject<T = unknown> = {
-    [k in string]: T;
-};
+        [k in string]: T;
+    };
+
+    type EnumType = { [s: any]: any }
 
     export type AppState = {
         isLoading: boolean;
         page: Page | null,
         authError: string | null,
         user: UserData | null,
-        mode: Mode | null,
+        mode: EnumType | null,
         cards: CardInfo[] | null,
         selectedCard: CardInfo | null,
     }
@@ -31,20 +33,20 @@ declare global {
         password?: string;
         phone: string;
     };
-    export const enum Mode {
-        Profile = "Profile",
-        Chat = "Chat",
-        Addgroup = "Addgroup",
-    }
+
     export type CardInfo = {
         id: number;
-        name: string;
-        avatar?: string;
-        message?: string;
-        date?: string;
-        count?: number;
-        selected?: boolean;
+        title: string;
+        avatar: string;
+        unread_count: number;
+        last_message: LastMessage;
     };
+    export type LastMessage = {
+        user: User<Omit<User, "id">>;
+        time: Date;
+        content: string;
+    };
+
     export type Message = {
         text: string;
         date: string; //TODO: change to new Date() ->
