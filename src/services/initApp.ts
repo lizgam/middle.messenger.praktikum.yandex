@@ -4,13 +4,12 @@ import type { Dispatch } from "core";
 import { transformUser } from "utilities/apiTransformers";
 
 export function hasError(response: any): response is APIError {
-  return response && response.reason;
+    return response && response.reason;
 }
-
-import ChatAPI from "api/chatsAPI";
 
 export async function initApp(dispatch: Dispatch<AppState>) {
 
+    console.log('enter initApp');
     dispatch({ isLoading: true });
 
     try {
@@ -28,6 +27,6 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         console.error(err);
     } finally {
         dispatch({ isLoading: false });
-        window.router.go('/chat');
+        // window.router.go('/chat');
     }
 }

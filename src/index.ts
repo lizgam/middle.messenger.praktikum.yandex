@@ -8,7 +8,7 @@ import { defaultState } from './data/appState';
 
 import { initApp } from './services/initApp';
 
-import ChatPage from "./pages/chat";
+import ChatPage from "./pages/chatPage";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import ErrorPage from "./pages/errorPage";
@@ -18,7 +18,6 @@ import Addgroup from "./components/Addgroup";
 import Button from "./components/Button";
 import Card from "./components/Card";
 import Chat from "./components/Chat";
-import ChatBoard from "./components/ChatBoard";
 import ErrorLabel from "./components/ErrorLabel";
 import Input from "./components/Input";
 import InputControl from "./components/InputControl";
@@ -34,7 +33,6 @@ registerComponent(Addgroup);
 registerComponent(Button);
 registerComponent(Card);
 registerComponent(Chat);
-registerComponent(ChatBoard);
 registerComponent(ErrorLabel);
 registerComponent(Input);
 registerComponent(InputControl);
@@ -46,10 +44,10 @@ registerComponent(Profile);
 
 
 declare global {
-  interface Window {
-    store: Store<AppState>;
-    router: Router;
-  }
+    interface Window {
+        store: Store<AppState>;
+        router: Router;
+    }
 }
 
 
@@ -76,15 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
             'background: #222; color: #bada55',
             nextState
         );
-        // console.log(JSON.stringify(diffObjectsDeep.map(prevState, nextState)));
-        //}
-
-        // if (prevState.page !== nextState.page) {
-        //     console.log('**** shit ****');
-            // const UIBlock = getScreenComponent(nextState.page);
-            // const UIBlock = getPageComponent(Pages.Login);
-            // renderDOM(new UIBlock({}));
-        // }
     });
 
     /**
@@ -99,8 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .use('/editInfo', EditInfoPage)
         .use('/', LoginPage)
         .use('*', LoginPage)
-        .start()
-
 
     /**
      * Загружаем данные для приложения

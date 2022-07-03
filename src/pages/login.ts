@@ -44,7 +44,6 @@ export class LoginPage extends Block<LoginPageProps> {
     }
     componentDidMount() {
         if (this.props.store.getState().user) {
-            debugger;
             this.props.router.go('/profile');
         }
     }

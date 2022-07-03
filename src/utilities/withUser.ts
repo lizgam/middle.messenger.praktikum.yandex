@@ -1,7 +1,8 @@
 import { BlockClass } from 'core';
+import { isEqual } from "utilities/helpers";
 
 type WithUserProps = {
-  user: UserData | null;
+    user: UserData | {};
 }
 
 /**
@@ -9,33 +10,35 @@ type WithUserProps = {
  * только при обернутом withStore хоке.
  */
 export function withUser<P extends WithUserProps>(WrappedBlock: BlockClass<P>) {
-  // @ts-expect-error No base constructor has the specified number of type arguments
-  return class extends WrappedBlock<P> {
-    public static componentName = WrappedBlock.componentName || WrappedBlock.name;
+    // @ts-expect-error No base constructor has the specified number of type arguments
+    return class extends WrappedBlock<P> {
+        public static componentName = WrappedBlock.componentName || WrappedBlock.name;
 
-      constructor(props: P) {
-        console.log("enter withUser");
-      super({ ...props, user: () => window.store.getState().user });
-      }
-      __onChangeStoreCallback = () => {
-      /**
-       * TODO: проверить что стор реально обновлен
-       * и прокидывать не целый стор, а необходимые поля
-       * с помощью метода mapStateToProps
-       */
-      // @ts-expect-error this is not typed
-      this.setProps({ ...this.props, store: window.store.user });
-    }
+        constructor(props: P) {
+            super({ ...props, user: window.store.getState().user });
+        }
+        __onChangeUserCallback = (prevStoreState: AppState, newStoreState: AppState) => {
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
-      window.store.on('changed', this.__onChangeStoreCallback);
-    }
+            /**
+             * TODO: проверить что стор реально обновлен
+             * и прокидывать не целый стор, а необходимые поля
+             * с помощью метода mapStateToProps
+             */
+            if (!isEqual(prevStoreState.user, newStoreState.user)) {
+                // @ts-expect-error this is not typed
+                this.setProps({ ...this.props, user: newStoreState.user });
+            }
+        }
 
-    componentWillUnmount() {
-      super.componentWillUnmount();
-      window.store.off('changed', this.__onChangeStoreCallback);
-    }
-  } as BlockClass<Omit<P, "user">>;
+        componentDidMount(props: P) {
+            super.componentDidMount(props);
+            window.store.on('changed', this.__onChangeUserCallback);
+        }
+
+        componentWillUnmount() {
+            super.componentWillUnmount();
+            window.store.off('changed', this.__onChangeUserCallback);
+        }
+    } as BlockClass<Omit<P, "user">>;
 
 }

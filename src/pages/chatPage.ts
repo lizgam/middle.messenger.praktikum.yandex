@@ -1,62 +1,60 @@
 import Card from "components/Card";
 import { Block, Router, Store } from "core";
 import { withStore, withRouter, withUser, Mode } from 'utilities';
-import { CardsSectionStub } from "../../data/data";
+import { threadId } from "worker_threads";
+import { CardsSectionStub } from "../data/data";
 
-interface ChatBoardProps {
+interface ChatPageProps {
     users: CardInfo[];
-    setMode?: () => void;
+    setMode?: (e: Event) => void;
     router: Router;
     store: Store<AppState>;
-    onChooseCard: (e: Event) => void;
+    user: UserData;
+    onChooseCard?: (e: Event) => void;
     mode: Mode;
+    showUser?: UserData | null;
 }
 
-export class ChatBoard extends Block<ChatBoardProps>{
-    static componentName = "ChatBoard";
+export class ChatPage extends Block<ChatPageProps>{
+    static componentName = "ChatPage";
 
-    constructor({ setMode, ...props }: ChatBoardProps) {
+    constructor({ setMode, ...props }: ChatPageProps) {
         super({
-            props,
+            ...props,
             users: CardsSectionStub,
+            onChooseCard: (e: Event) => {
+                const selectedCard = e.currentTarget;
+                console.log(">>>", selectedCard);
+                // this.props.store.dispatch({selectedCard: card})
+                // call cardAPI(userId, ) create webSocket
+            }
+
+
+        });
+        this.setProps({
+            //showUser: this.props.store.getState().user,
             setMode: (e: Event) => {
                 const item = (e.target as HTMLUListElement).getAttribute(
                     "name"
                 );
-                this.setProps({
-                    mode: item,
-                });
+
+                // this.props.store.dispatch({ mode: item });
+                // console.log('setting props', this.props);
+                let typedMode = item as Mode;
+                this.setProps({ mode: typedMode });
+                console.log('typedMode', typedMode);
 
                 this.props.profile_mode = this.props.mode === "Profile";
                 this.props.chat_mode = this.props.mode === "Chat";
                 this.props.addgroup_mode = this.props.mode === "Addgroup";
 
-                // let user = this.props.store.getState().user;
-                // console.log("!!!!! user", user);
             },
-             onChooseCard: (e: Event) => {
-                const selectedCard = e.currentTarget;
-                console.log(">>>", selectedCard);
-                // this.props.store.dispatch({selectedCard: card})
-                // call cardAPI(userId, ) create webSocket
-             }
-
-
-        });
-        this.setProps({
-            // onChooseUser: (card: Card) => {
-            //     debugger;
-            //     const selectedCard = card;
-            //     console.log(">>>", selectedCard);
-                // this.props.store.dispatch({selectedCard: card})
-                //call cardAPI(userId, ) create webSocket
-            // }
         })
-        // debugger;
     }
 
     render(): string {
-
+        //let user: UserData = showUser;
+        //console.log("###", user);
         return `
             <div class="chat-board">
                 <section class="cards-section">
@@ -104,4 +102,4 @@ export class ChatBoard extends Block<ChatBoardProps>{
     }
 }
 
-export default withRouter(withStore(withUser(ChatBoard)));
+export default withRouter(withStore(withUser(ChatPage)));

@@ -1,37 +1,37 @@
-export function trim(value: string, params="") {
-   if (params === "") {
-       params = "\xA0 ";
-   }
-   const expr = new RegExp(`^[${params}]+|[${params}]+\$`, "g");
-   return value.replace(expr, "");
+export function trim(value: string, params = "") {
+    if (params === "") {
+        params = "\xA0 ";
+    }
+    const expr = new RegExp(`^[${params}]+|[${params}]+\$`, "g");
+    return value.replace(expr, "");
 }
 
 
 
 export function merge(lhs: Indexed, rhs: Indexed): Indexed {
-  for (const key of Object.keys(lhs)) {
-    if (rhs[key] instanceof Object) {
-      Object.assign(lhs[key]as Indexed, merge(rhs[key]as Indexed, lhs[key]as Indexed))
+    for (const key of Object.keys(lhs)) {
+        if (rhs[key] instanceof Object) {
+            Object.assign(lhs[key] as Indexed, merge(rhs[key] as Indexed, lhs[key] as Indexed))
+        }
     }
-  }
 
-  Object.assign(lhs || {}, rhs)
-  return lhs;
+    Object.assign(lhs || {}, rhs)
+    return lhs;
 }
 
 
 export function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
-  if(typeof path !== "string") {
-    throw new Error ("path must be string");
-  }
-  if (typeof object !== "object" || object === null) {
-    return object;
-  }
-  const key = path.split(".");
-  const interObj = key.reduceRight<Indexed>((acc, curVal) => ({
-    [curVal]: acc,
-  }), value as any);
-	return merge(object as Indexed, interObj);
+    if (typeof path !== "string") {
+        throw new Error("path must be string");
+    }
+    if (typeof object !== "object" || object === null) {
+        return object;
+    }
+    const key = path.split(".");
+    const interObj = key.reduceRight<Indexed>((acc, curVal) => ({
+        [curVal]: acc,
+    }), value as any);
+    return merge(object as Indexed, interObj);
 }
 
 /*
@@ -53,7 +53,7 @@ const Foo4: PlainObject = { foo: 'str' };
 ~~~ Record<string,T>
 
 export function isEqual(a: PlainObject, b: PlainObject): boolean {
-	if (a === b) {
+    if (a === b) {
     return true;
   }
   else if ((typeof a == "object" && a != null) && (typeof b == "object" && b != null)) {
@@ -116,29 +116,29 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
 }
 
 function getKey(key: string, parentKey?: string) {
-  return parentKey ? `${parentKey}[${key}]` : key;
+    return parentKey ? `${parentKey}[${key}]` : key;
 }
 
 function getParams(data: PlainObject | [], parentKey?: string) {
-  const result: [string, string][] = [];
+    const result: [string, string][] = [];
 
-  for(const [key, value] of Object.entries(data)) {
-    if (isArrayOrObject(value)) {
-      result.push(...getParams(value, getKey(key, parentKey)));
-    } else {
-      result.push([getKey(key, parentKey), encodeURIComponent(String(value))]);
+    for (const [key, value] of Object.entries(data)) {
+        if (isArrayOrObject(value)) {
+            result.push(...getParams(value, getKey(key, parentKey)));
+        } else {
+            result.push([getKey(key, parentKey), encodeURIComponent(String(value))]);
+        }
     }
-  }
 
-  return result;
+    return result;
 }
 
 export function queryStringify(data: PlainObject) {
-  if (!isPlainObject(data)) {
-    throw new Error('input must be an object');
-  }
+    if (!isPlainObject(data)) {
+        throw new Error('input must be an object');
+    }
 
-  return getParams(data).map(arr => arr.join('=')).join('&');
+    return getParams(data).map(arr => arr.join('=')).join('&');
 }
 
 /*
@@ -249,33 +249,33 @@ export function cloneDeep<T extends object = object>(obj: T) {
 
 export function deepCopy<T>(target: T): T {
     if (target === null) {
-      return target
+        return target
     }
     if (target instanceof Date) {
-      return new Date(target.getTime()) as any
+        return new Date(target.getTime()) as any
     }
     // First part is for array and second part is for Realm.Collection
     // if (target instanceof Array || typeof (target as any).type === 'string') {
     if (typeof target === 'object') {
-      if (typeof (target as { [key: string]: any })[(Symbol as any).iterator] === 'function') {
-        const cp = [] as any[]
-        if ((target as any as any[]).length > 0) {
-          for (const arrayMember of target as any as any[]) {
-            cp.push(deepCopy(arrayMember))
-          }
+        if (typeof (target as { [key: string]: any })[(Symbol as any).iterator] === 'function') {
+            const cp = [] as any[]
+            if ((target as any as any[]).length > 0) {
+                for (const arrayMember of target as any as any[]) {
+                    cp.push(deepCopy(arrayMember))
+                }
+            }
+            return cp as any as T
+        } else {
+            const targetKeys = Object.keys(target)
+            const cp = {} as { [key: string]: any };
+            if (targetKeys.length > 0) {
+                for (const key of targetKeys) {
+                    cp[key] = deepCopy((target as { [key: string]: any })[key])
+                }
+            }
+            return cp as T
         }
-        return cp as any as T
-      } else {
-        const targetKeys = Object.keys(target)
-        const cp = {} as { [key: string]: any };
-        if (targetKeys.length > 0) {
-          for (const key of targetKeys) {
-            cp[key] = deepCopy((target as { [key: string]: any })[key])
-          }
-        }
-        return cp as T
-      }
     }
     // Means that object is atomic
     return target
-  }
+}

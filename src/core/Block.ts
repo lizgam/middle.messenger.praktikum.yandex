@@ -5,7 +5,7 @@ import Handlebars from "handlebars";
 type Events = Values<typeof Block.EVENTS>;
 
 export interface BlockClass<P> extends Function {
-  new (props: P): Block<P>;
+    new(props: P): Block<P>;
     componentName?: string;
 }
 
@@ -14,6 +14,7 @@ export default class Block<P = any> {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
         FLOW_CDU: "flow:component-did-update",
+        FLOW_CWU: 'flow:component-will-unmount',
         FLOW_RENDER: "flow:render",
     } as const;
 
@@ -43,9 +44,25 @@ export default class Block<P = any> {
         eventBus.emit(Block.EVENTS.INIT, this.props);
     }
 
+    /**
+     * Хелпер, который проверяет, находится ли элемент в DOM дереве
+     * И есть нет, триггерит событие COMPONENT_WILL_UNMOUNT
+     */
+    _checkInDom() {
+        const elementInDOM = document.body.contains(this._element);
+
+        if (elementInDOM) {
+            setTimeout(() => this._checkInDom(), 1000);
+            return;
+        }
+
+        this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
+    }
+
     private _registerEvents(eventBus: EventBus<Events>) {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
@@ -68,10 +85,22 @@ export default class Block<P = any> {
     }
 
     private _componentDidMount(props: P) {
-        Object.values(this.children).forEach((child) => {
-            child.dispatchComponentDidMount();
-        });
+        // Object.values(this.children).forEach((child) => {
+        //     child.dispatchComponentDidMount();
+        // });
+
+        this._checkInDom();
+        this.componentDidMount(props);
     }
+
+    protected componentDidMount(props: P): void { }
+
+    private _componentWillUnmount() {
+        this.eventBus().destroy();
+        this.componentWillUnmount();
+    }
+
+    protected componentWillUnmount() { }
 
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);

@@ -1,44 +1,43 @@
 import EventBus from './EventBus';
 
 export type Dispatch<State> = (
-  nextStateOrAction: Partial<State> | Action<State>,
-  payload?: any,
+    nextStateOrAction: Partial<State> | Action<State>,
+    payload?: any,
 ) => void;
 
 export type Action<State> = (
-  dispatch: Dispatch<State>,
-  state: State,
-  payload: any,
+    dispatch: Dispatch<State>,
+    store: State,
+    payload: any,
 ) => void;
 
 export class Store<State extends Record<string, any>> extends EventBus {
-  private state: State = {} as State;
+    private state: State = {} as State;
 
-  constructor(defaultState: State) {
-    super();
+    constructor(defaultState: State) {
+        super();
 
-    this.state = defaultState;
-    this.set(defaultState);
-  }
+        this.state = defaultState;
+        this.set(defaultState);
+    }
 
-  public getState() {
-    return this.state;
-  }
+    public getState() {
+        return this.state;
+    }
 
-  public set(nextState: Partial<State>) {
-    const prevState = { ...this.state };
+    public set(nextState: Partial<State>) {
+        const prevState = { ...this.state };
 
-    this.state = { ...this.state, ...nextState };
+        this.state = { ...this.state, ...nextState };
 
-    this.emit('changed', prevState, nextState);
-  }
+        this.emit('changed', prevState, nextState);
+    }
 
     dispatch(nextStateOrAction: Partial<State> | Action<State>, payload?: any) {
-    console.log('dispatch nextState/Action, payload:', nextStateOrAction, payload)
-    if (typeof nextStateOrAction === 'function') {
-      nextStateOrAction(this.dispatch.bind(this), this.state, payload);
-    } else {
-      this.set({ ...this.state, ...nextStateOrAction });
+        if (typeof nextStateOrAction === 'function') {
+            nextStateOrAction(this.dispatch.bind(this), this.state, payload);
+        } else {
+            this.set({ ...this.state, ...nextStateOrAction });
+        }
     }
-  }
 }

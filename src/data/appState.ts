@@ -4,8 +4,8 @@ export const defaultState: AppState = {
     isLoading: true,
     page: null,
     authError: null,
-    user: null,
+    user: {},
     mode: Mode.Profile,
     cards: null,
-    selectedCard:  null,
+    selectedCard: null,
 };

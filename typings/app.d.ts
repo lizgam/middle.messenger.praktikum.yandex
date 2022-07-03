@@ -17,7 +17,7 @@ declare global {
         isLoading: boolean;
         page: Page | null,
         authError: string | null,
-        user: UserData | null,
+        user: UserData | {},
         mode: EnumType | null,
         cards: CardInfo[] | null,
         selectedCard: CardInfo | null,
@@ -60,4 +60,4 @@ declare global {
     };
 }
 
-export {};
+export { };
