@@ -34,7 +34,6 @@
 
 .chat-board {
   width: 100%;
-  height: 80vh;
   min-height: 600px;
   display: flex;
   justify-content: space-between;
@@ -247,7 +246,7 @@ span.card__msg-details__msg_counter {
   align-self: center;
   flex-wrap: wrap-reverse;
   width: 100%;
-  overflow-y: auto;
+  position: relative;
 
   & .form_input {
     position: relative;

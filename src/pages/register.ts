@@ -3,7 +3,7 @@ import { register } from "../services/auth";
 import { Block, Router, Store } from "core";
 import { withStore, withRouter } from 'utilities';
 
-interface RegisterPageProps {
+type RegisterPageProps = {
     onRegister?: () => void;
     errorMsg?: string;
     router: Router;
@@ -54,7 +54,7 @@ export class RegisterPage extends Block<RegisterPageProps> {
         }
     }
     componentDidMount() {
-        if (this.props.store.getState().user) {
+        if (this.props.store.getState().user === {}) {
             this.props.router.go('/profile');
         }
     }

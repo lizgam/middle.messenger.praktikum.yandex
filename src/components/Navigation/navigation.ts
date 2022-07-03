@@ -25,7 +25,7 @@ export class Navigation extends Block {
                 <ul class="main-board__nav-list">
                     <li class="{{#if isProfile}} active-mode{{/if}}" name="Profile">My profile</li>
                     <li class="{{#if isChat}} active-mode{{/if}}" name="Chat">Chat</li>
-                    <li class="{{#if isAddgroup}} active-mode{{/if}}" name="Addgroup">Add group</li>
+                    <li class="{{#if isAddgroup}} active-mode{{/if}}" name="Addgroup">Add chat</li>
                 </ul>
             </nav>
          `;

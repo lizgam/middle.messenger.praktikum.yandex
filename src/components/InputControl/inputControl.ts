@@ -86,9 +86,10 @@ export class InputControl extends Block {
             </div>
 
             {{#if edit}}
-                <span class="form_editMode">Edit</span>
+                {{{ Link linkClass="form_editMode" address="/editInfo" linkText="Edit"}}}
             {{/if}}
         </div>
             `;
     }
 }
+

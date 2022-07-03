@@ -7,6 +7,7 @@ export interface InputProps {
     placeholder?: string;
     value?: string;
     disabled?: boolean;
+    acceptfile?: string;
 
     onChange?: () => void;
     onEnter?: () => void;
@@ -44,6 +45,7 @@ export class Input extends Block {
             placeholder="{{placeholder}}"
             value="{{value}}"
             {{#if disabled}} disabled {{/if}}
+            {{#if acceptfile}} accept="{{acceptfile}}{{/if}}"
          />
          `;
     }

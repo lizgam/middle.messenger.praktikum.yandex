@@ -3,24 +3,29 @@ import Block from "../../core/Block";
 interface LinkProps {
     linkText: string;
     address: string;
+    linkClass?: string;
+    editClick?: () => void;
+    events?: Record<string, unknown>;
 }
 
-export class Link extends Block {
-    constructor(props: LinkProps) {
-        super({
-            ...props,
-            onClick: (e: MouseEvent) => {
-                console.log("clicked on link", props.address);
-                document.location.pathname = props.address;
-                e.preventDefault();
-            },
-        });
-    }
+export class Link extends Block<LinkProps> {
     static componentName = "Link";
+    constructor({ editClick, ...props }: LinkProps) {
+        super({
+            events: { click: editClick },
+            ...props,
+        });
+        // onClick: (e: MouseEvent) => {
+        //     console.log("clicked on link", props.address);
+        //     document.location.pathname = props.address;
+        //     e.preventDefault();
+        // },
+    }
 
-    render() {
+
+    protected render() {
         return `
-        <a href="{{address}}"> {{ linkText }}</a>
+        <a class="{{linkClass}}" href="{{address}}"> {{ linkText }}</a>
         `;
     }
 }

@@ -34,7 +34,7 @@ export class LoginPage extends Block<LoginPageProps> {
         this.setProps({
             formError: () => this.props.store.getState().authError,
         });
-        console.log('enter LoginPage. props', props);
+        console.log('enter LoginPage. props', props); //??? 2 times?
     }
 
     protected getStateFromProps(): void {
@@ -43,8 +43,8 @@ export class LoginPage extends Block<LoginPageProps> {
         }
     }
     componentDidMount() {
-        if (this.props.store.getState().user) {
-            this.props.router.go('/profile');
+        if (this.props.store.getState().user === {}) {
+            this.props.router.go('/chat');
         }
     }
 

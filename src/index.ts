@@ -12,7 +12,9 @@ import ChatPage from "./pages/chatPage";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import ErrorPage from "./pages/errorPage";
-import EditInfoPage from "./pages/editInfo";
+import EditPasswordPage from "./pages/editInfo";
+import ProfilePage from "./pages/profile";
+import CreateChatPage from "./pages/createChat";
 
 import Addgroup from "./components/Addgroup";
 import Button from "./components/Button";
@@ -85,7 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .use('/register', RegisterPage)
         .use('/chat', ChatPage)
         .use('/errorPage', ErrorPage)
-        .use('/editInfo', EditInfoPage)
+        .use('/profile', ProfilePage)
+        .use('/editInfo', EditPasswordPage)
+        .use('/createChat', CreateChatPage)
         .use('/', LoginPage)
         .use('*', LoginPage)
 

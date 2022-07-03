@@ -15,6 +15,7 @@ declare global {
 
     export type AppState = {
         isLoading: boolean;
+        isEditAvatar: boolean;
         page: Page | null,
         authError: string | null,
         user: UserData | {},

@@ -1,15 +1,17 @@
 import { UserInfoProfileStub } from "../data/data";
+import { ValidationRule } from "../utilities/validation";
 import { Block, Router, Store } from "core";
-//import {  } from "../../services/editUserInfo"; //TODO
+import { changeAvatar, changePassword } from "../services/user"; //TODO
 import { withStore, withRouter } from 'utilities';
 
 type UserDataKey = keyof UserData;
 
 interface EditInfoPageProps {
-    userInfo?: UserData;
-    editedField?: UserDataKey;
-    isPassword?: boolean;
+    user?: UserData;
     errorMsg?: string;
+    router: Router;
+    store: Store<AppState>;
+    isEditAvatar: boolean;
     onClose?: () => void;
     onSave?: () => void;
 }
@@ -18,68 +20,84 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
     constructor(props: EditInfoPageProps) {
         super({
             ...props,
-            userInfo: UserInfoProfileStub,
-            editedField: "login",
-            isPassword: false,
+            isEditAvatar: true,
             onSave: () => {
-                const field = this.props.editedField;
-                const editedData = {
-                    editedField: (
-                        document.getElementById(field) as HTMLInputElement
+                const passwordSet = {
+                    oldPassword: (
+                        this.element?.querySelector('[name="oldPassword"]') as HTMLInputElement
+                    ).value,
+                    newPassword: (
+                        this.element?.querySelector('[name="newPassword"]') as HTMLInputElement
                     ).value,
                 };
-
-                const fieldError = (this.refs[field] as EditInfoPage).refs
-                    .error;
-
-                if ((fieldError as EditInfoPage).props.errorMsg === "") {
-                    console.log("New", field, "was setted!", editedData);
+                if (this.checkFormValidity()) {
+                    this.props.store.dispatch(changePassword, passwordSet) // for password
                 }
             },
+            onClose: () => {
+                console.log("GO TO Profile")
+            }
         });
+    }
+    checkFormValidity() {
+        const oldPasswordError = (this.refs.oldPassword as EditInfoPage).refs.error;
+        const newPasswordError = (this.refs.newPassword as EditInfoPage).refs.error;
+
+        const inputMsgValidArray = [oldPasswordError, newPasswordError];
+
+        if (
+            inputMsgValidArray.every(
+                (msgInput) => (msgInput as EditInfoPage).props.errorMsg === ""
+            )
+        ) {
+            return true;
+        } else {
+            inputMsgValidArray
+                .filter(
+                    (errorLabel) =>
+                        (errorLabel as EditInfoPage).props.errorMsg === undefined
+                )
+                .map((errorLabel) =>
+                    errorLabel.setProps({
+                        errorMsg: "Field can not be empty",
+                    })
+                );
+            return false;
+        }
     }
 
     protected render() {
-        const userDataObj = this.props.userInfo;
-        const editField = this.props.editedField;
-        let val = this.props.isPassword ? "" : userDataObj[editField];
-        let infoType = "";
-        switch (editField) {
-            case "email":
-                infoType = "email";
-                break;
-            case "password":
-                infoType = "password";
-                val = "";
-                break;
-            case "phone":
-                infoType = "tel";
-                break;
-            default:
-                infoType = "text";
-        }
 
         return `
             <div class="chat-board edit_mode">
                 <section class="form_container">
-                    <h2>Edit ${editField}:</h2>
+                    <h2>Edit Info:</h2>
                     <form action="#" method="post">
-                        {{{InputControl
-                            label = "${editField}"
-                            id="${editField}"
-                            name = "${editField}"
-                            validationRule = "${editField}"
-                            value="${val}"
-                            ref="${editField}"
-                            inputType = "${infoType}"
-                        }}}
-                        {{#if isPassword}}
+
+                        {{#if isEditAvatar}}
                             {{{InputControl
-                                label = "Repeat password"
-                                id="passwordConfermed"
-                                name = "password"
-                                value="${val}"
-                                ref="passwordConfermed"
+                                label = "Choose file for avatar"
+                                id="avatar"
+                                name = "avatar"
+                                ref="avatar"
+                                inputType = "file"
+                                acceptfile = "image/png, image/jpeg"
+                            }}}
+                        {{else}}
+                            {{{InputControl
+                                label = "Enter old password"
+                                id="oldPassword"
+                                name = "oldPassword"
+                                validationRule = "${ValidationRule.Password}"
+                                ref="oldPassword"
+                                inputType = "password"
+                            }}}
+                            {{{InputControl
+                                label = "Enter new password"
+                                id="newPassword"
+                                name = "newPassword"
+                                validationRule = "${ValidationRule.Password}"
+                                ref="repeatedPassword"
                                 inputType = "password"
                             }}}
                         {{/if}}
@@ -91,7 +109,7 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                                 passive="passive"
                             }}}
                             {{{ Button
-                                btnText="Save"
+                                btnText="Update"
                                 onClick=onSave
                             }}}
                         </div>

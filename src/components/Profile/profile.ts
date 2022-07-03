@@ -4,7 +4,7 @@ import { withStore, withRouter } from 'utilities';
 import { logout } from "../../services/auth";
 
 interface ProfileProps {
-    userInfo: UserData;
+    user: UserData;
     onLogout?: () => void;
     router: Router;
     store: Store<AppState>;
@@ -14,7 +14,6 @@ export class Profile extends Block<ProfileProps> {
     constructor(props: ProfileProps) {
         super({
             ...props,
-            userInfo: UserInfoProfileStub,
             onLogout: () => {
                 this.props.store.dispatch(logout);
             },
@@ -27,7 +26,7 @@ export class Profile extends Block<ProfileProps> {
         //let user = this.props.store.getState().user;
 
         //console.log("user", user);
-        const { ...values } = this.props.userInfo;
+        const { ...values } = this.props.user;
         return `
         <section class="messages-board form_container profile_mode">
             {{{ Button btnText="Log out" onClick=onLogout }}}

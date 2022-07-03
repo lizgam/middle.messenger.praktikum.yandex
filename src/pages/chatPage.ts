@@ -1,7 +1,6 @@
 import Card from "components/Card";
 import { Block, Router, Store } from "core";
 import { withStore, withRouter, withUser, Mode } from 'utilities';
-import { threadId } from "worker_threads";
 import { CardsSectionStub } from "../data/data";
 
 interface ChatPageProps {
@@ -53,7 +52,8 @@ export class ChatPage extends Block<ChatPageProps>{
     }
 
     render(): string {
-        //let user: UserData = showUser;
+        const user: {} | UserData = this.props.store.getState().user;
+        const { ...values } = user;
         //console.log("###", user);
         return `
             <div class="chat-board">
@@ -62,7 +62,7 @@ export class ChatPage extends Block<ChatPageProps>{
                         {{{ InputControl placeholder="Enter searching name" inputType="search" }}}
                     </div>
                     <div class="cards-section__chat-panel">
-                        <div style="display: block;position: absolute;left: 1000px;top: 150px;width: 20%;">Hello, ${this.props.mode}</div>
+                        <div style="display: block;position: absolute;left: 1000px;top: 150px;width: 20%;">Hello, ${values.displayed_name}</div>
                         <ul id="nav-list" class="card-section__nav-list">
                             {{#each users}}
                             <li class="user-card">

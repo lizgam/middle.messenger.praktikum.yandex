@@ -1,11 +1,11 @@
 import AuthAPI from "../api/authAPI";
 import { UserDataDTO, APIError } from "api/types";
 import type { Dispatch } from "core";
-import { transformUser, isErrorResponse } from "utilities";
+import { transformUser, isErrorResponse, Mode } from "utilities";
 
 type LoginPayload = {
-  login: string;
-  password: string;
+    login: string;
+    password: string;
 };
 
 type RegisterPayload = {
@@ -18,9 +18,9 @@ type RegisterPayload = {
 };
 
 export const login = async (
-  dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: LoginPayload,
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: LoginPayload,
 ) => {
     dispatch({ isLoading: true });
 
@@ -42,15 +42,15 @@ export const login = async (
         return;
     }
 
-    dispatch({ user: transformUser(responseReadUser as UserDataDTO) });
+    dispatch({ user: transformUser(responseReadUser as UserDataDTO), mode: Mode.Profile });
 
     window.router.go('/chat');
 };
 
 export const register = async (
-  dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: RegisterPayload,
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: RegisterPayload,
 ) => {
     dispatch({ isLoading: true });
 
@@ -83,7 +83,7 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
 
     await api.logout();
 
-    dispatch({ isLoading: false, user: null });
+    dispatch({ isLoading: false, user: {} });
 
     window.router.go('/login');
 };

@@ -1,13 +1,18 @@
 
 import ChatsAPI from "../api/chatsAPI";
-import {  APIError } from "api/types";
+import { APIError } from "api/types";
 import type { Dispatch } from "core";
 import { transformCards, isErrorResponse } from "utilities";
 
 type CardsRequestData = {
-   offset?: number;
-   limit?: number;
-   title?: string;
+    offset?: number;
+    limit?: number;
+    title?: string;
+}
+
+type AddUserRequestData = {
+    users: number[],
+    chatId: number
 }
 
 
@@ -23,4 +28,8 @@ export const getChats = async (dispatch: Dispatch<AppState>, state: AppState, ac
         return;
     }
     dispatch({ isLoading: false, cards: transformCards(response as CardInfo[]) });
+};
+
+export const addUserToChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddUserRequestData) => {
+
 };
