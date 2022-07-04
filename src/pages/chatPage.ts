@@ -2,6 +2,8 @@ import Card from "components/Card";
 import { Block, Router, Store } from "core";
 import { withStore, withRouter, withUser, Mode } from 'utilities';
 import { CardsSectionStub } from "../data/data";
+import { createChat } from "services/chats";
+import { getChats } from "services/chats"
 
 interface ChatPageProps {
     users: CardInfo[];
@@ -9,30 +11,31 @@ interface ChatPageProps {
     router: Router;
     store: Store<AppState>;
     user: UserData;
-    onChooseCard?: (e: Event) => void;
+    onChooseCard?: (card: CardInfo) => void;
     mode: Mode;
     showUser?: UserData | null;
+    cards?: CardInfo[] | null;
 }
 
 export class ChatPage extends Block<ChatPageProps>{
     static componentName = "ChatPage";
 
-    constructor({ setMode, ...props }: ChatPageProps) {
-        super({
-            ...props,
-            users: CardsSectionStub,
-            onChooseCard: (e: Event) => {
-                const selectedCard = e.currentTarget;
-                console.log(">>>", selectedCard);
-                // this.props.store.dispatch({selectedCard: card})
-                // call cardAPI(userId, ) create webSocket
-            }
+    constructor(props: ChatPageProps) {
+        super(props);
 
-
-        });
+        console.log('constructor called');
         this.setProps({
+            chat_mode: true,
+            onChooseCard: (card: CardInfo) => {
+                // console.log(">>>", card);
+                // debugger;
+
+                // this.props.store.dispatch(createChat, {userId: this.props.user.id, chatId: "81"});
+                // call cardAPI(userId, ) create webSocket
+            },
             //showUser: this.props.store.getState().user,
             setMode: (e: Event) => {
+                debugger;
                 const item = (e.target as HTMLUListElement).getAttribute(
                     "name"
                 );
@@ -43,18 +46,27 @@ export class ChatPage extends Block<ChatPageProps>{
                 this.setProps({ mode: typedMode });
                 console.log('typedMode', typedMode);
 
-                this.props.profile_mode = this.props.mode === "Profile";
-                this.props.chat_mode = this.props.mode === "Chat";
-                this.props.addgroup_mode = this.props.mode === "Addgroup";
+                // this.props.profile_mode = false;
+                // this.props.chat_mode = true;
+                // this.props.addgroup_mode = false;;
 
             },
         })
     }
 
+    async componentDidMount() {
+        // debugger;
+        const cardsList = this.props.store.getState().cards
+        if (!cardsList) {
+            await this.props.store.dispatch(getChats);
+        }
+    }
+
     render(): string {
         const user: {} | UserData = this.props.store.getState().user;
         const { ...values } = user;
-        //console.log("###", user);
+        console.log('cards received: ', this.props.store.getState().cards);
+
         return `
             <div class="chat-board">
                 <section class="cards-section">
@@ -64,16 +76,12 @@ export class ChatPage extends Block<ChatPageProps>{
                     <div class="cards-section__chat-panel">
                         <div style="display: block;position: absolute;left: 1000px;top: 150px;width: 20%;">Hello, ${values.displayed_name}</div>
                         <ul id="nav-list" class="card-section__nav-list">
-                            {{#each users}}
+                            {{#each store.state.cards}}
                             <li class="user-card">
                                 {{{ Card
                                     selected=store.state.selectedCard
                                     ref="card"
-                                    name=this.name
-                                    message=this.message
-                                    date=this.date
-                                    count=this.count
-                                    avatar=this.avatar
+                                card=this
                                     onChooseCard=../onChooseCard
                                 }}}
                             </li>
@@ -84,17 +92,11 @@ export class ChatPage extends Block<ChatPageProps>{
                 </section>
                 <section class="main-board-section">
 
-                    {{{ Navigation onClick=setMode mode="${this.props.mode}"}}}
+                    {{{ Navigation}}}
+                    {{{ Chat }}}
 
-                    {{#if profile_mode}}
-                        {{{ Profile }}}
-                    {{/if }}
-                    {{#if chat_mode }}
-                        {{{ Chat }}}
-                    {{/if }}
-                    {{#if addgroup_mode }}
-                        {{{ Addgroup }}}
-                    {{/if }}
+
+
 
                 </section>
             </div>
@@ -103,3 +105,7 @@ export class ChatPage extends Block<ChatPageProps>{
 }
 
 export default withRouter(withStore(withUser(ChatPage)));
+
+// {{#if selectedCard}}
+// {{else }}<h3>Hello, ${this.props.user.first_name} <br>Select chat to start chatting or create new Chat</h3>
+// {{/if}}

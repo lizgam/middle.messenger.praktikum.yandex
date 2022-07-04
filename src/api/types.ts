@@ -27,13 +27,14 @@ export type LastMessageDTO = {
   content: string;
 };
 
+// {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
 export type ChatMessageDTO = {
   id: number;
-  is_read: boolean;
-  content: string;
   user_id: number;
   chat_id: number;
   time: Date;
+  content: string;
+  is_read: boolean;
 };
 
 export type ChangePasswordDataDTO = {

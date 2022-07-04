@@ -8,8 +8,6 @@ import { withStore, withRouter, withUser } from 'utilities';
 type UserDataKey = keyof UserData;
 
 interface EditInfoPageProps {
-    userInfo?: UserData;
-    editedField?: UserDataKey;
     isEditAvatar?: boolean;
     errorMsg?: string;
     user: UserData;
@@ -43,12 +41,12 @@ export class ProfilePage extends Block<EditInfoPageProps> {
                 this.props.store.dispatch(logout);
             },
             editAvaClick: () => {
-                console.log("EDIT AVA");
-                this.props.store.dispatch(setEditMode);
+                // this.props.store.dispatch({ isEditAvatar: true });
+                this.props.router.go("/editInfo/avatar");
             },
             editPasswordClick: () => {
-                this.setProps({ isEditAvatar: false });
-                console.log("EDIT PASSWWORD");
+                // this.props.store.dispatch({ isEditAvatar: false });
+                this.props.router.go("/editInfo/password");
             }
         });
     }
@@ -71,20 +69,21 @@ export class ProfilePage extends Block<EditInfoPageProps> {
                             {{else}}
                                 <div class="profile-avatar"></div>
                             {{/if}}
-                            {{{ Link linkClass="form_edit avatar_block__span" address="/editInfo" linkText="Edit" editClick=editAvaClick}}}
+                            {{{Edit editText="Edit avatar" editClick=editAvaClick}}}
                         </div>
                         {{{ InputControl label="First Name" id="first_name" name="first_name" ref="first_name" inputType="text" value="${values.first_name}"}}}
                         {{{ InputControl label="Second Name" id="second_name" name="second_name" ref="second_name" inputType="text" value="${values.second_name}"}}}
                         {{{ InputControl label="Displayed Name" id="displayed_name" name="displayed_name" ref="displayed_name" inputType="text" value="${values.displayed_name}"}}}
                         {{{ InputControl label="Email" id="email" name="email" ref="email" inputType="email" value="${values.email}"}}}
                         {{{ InputControl label="Login" id="login" name="login" ref="login" inputType="text" value="${values.login}"}}}
-                        {{{ InputControl label="Password" id="password" name="password" ref="password" inputType="password" value="${values.password}" edit=true disabled=true}}}
+                        {{{Edit editText="Edit password" editClick=editPasswordClick}}}
+                        {{{ InputControl label="Password" id="password" name="password" ref="password" inputType="password" value="${values.password}" disabled=true}}}
                         {{{ InputControl label="Phone" id="phone" name="phone" ref="phone" inputType="tel" value="${values.phone}"}}}
                     </form>
 
                         <div class="button-container">
                             {{{ Button
-                                btnText="Close"
+                                btnText="Back to chats"
                                 onClick=onClose
                                 passive="passive"
                             }}}

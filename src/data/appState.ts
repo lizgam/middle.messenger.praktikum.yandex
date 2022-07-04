@@ -1,8 +1,8 @@
 import { Mode } from "utilities";
 
 export const defaultState: AppState = {
-    isLoading: true,
-    isEditAvatar: false,
+    isLoading: false,
+    // isEditAvatar: false,
     page: null,
     authError: null,
     user: {},

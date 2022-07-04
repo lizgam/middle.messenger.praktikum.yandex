@@ -42,7 +42,8 @@ export const login = async (
         return;
     }
 
-    dispatch({ user: transformUser(responseReadUser as UserDataDTO), mode: Mode.Profile });
+    dispatch({ user: transformUser(responseReadUser as UserDataDTO) });
+    // dispatch({ user: transformUser(responseReadUser as UserDataDTO), mode: Mode. });
 
     window.router.go('/chat');
 };

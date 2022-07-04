@@ -5,7 +5,6 @@ import Block from "../../core/Block";
 interface InputControlProps extends InputProps {
     label?: string;
     avatar?: string;
-    edit?: boolean;
     value?: string;
     validationRule?: ValidationRule;
 }
@@ -16,7 +15,6 @@ export class InputControl extends Block {
         label,
         avatar,
         value,
-        edit,
         validationRule,
         ...props
     }: InputControlProps) {
@@ -24,7 +22,6 @@ export class InputControl extends Block {
             ...props,
             label,
             avatar,
-            edit,
             value,
             validationRule,
             onChange: (e: Event) => {
@@ -61,33 +58,23 @@ export class InputControl extends Block {
             {{#if label}}
                 <label for="{{name}}" class="input_label">{{label}}</label>
             {{/if}}
-
-            {{#if avatar}}
-                {{{Input inputType=inputType name=name}}}
-
-            {{else}}
-                {{{Input
-                    id=id
-                    inputType=inputType
-                    ref="input"
-                    name=name
-                    placeholder=placeholder
-                    value=value
-                    onChange=onChange
-                    onFocus=onFocus
-                    onBlur=onBlur
-                    onEnter=onEnter
-                    disabled=disabled}}}
-
-            {{/if}}
+            {{{Input
+                id=id
+                inputType=inputType
+                ref="input"
+                name=name
+                placeholder=placeholder
+                value=value
+                onChange=onChange
+                onFocus=onFocus
+                onBlur=onBlur
+                onEnter=onEnter
+                disabled=disabled
+            }}}
 
             <div class="input__error">
                 {{{ErrorLabel ref="error"}}}
             </div>
-
-            {{#if edit}}
-                {{{ Link linkClass="form_editMode" address="/editInfo" linkText="Edit"}}}
-            {{/if}}
         </div>
             `;
     }

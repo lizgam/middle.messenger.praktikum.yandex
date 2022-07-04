@@ -2,7 +2,7 @@ import { SelectedUserStub } from "../../data/data";
 import Block from "../../core/Block";
 
 interface ChatProps {
-    messagedUserInfo: CardInfo;
+    // messagedUserInfo: CardInfo;
 }
 
 export class Chat extends Block<ChatProps> {
@@ -10,7 +10,7 @@ export class Chat extends Block<ChatProps> {
     constructor(props: ChatProps) {
         super({
             ...props,
-            messagedUserInfo: SelectedUserStub,
+            // messagedUserInfo: SelectedUserStub,
         });
     }
 

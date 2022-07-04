@@ -15,6 +15,7 @@ type ChatUserRequestData = {
    chatId: number;
 }
 
+
 export default class ChatsAPI extends BaseAPI {
    constructor() {
        super("/chats");
@@ -34,6 +35,10 @@ export default class ChatsAPI extends BaseAPI {
 
    removeUserFromChat(data: ChatUserRequestData): Promise<unknown> {
        return this.http.delete("/users", { data, headers: { "Content-Type": "application/json" } });
+   }
+
+   getToken(chatId: number): Promise<unknown> {
+        return this.http.post(`/token/${chatId}`, { headers: { "Content-Type": "application/json" }} );
    }
 
    create = undefined;

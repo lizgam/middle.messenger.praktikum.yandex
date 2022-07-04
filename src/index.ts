@@ -12,7 +12,7 @@ import ChatPage from "./pages/chatPage";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import ErrorPage from "./pages/errorPage";
-import EditPasswordPage from "./pages/editInfo";
+import EditInfoPage from "./pages/editInfo";
 import ProfilePage from "./pages/profile";
 import CreateChatPage from "./pages/createChat";
 
@@ -24,6 +24,7 @@ import ErrorLabel from "./components/ErrorLabel";
 import Input from "./components/Input";
 import InputControl from "./components/InputControl";
 import Link from "./components/Link";
+import Edit from "./components/Edit";
 import MessageBoard from "./components/MessageBoard";
 import Message from "./components/Message";
 import Navigation from "./components/Navigation";
@@ -39,6 +40,7 @@ registerComponent(ErrorLabel);
 registerComponent(Input);
 registerComponent(InputControl);
 registerComponent(Link);
+registerComponent(Edit);
 registerComponent(MessageBoard);
 registerComponent(Message);
 registerComponent(Navigation);
@@ -69,13 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
      * для переключения активного экрана
      */
     store.on('changed', (prevState, nextState) => {
+        // console.log('store update triggered');
         router.start();
         //if (process.env.DEBUG) {
-        console.log(
-            '%cstore updated',
-            'background: #222; color: #bada55',
-            nextState
-        );
+        // console.log(
+        //     '%cstore updated',
+        //     'background: #222; color: #bada55',
+        //     nextState
+        // );
     });
 
     /**
@@ -88,7 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .use('/chat', ChatPage)
         .use('/errorPage', ErrorPage)
         .use('/profile', ProfilePage)
-        .use('/editInfo', EditPasswordPage)
+        .use('/editInfo/avatar', EditInfoPage, { isEditAvatar: true })
+        .use('/editInfo/password', EditInfoPage, { isEditAvatar: false })
         .use('/createChat', CreateChatPage)
         .use('/', LoginPage)
         .use('*', LoginPage)

@@ -34,13 +34,16 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                 }
             },
 
-            onClose: () => { },
+
+            onClose: () => {
+                window.router.go('/chat');
+            },
             onCreate: () => { }
         });
     }
     componentDidMount() {
         if (this.props.store.getState().user === {}) {
-            this.props.router.go('/chats');
+            this.props.router.go('/login');
         }
     }
 
@@ -60,7 +63,7 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                         }}}
                         <div class="button-container">
                             {{{ Button
-                                btnText="Back"
+                                btnText="Back to chats"
                                 onClick=onClose
                                 passive="passive"
                             }}}

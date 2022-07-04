@@ -1,7 +1,7 @@
 import Block from "../../core/Block";
 
 export interface CardProps {
-    users: CardInfo[];
+    card: CardInfo;
     onDelete: () => void;
     onChooseCard: (card: CardInfo) => void;
 }
@@ -10,31 +10,30 @@ export class Card extends Block {
     static componentName = "Card";
     constructor({ onDelete, onChooseCard, ...props }: CardProps) {
         super({
-            events: { click: onChooseCard, delete: onDelete },
+            events: { click: () => {onChooseCard(props.card)}, delete: onDelete },
             ...props,
         });
     }
 
-
     protected render(): string {
         return `
             <div class="card {{#if selected}}card_selected{{/if}}">
-                {{#if this.avatar}}
-                    <img class="card-avatar" src="{{{this.avatar}}}" alt="">
+                {{#if card.avatar}}
+                    <img class="card-avatar" src="{{{card.avatar}}}" alt="">
                 {{else}}
                     <div class="card-avatar"></div>
                 {{/if}}
 
                 <div class="card-info">
                     <div class="card-msg">
-                        <h5 class="card-name">{{this.name}}</h5>
-                        <p class="card-msg__text">{{this.message}}</p>
+                        <h5 class="card-name">{{card.title}}</h5>
+                        <p class="card-msg__text">{{card.last_message.content}}</p>
                         {{#if delete}}<span class="card_delete">Delete</span>{{/if}}
                     </div>
                     <div class="card__msg-details">
-                        <time class="card__msg-details__msg-time">{{this.date}}</time>
-                        {{#if this.count}}
-                            <span class="card__msg-details__msg_counter">{{this.count}}</span>
+                        <time class="card__msg-details__msg-time">{{card.last_message.time}}</time>
+                        {{#if card.unread_count}}
+                            <span class="card__msg-details__msg_counter">{{card.unread_count}}</span>
                         {{/if}}
                         </span>
                     </div>

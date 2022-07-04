@@ -17,10 +17,12 @@ interface EditInfoPageProps {
 }
 
 export class EditInfoPage extends Block<EditInfoPageProps> {
+    static componentName = "EditInfoPage";
     constructor(props: EditInfoPageProps) {
+        // debugger;
         super({
             ...props,
-            isEditAvatar: true,
+            // isEditAvatar: props.store.getState().isEditAvatar,
             onSave: () => {
                 const passwordSet = {
                     oldPassword: (
@@ -32,10 +34,16 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                 };
                 if (this.checkFormValidity()) {
                     this.props.store.dispatch(changePassword, passwordSet) // for password
+                    // this.props.store.dispatch({ isEditAvatar: false });
                 }
             },
             onClose: () => {
-                console.log("GO TO Profile")
+                // this.props.store.dispatch({ isEditAvatar: false });
+                // window.router.go('/profile');
+                // console.log('store updated in EditInfo to false')
+                //this.props.store.dispatch({ isLoading: false });
+                this.props.router.go("/profile"); // ???
+                // window.router.go('/profile');
             }
         });
     }
@@ -67,6 +75,7 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
     }
 
     protected render() {
+        console.log('render editInfo', this.props.isEditAvatar);
 
         return `
             <div class="chat-board edit_mode">
@@ -97,14 +106,14 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                                 id="newPassword"
                                 name = "newPassword"
                                 validationRule = "${ValidationRule.Password}"
-                                ref="repeatedPassword"
+                                ref="newPassword"
                                 inputType = "password"
                             }}}
                         {{/if}}
 
                         <div class="button-container">
                             {{{ Button
-                                btnText="Close"
+                                btnText="Back to profile"
                                 onClick=onClose
                                 passive="passive"
                             }}}

@@ -1,13 +1,13 @@
 import renderDOM from "./renderDOM";
-import Block, {BlockClass} from '../core/Block';
+import Block, { BlockClass } from '../core/Block';
 
 type props = Record<string, any>;
 
 function isEqual(lhs: string, rhs: string): boolean {
     return lhs === rhs;
-  }
+}
 
-class Route <P = any>{
+class Route<P = any>{
     #pathname: string;
     #blockClass: BlockClass<P>;
     #block: Block | null = null;
@@ -33,25 +33,28 @@ class Route <P = any>{
     }
     match(pathname: string) {
         if (this.#isPrefixId) {
+            console.log(("!!!!!IN PREFIX"));
             pathname = pathname.replace(/\/\d+/, '');;
         }
         return isEqual(pathname, this.#pathname);
     }
     #prefixHandler() {
         const id = Number(window.location.pathname.replace(/[a-zA-Z/]+/, ''));
-        return {id};
+        return { id };
     }
     //создаёт блок, если тот ещё не был создан (нужно создавать блок только после первого перехода на страницу), иначе вызывает у блока метод show
     render() {
-        const {id} = this.#prefixHandler();
+        const { id } = this.#prefixHandler();
         if (!this.#block) {
             // this.#block = new this._blockClass({...this.#props, idPath: id});
-            this.#block = new this.#blockClass({...this.#props, idPath: id});
+            // this.#block = new this.#blockClass({ ...this.#props, idPath: id });
+            this.#block = new this.#blockClass(this.#props);
             renderDOM(this.#block)
             return;
         }
 
-        this.#block.setProps({idPath: id});
+        this.#block.setProps({ idPath: id });
+        //debugger;
         this.#block.show();
     }
 }
@@ -70,7 +73,7 @@ export default class Router {
 
         Router.__instance = this;
     }
-//регистрирует блок по пути в роут и возвращает себя — чтобы можно было выстроить в цепочку
+    //регистрирует блок по пути в роут и возвращает себя — чтобы можно было выстроить в цепочку
     use<P>(pathname: string, block: BlockClass<P>, props: props = {}) {
         const route = new Route(pathname, block, props);
 
@@ -78,7 +81,7 @@ export default class Router {
 
         return this;
     }
-//по событию onpopstate запускает приложение
+    //по событию onpopstate запускает приложение
     start() {
         console.log('enter Router start');
         window.onpopstate = ((event) => {
@@ -95,18 +98,19 @@ export default class Router {
         }
 
         if (this.#currentRoute && this.#currentRoute !== route) {
+            // console.log('switching pages in router');
             this.#currentRoute.leave();
         }
 
         this.#currentRoute = route;
         route.render();
     }
-//переходит на нужный роут и отображает нужный блок;
+    //переходит на нужный роут и отображает нужный блок;
     go(pathname: string) {
         this.#history.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
-//возвращает в прошлое состояние и показывает блок, соответствующий тому состоянию;
+    //возвращает в прошлое состояние и показывает блок, соответствующий тому состоянию;
     back() {
         this.#history.back();
     }
@@ -115,7 +119,7 @@ export default class Router {
         this.#history.forward();
     }
 
-    getRoute(pathname:string): Route | undefined {
+    getRoute(pathname: string): Route | undefined {
         const router = this.#routers.find(route => route.match(pathname));
         return router || this.#routers.find(route => route.match('*'));
     }

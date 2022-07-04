@@ -15,7 +15,7 @@ declare global {
 
     export type AppState = {
         isLoading: boolean;
-        isEditAvatar: boolean;
+        // isEditAvatar: boolean;
         page: Page | null,
         authError: string | null,
         user: UserData | {},
@@ -44,16 +44,20 @@ declare global {
     };
     export type LastMessage = {
         user: User<Omit<User, "id">>;
-        time: Date;
+        time: string;
         content: string;
     };
 
+    // {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
     export type Message = {
-        text: string;
-        date: string; //TODO: change to new Date() ->
-        //use format: get Date()/ getMonth() and getHours(): getMinutes()
         id: number;
+        userId: number;
+        chatId: number;
+        time: Date;
+        content: string;
+        isRead: boolean;
     };
+
     export type ChatGroup = {
         id: number;
         avatar?: string;

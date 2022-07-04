@@ -10,12 +10,13 @@ export function hasError(response: any): response is APIError {
 export async function initApp(dispatch: Dispatch<AppState>) {
 
     console.log('enter initApp');
-    dispatch({ isLoading: true });
+    // dispatch({ isLoading: true });
 
     try {
         const api: AuthAPI = new AuthAPI();
 
         const response = await api.readUser();
+        console.log('loaded initASpp');
 
         if (hasError(response)) {
             console.log("hasError");
@@ -28,5 +29,6 @@ export async function initApp(dispatch: Dispatch<AppState>) {
     } finally {
         dispatch({ isLoading: false });
         // window.router.go('/chat');
+        console.log('exit initApp');
     }
 }

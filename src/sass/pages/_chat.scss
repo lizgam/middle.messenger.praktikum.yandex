@@ -1,7 +1,7 @@
 .main-board-section {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   flex-grow: 1;
   position: relative;
 }
@@ -248,16 +248,17 @@ span.card__msg-details__msg_counter {
   width: 100%;
   position: relative;
 
+  & .form_edit_component {
+    padding-top: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    position: absolute;
+    right: -90px;
+    color: $button-color;
+  }
+
   & .form_input {
     position: relative;
-
-    & span.form_editMode {
-      position: absolute;
-      font-size: 10px;
-      top: 32px;
-      right: -25px;
-      cursor: pointer;
-    }
   }
 
   & .avatar_block {
@@ -276,12 +277,6 @@ span.card__msg-details__msg_counter {
     & img {
       height: 100px;
       width: 100px;
-    }
-
-    & .avatar_block__span {
-      padding-top: 10px;
-      font-size: 10px;
-      cursor: pointer;
     }
   }
 }

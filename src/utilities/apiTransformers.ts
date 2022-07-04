@@ -1,4 +1,4 @@
-import { UserDataDTO, CardDTO, LastMessageDTO } from 'api/types';
+import { UserDataDTO, CardDTO, LastMessageDTO, ChatMessageDTO } from 'api/types';
 
 export const transformUser = (data: UserDataDTO): UserData => {
     console.log("in transform", data);
@@ -22,14 +22,31 @@ export const transformCards = (data: CardDTO[]): CardInfo[] => {
             avatar: i.avatar,
             unread_count: i.unread_count,
             last_message: transformLastMessage(i.last_message)
-        }
+        } as CardInfo;
     })
 }
-export const transformLastMessage = (data: LastMessageDTO): LastMessage => {
+
+export const transformLastMessage = (data: LastMessageDTO): LastMessage | null => {
+    if (data) {
     return {
         user: transformUser(data.user),
-        time: new Date(data.time),
+            time: new Date(data.time).toLocaleDateString(),
         content: data.content
+        };
     }
+
+    return null;
 }
 
+// {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
+export const transformMessages = (data: ChatMessageDTO): Message => {
+    //console.log("in transform", data);
+    return {
+        id: data.id,
+        userId: data.user_id,
+        chatId: data.chat_id,
+        time: data.time,
+        content: data.content,
+        isRead: data.is_read,
+    }
+};
