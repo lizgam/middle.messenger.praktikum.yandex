@@ -1,1 +1,1 @@
-export { Edit as default } from "./edit";
+export { ActionClick as default } from "./edit";

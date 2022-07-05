@@ -33,7 +33,7 @@ class Route<P = any>{
     }
     match(pathname: string) {
         if (this.#isPrefixId) {
-            console.log(("!!!!!IN PREFIX"));
+            // console.log(("!!!!!IN PREFIX"));
             pathname = pathname.replace(/\/\d+/, '');;
         }
         return isEqual(pathname, this.#pathname);
@@ -83,7 +83,7 @@ export default class Router {
     }
     //по событию onpopstate запускает приложение
     start() {
-        console.log('enter Router start');
+        // console.log('enter Router start');
         window.onpopstate = ((event) => {
             this._onRoute(event.currentTarget?.location.pathname);
         });

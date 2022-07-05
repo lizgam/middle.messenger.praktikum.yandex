@@ -85,6 +85,10 @@ function isPlainObject(value: unknown): value is PlainObject {
         && Object.prototype.toString.call(value) === '[object Object]'; //'[object Date]'- for Date
 }
 
+export function isValidInfo(data: unknown): boolean {
+    return (data && data !== "") ? true : false;
+}
+
 function isArray(value: unknown): value is [] {
     return Array.isArray(value);
 }

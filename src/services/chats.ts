@@ -3,6 +3,7 @@ import ChatsAPI from "../api/chatsAPI";
 import { APIError } from "api/types";
 import type { Dispatch } from "core";
 import { transformCards, isErrorResponse } from "utilities";
+import { transformMessages } from "utilities/apiTransformers";
 
 type CardsRequestData = {
     offset?: number;
@@ -33,41 +34,56 @@ export const getChats = async (dispatch: Dispatch<AppState>, state: AppState, ac
         dispatch({ isLoading: false, authError: response.reason });
         return;
     }
-    console.log('before cards dispatch');
+    // console.log('before cards dispatch');
     dispatch({ isLoading: false, cards: transformCards(response as CardDTO[]) });
-    console.log('after cards dispatch');
+    // console.log('after cards dispatch');
 };
 
 export const addUserToChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddUserRequestData) => {
 
 };
+export const removeUserFromChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddUserRequestData) => {
+
+};
+
+export const sendMessage = (chatId: number, message: string) => {
+    // debugger;
+    if (openConnections[chatId]) {
+        const socket = openConnections[chatId];
+        socket?.send(JSON.stringify({
+            content: message,
+            type: "message",
+        }));
+    } else {
+        console.log('No connection. Needs to reconnect');
+    }
+}
+
 
 export const createChat = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
     payload: CreateChatPayload,
 ) => {
-    debugger;
-
     let socket: WebSocket;
     if (!openConnections[payload.chatId]) {
         const api: ChatsAPI = new ChatsAPI();
         const chatToken = await api.getToken(payload.chatId);
-    
+
         if (isErrorResponse(chatToken)) {
             // somehow display the error
             return;
         }
-    
+
         console.log('chat token received: ', chatToken);
         console.log('userId: ', payload.userId);
-    
+
         let socketURI = `wss://ya-praktikum.tech/ws/chats/${payload.userId}/${payload.chatId}/${chatToken.token}`;
         console.log(socketURI);
         socket = new WebSocket(socketURI);
 
         socket.addEventListener('open', () => {
-            debugger;
+            //         debugger;
             console.log('connection established');
             openConnections[payload.chatId] = socket;
 
@@ -79,7 +95,6 @@ export const createChat = async (
         });
 
         socket.addEventListener('close', event => {
-            debugger;
             delete openConnections[payload.chatId];
             openConnections[payload.chatId] = null;
             if (event.wasClean) {
@@ -91,29 +106,20 @@ export const createChat = async (
             console.log(`Код: ${event.code} | Причина: ${event.reason}`);
         });
 
-        // socket.addEventListener('message', _receiveMessages.bind(null, dispatch, payload));
-        socket.addEventListener('message', event => { receiveMessages(event.data, dispatch, payload) });
+        socket.addEventListener('message', event => {
+            let parsedData: any[] = JSON.parse(event.data);
+            if (!Array.isArray(parsedData)) {
+                parsedData = [parsedData];
+            }
+
+            const messages = parsedData.map((msg: any) => transformMessages(msg, payload.userId));
+            messages.sort((d1: ChatMessage, d2: ChatMessage) => { return d2.id - d1.id });
+            dispatch({ messages: [...(window.store.getState().messages || []), ...messages] });
+        });
 
         socket.addEventListener('error', event => {
-            debugger;
             console.log('Ошибка', event.message);
         });
     }
-
-
-    function receiveMessages(data: string, dispatch: Dispatch<AppState>, payload:CreateChatPayload) {
-        debugger;
-        console.log('Получены данные', data);
-        const parsedData = JSON.parse(data);
-        console.log(parsedData);
-
-    }
-    //  else {
-    //     debugger;
-    //     socket = openConnections[payload.chatId] as WebSocket;
-    //     socket.send(JSON.stringify({
-    //         content: "some test message",
-    //         type: "message",
-    //     }));
-    // }
 }
+

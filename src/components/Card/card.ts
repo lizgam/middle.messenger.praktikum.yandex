@@ -4,20 +4,28 @@ export interface CardProps {
     card: CardInfo;
     onDelete: () => void;
     onChooseCard: (card: CardInfo) => void;
+    selectedCard?: CardInfo;
+    isSelected: boolean;
 }
 
 export class Card extends Block {
     static componentName = "Card";
     constructor({ onDelete, onChooseCard, ...props }: CardProps) {
         super({
-            events: { click: () => {onChooseCard(props.card)}, delete: onDelete },
+            events: { click: () => { onChooseCard(props.card) }, delete: onDelete },
             ...props,
         });
+
+        if (props.card && props.selectedCard) {
+            const selected: boolean = this.props.card.id == this.props.selectedCard.id ? true : false;
+            this.setProps({ isSelected: selected });
+        }
     }
 
     protected render(): string {
+        
         return `
-            <div class="card {{#if selected}}card_selected{{/if}}">
+            <div class="card {{#if isSelected}}card_selected{{/if}}">
                 {{#if card.avatar}}
                     <img class="card-avatar" src="{{{card.avatar}}}" alt="">
                 {{else}}

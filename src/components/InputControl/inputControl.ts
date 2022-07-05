@@ -28,14 +28,6 @@ export class InputControl extends Block {
                 const input = e.target as HTMLInputElement;
                 const value = input.value;
             },
-            onEnter: (e: KeyboardEvent) => {
-                const input = e.target as HTMLInputElement;
-                const value = input.value;
-                if (e.key === "Enter" && value) {
-                    input.value = "";
-                    console.log("Entered Message: ", value);
-                }
-            },
             onFocus: (e: FocusEvent) => {
                 const input = e.target as HTMLInputElement;
                 this.refs.error.setProps({ errorMsg: "" });

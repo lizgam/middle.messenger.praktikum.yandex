@@ -22,14 +22,15 @@ declare global {
         mode: EnumType | null,
         cards: CardInfo[] | null,
         selectedCard: CardInfo | null,
+        messages: ChatMessage[] | null,
     }
     export type UserData = {
         id: number;
-        avatar: string;
+        avatar?: string;
         login: string;
         first_name: string;
         second_name: string;
-        displayed_name?: string;
+        display_name?: string;
         email: string;
         password?: string;
         phone: string;
@@ -49,13 +50,14 @@ declare global {
     };
 
     // {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
-    export type Message = {
+    export type ChatMessage = {
         id: number;
         userId: number;
         chatId: number;
         time: Date;
         content: string;
         isRead: boolean;
+        isHost: boolean;
     };
 
     export type ChatGroup = {

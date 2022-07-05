@@ -3,6 +3,7 @@ import { UserInfoProfileStub } from "../data/data";
 import { Block, Router, Store } from "core";
 import { withStore, withRouter } from 'utilities';
 import { searchByLogin } from "../services/user"; //TODO
+import { createChat } from "../services/chats"; //TODO
 
 //type UserDataKey = keyof UserData;
 
@@ -25,12 +26,15 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                     ).value;
                 const chatNameError = (this.refs.first_name as CreateChatPage).refs.error;
                 if ((chatNameError as CreateChatPage).props.errorMsg === "") {
-                    //this.props.store.dispatch(..., chatName)
+                    console.log("create success");
+                    this.props.store.dispatch(createChat, chatName);
                     //succesful message
-                } else if ((chatNameError as CreateChatPage).props.errorMsg === "") {
+                    window.router.go('/chat');
+                } else if ((chatNameError as CreateChatPage).props.errorMsg === undefined) {
                     chatNameError.setProps({
                         errorMsg: "Field can not be empty",
                     })
+                    console.log("create NOT success");
                 }
             },
 
@@ -59,7 +63,7 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                         {{{ InputControl label="Chat name" placeholder="Enter chat name"
                             validationRule = "${ValidationRule.First_name}"
                             inputType="text"
-                            id="chatName" name="chatName" ref="chatName"
+                            id="chatName" name="chatName" ref="first_name"
                         }}}
                         <div class="button-container">
                             {{{ Button

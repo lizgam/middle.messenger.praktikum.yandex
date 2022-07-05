@@ -9,4 +9,5 @@ export const defaultState: AppState = {
     mode: Mode.Profile,
     cards: null,
     selectedCard: null,
+    messages: null,
 };

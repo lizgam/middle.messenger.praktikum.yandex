@@ -13,7 +13,7 @@ type LoginPageProps = {
 
 export class LoginPage extends Block<LoginPageProps> {
     constructor(props: LoginPageProps) {
-        console.log('enter LoginPage. props', props);
+        // console.log('enter LoginPage. props', props);
         super({
             ...props,
             onLogin: () => {
@@ -34,7 +34,7 @@ export class LoginPage extends Block<LoginPageProps> {
         this.setProps({
             formError: () => this.props.store.getState().authError,
         });
-        console.log('enter LoginPage. props', props); //??? 2 times?
+        // console.log('enter LoginPage. props', props); //??? 2 times?
     }
 
     protected getStateFromProps(): void {

@@ -25,7 +25,7 @@ export default class HTTPTransport {
 
     constructor(prefix: string) {
         this.prefix = prefix;
-        console.log('constructor prefix', this.prefix);
+        // console.log('constructor prefix', this.prefix);
     }
 
     get = (url: string, options: RequestOptions = {}) => {
@@ -35,7 +35,7 @@ export default class HTTPTransport {
     };
 
     post = (url: string, options: RequestOptions = {}) => {
-        console.log('post url', url);
+        // console.log('post url', url);
         return this.request(
             url,
             { ...options, method: Methods.POST },
@@ -63,8 +63,8 @@ export default class HTTPTransport {
         const { method, data, headers = {} } = options;
 
         const nomilizedUrl = `${HTTPTransport.API_URL}${this.prefix}${url}`
-        console.log('request normalizedUrl', nomilizedUrl);
-        console.log('request data', data);
+        // console.log('request normalizedUrl', nomilizedUrl);
+        // console.log('request data', data);
 
 
         return new Promise((resolve, reject) => {

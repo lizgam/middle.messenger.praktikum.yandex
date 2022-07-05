@@ -1,22 +1,22 @@
 import Block from "../../core/Block";
 
-interface EditProps {
-    editText: string;
+interface ActionClickProps {
+    actionText: string;
     editClick: () => void;
 }
 
-export class Edit extends Block {
-    constructor({ editClick, ...props }: EditProps) {
+export class ActionClick extends Block {
+    constructor({ editClick, ...props }: ActionClickProps) {
         super({
             events: { click: editClick },
             ...props
         });
     }
-    static componentName = "Edit";
+    static componentName = "ActionClick";
 
     render() {
         return `
-            <span class="form_edit_component" >{{ editText }}</span>
+            <span class="click_action_component" >{{ actionText }}</span>
         `;
     }
 }

@@ -4,4 +4,5 @@ export { withStore } from './withStore';
 export { withRouter } from './withRouter';
 export { withUser } from './withUser';
 export { isErrorResponse } from "./isErrorResponse";
+export { isValidInfo } from "./helpers";
 export { Mode } from "./enums";

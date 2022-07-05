@@ -14,7 +14,7 @@ export class Addgroup extends Block<AddgroupProps> {
             ...props,
             users: CardsGroupStub,
             onCreate: () => {
-                console.log("Group created");
+                // console.log("Group created");
             },
         });
     }

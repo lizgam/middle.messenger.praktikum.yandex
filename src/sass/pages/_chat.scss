@@ -221,13 +221,28 @@
   position: absolute;
   top: 40px;
   background-color: $bg-color-selected-light;
-  padding: 10px 73px 10px 10px;
+  padding: 10px 36px 10px 10px;
   border-radius: 30px;
 
-  .icon-info {
+  .action {
     position: absolute;
-    right: 20px;
+    left: 116px;
+    font-size: 14px;
+    padding: 5px 10px;
+    background-color: $bg-color-selected-light;
+    border-radius: 19px;
+    border: 1px solid;
+    cursor: pointer;
+
+    &__bottom {
+      top: 19px;
+    }
+
+    &__top {
+      top: -13px;
+    }
   }
+
 }
 
 span.card__msg-details__msg_counter {
@@ -248,7 +263,7 @@ span.card__msg-details__msg_counter {
   width: 100%;
   position: relative;
 
-  & .form_edit_component {
+  & .click_action_component {
     padding-top: 10px;
     font-size: 13px;
     cursor: pointer;

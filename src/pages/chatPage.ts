@@ -1,20 +1,15 @@
-import Card from "components/Card";
 import { Block, Router, Store } from "core";
 import { withStore, withRouter, withUser, Mode } from 'utilities';
-import { CardsSectionStub } from "../data/data";
 import { createChat } from "services/chats";
 import { getChats } from "services/chats"
 
 interface ChatPageProps {
-    users: CardInfo[];
-    setMode?: (e: Event) => void;
     router: Router;
     store: Store<AppState>;
     user: UserData;
     onChooseCard?: (card: CardInfo) => void;
-    mode: Mode;
-    showUser?: UserData | null;
     cards?: CardInfo[] | null;
+    selectedCard?: CardInfo;
 }
 
 export class ChatPage extends Block<ChatPageProps>{
@@ -22,40 +17,15 @@ export class ChatPage extends Block<ChatPageProps>{
 
     constructor(props: ChatPageProps) {
         super(props);
-
-        console.log('constructor called');
         this.setProps({
-            chat_mode: true,
             onChooseCard: (card: CardInfo) => {
-                // console.log(">>>", card);
-                // debugger;
-
-                // this.props.store.dispatch(createChat, {userId: this.props.user.id, chatId: "81"});
-                // call cardAPI(userId, ) create webSocket
-            },
-            //showUser: this.props.store.getState().user,
-            setMode: (e: Event) => {
-                debugger;
-                const item = (e.target as HTMLUListElement).getAttribute(
-                    "name"
-                );
-
-                // this.props.store.dispatch({ mode: item });
-                // console.log('setting props', this.props);
-                let typedMode = item as Mode;
-                this.setProps({ mode: typedMode });
-                console.log('typedMode', typedMode);
-
-                // this.props.profile_mode = false;
-                // this.props.chat_mode = true;
-                // this.props.addgroup_mode = false;;
-
+                this.setProps({ selectedCard: card });
+                this.props.store.dispatch(createChat, { userId: this.props.user.id, chatId: card.id });
             },
         })
     }
 
     async componentDidMount() {
-        // debugger;
         const cardsList = this.props.store.getState().cards
         if (!cardsList) {
             await this.props.store.dispatch(getChats);
@@ -63,10 +33,10 @@ export class ChatPage extends Block<ChatPageProps>{
     }
 
     render(): string {
-        const user: {} | UserData = this.props.store.getState().user;
-        const { ...values } = user;
-        console.log('cards received: ', this.props.store.getState().cards);
-
+        const chatName = this.props.user.displayed_name ?
+            this.props.user.displayed_name :
+            this.props.user.login;
+        
         return `
             <div class="chat-board">
                 <section class="cards-section">
@@ -74,30 +44,24 @@ export class ChatPage extends Block<ChatPageProps>{
                         {{{ InputControl placeholder="Enter searching name" inputType="search" }}}
                     </div>
                     <div class="cards-section__chat-panel">
-                        <div style="display: block;position: absolute;left: 1000px;top: 150px;width: 20%;">Hello, ${values.displayed_name}</div>
+                        <div style="display: block;position: absolute;left: 1000px;top: 150px;width: 20%;">User: ${chatName}</div>
                         <ul id="nav-list" class="card-section__nav-list">
                             {{#each store.state.cards}}
                             <li class="user-card">
                                 {{{ Card
-                                    selected=store.state.selectedCard
+                                    selectedCard=../selectedCard
                                     ref="card"
                                 card=this
                                     onChooseCard=../onChooseCard
                                 }}}
                             </li>
                             {{/each}}
-
                         </ul>
                     </div>
                 </section>
                 <section class="main-board-section">
-
                     {{{ Navigation}}}
-                    {{{ Chat }}}
-
-
-
-
+                    {{{ Chat selectedCard=selectedCard messages=store.state.messages}}}
                 </section>
             </div>
     `;

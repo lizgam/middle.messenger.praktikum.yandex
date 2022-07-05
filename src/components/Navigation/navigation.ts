@@ -1,13 +1,6 @@
 import Block from "../../core/Block";
 
-interface NavigationProps {
-}
-
-export class Navigation extends Block<NavigationProps> {
-    constructor() {
-        super();
-    }
-
+export class Navigation extends Block {
     static componentName = "Navigation";
 
     protected render(): string {

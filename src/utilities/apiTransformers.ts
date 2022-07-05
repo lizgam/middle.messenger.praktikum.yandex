@@ -1,7 +1,7 @@
 import { UserDataDTO, CardDTO, LastMessageDTO, ChatMessageDTO } from 'api/types';
 
 export const transformUser = (data: UserDataDTO): UserData => {
-    console.log("in transform", data);
+    // console.log("in transform", data);
     return {
         id: data.id,
         avatar: data.avatar,
@@ -39,7 +39,7 @@ export const transformLastMessage = (data: LastMessageDTO): LastMessage | null =
 }
 
 // {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
-export const transformMessages = (data: ChatMessageDTO): Message => {
+export const transformMessages = (data: ChatMessageDTO, userId: number): ChatMessage => {
     //console.log("in transform", data);
     return {
         id: data.id,
@@ -48,5 +48,6 @@ export const transformMessages = (data: ChatMessageDTO): Message => {
         time: data.time,
         content: data.content,
         isRead: data.is_read,
+        isHost: (data.user_id === userId)  ? true : false,  
     }
 };

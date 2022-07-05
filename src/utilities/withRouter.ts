@@ -9,7 +9,7 @@ export function withRouter<P extends WithRouterProps>(WrappedBlock: BlockClass<P
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
 
       constructor(props: P) {
-        console.log('enter withRouter');
+        // console.log('enter withRouter');
         super({ ...props, router: window.router });
     }
   } as BlockClass<Omit<P, 'router'>>;
