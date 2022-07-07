@@ -14,6 +14,9 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         const response = await api.readUser();
 
         if (hasError(response)) {
+            console.log("Init Error:", response.reason);
+            console.log("...redirecting to Login Page");
+            window.router.go("/login");
             return;
         }
         dispatch({ user: transformUser(response as UserDataDTO) });
@@ -21,6 +24,5 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         console.error(err);
     } finally {
         dispatch({ isLoading: false });
-        // window.router.go('/chat');
     }
 }

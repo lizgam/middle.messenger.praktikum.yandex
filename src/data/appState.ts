@@ -1,5 +1,3 @@
-import { Mode } from "utilities";
-
 export const defaultState: AppState = {
     isLoading: false,
     authError: null,

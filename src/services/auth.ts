@@ -1,7 +1,7 @@
 import AuthAPI from "../api/authAPI";
-import { UserDataDTO, APIError } from "api/types";
+import { UserDataDTO } from "api/types";
 import type { Dispatch } from "core";
-import { transformUser, isErrorResponse, Mode } from "utilities";
+import { transformUser, isErrorResponse } from "utilities";
 
 type LoginPayload = {
     login: string;
@@ -43,9 +43,8 @@ export const login = async (
     }
 
     dispatch({ user: transformUser(responseReadUser as UserDataDTO) });
-    // dispatch({ user: transformUser(responseReadUser as UserDataDTO), mode: Mode. });
 
-    window.router.go('/chat');
+    window.router.go("/chat");
 };
 
 export const register = async (
@@ -75,7 +74,7 @@ export const register = async (
 
     dispatch({ user: transformUser(responseReadUser as UserDataDTO) });
 
-    window.router.go('/chat');
+    window.router.go("/chat");
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
@@ -84,7 +83,7 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
 
     await api.logout();
 
-    dispatch({ isLoading: false, user: {} });
+    dispatch({ isLoading: false, user: null });
 
-    window.router.go('/login');
+    window.router.go("/login");
 };

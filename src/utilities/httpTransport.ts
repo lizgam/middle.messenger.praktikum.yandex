@@ -20,7 +20,7 @@ function queryStringify(data: any = {}) {
 }
 
 export default class HTTPTransport {
-    static API_URL = 'https://ya-praktikum.tech/api/v2';
+    static API_URL = "https://ya-praktikum.tech/api/v2";
     protected prefix: string;
 
     constructor(prefix: string) {
@@ -60,7 +60,7 @@ export default class HTTPTransport {
     request = (url: string, options: RequestOptions = {}, timeout = 5000) => {
         const { method, data, headers = {} } = options;
 
-        const nomilizedUrl = `${HTTPTransport.API_URL}${this.prefix}${url}`
+        const nomilizedUrl = `${HTTPTransport.API_URL}${this.prefix}${url}`;
 
 
         return new Promise((resolve, reject) => {
@@ -69,7 +69,7 @@ export default class HTTPTransport {
                 return;
             }
             const req = new XMLHttpRequest();
-            req.responseType = 'json';
+            req.responseType = "json";
 
             req.open(method, nomilizedUrl);
 
@@ -95,7 +95,11 @@ export default class HTTPTransport {
             if (method === Methods.GET || !data) {
                 req.send();
             } else {
-                req.send(JSON.stringify(data));
+                if (data instanceof FormData) {
+                    req.send(data as unknown as FormData);
+                } else {
+                    req.send(JSON.stringify(data));
+                }
             }
         });
     };

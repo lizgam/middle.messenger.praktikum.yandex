@@ -7,7 +7,7 @@ export interface MessageProps {
 export class Message extends Block<MessageProps> {
     constructor(props: MessageProps) {
         super(props);
-        console.log('>>>> message=', props.message);
+        console.log(">>>> message=", props.message);
     }
     static componentName = "Message";
 

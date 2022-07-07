@@ -18,7 +18,7 @@ type ChangePasswordData = {
     newPassword: string;
 };
 type ChangeAvatarData = {
-    avatar: string;
+    avatar: File;
 };
 
 type SearchByLoginData = {
@@ -41,13 +41,11 @@ export const updateUser = async (
         return;
     }
 
-    //const responseReadUser = await api.readUser();
-
     dispatch({ isLoading: false, authError: null });
 
     dispatch({ user: transformUser(response as UserDataDTO) });
 
-    window.router.go('/chat');
+    window.router.go("/chat");
 };
 
 export const changePassword = async (
@@ -66,9 +64,9 @@ export const changePassword = async (
         return;
     }
 
-    dispatch({ isLoading: false, authError: null }); //show succesful message
+    dispatch({ isLoading: false, authError: null });
 
-    window.router.go('/profile');
+    window.router.go("/profile");
 };
 
 export const changeAvatar = async (
@@ -79,7 +77,6 @@ export const changeAvatar = async (
     dispatch({ isLoading: true });
 
     const api: UserAPI = new UserAPI();
-
     const response = await api.changeAvatar(action);
 
     if (isErrorResponse(response)) {
@@ -87,9 +84,9 @@ export const changeAvatar = async (
         return;
     }
 
-    dispatch({ isLoading: false, authError: null }); //show succesful message
+    dispatch({ isLoading: false, authError: null });
 
-    window.router.go('/profile');
+    window.router.go("/profile");
 };
 
 export const searchByLogin = async (
@@ -107,6 +104,4 @@ export const searchByLogin = async (
         dispatch({ isLoading: false, authError: response.reason });
         return;
     }
-
-    // dispatch({ isLoading: false, authError: null }); //show user By login
 };

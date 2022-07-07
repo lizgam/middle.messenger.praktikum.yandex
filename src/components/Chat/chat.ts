@@ -54,10 +54,10 @@ export class Chat extends Block<ChatProps> {
                         <div class="">{{selectedCard.title}}
                         <span class="icon-info">&#x2630;</span>
                             <span class="action action__top">
-                                {{{ActionClick actionText="add" editClick=addUserClick}}}
+                                {{{ActionClick actionText="add user" editClick=addUserClick}}}
                             </span>
                             <span class="action action__bottom">
-                                {{{ActionClick actionText="remove" editClick=removeUserClick}}}
+                                {{{ActionClick actionText="remove user" editClick=removeUserClick}}}
                             </span>
                         </div>
                         {{#if showAddDialog}}

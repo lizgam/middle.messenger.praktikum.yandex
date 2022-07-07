@@ -14,7 +14,7 @@ export default class Block<P = any> {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
         FLOW_CDU: "flow:component-did-update",
-        FLOW_CWU: 'flow:component-will-unmount',
+        FLOW_CWU: "flow:component-will-unmount",
         FLOW_RENDER: "flow:render",
     } as const;
 
@@ -85,22 +85,22 @@ export default class Block<P = any> {
     }
 
     private _componentDidMount(props: P) {
-        // Object.values(this.children).forEach((child) => {
-        //     child.dispatchComponentDidMount();
-        // });
-
         this._checkInDom();
         this.componentDidMount(props);
     }
 
-    protected componentDidMount(props: P): void { }
+    protected componentDidMount(props: P): void {
+
+    }
 
     private _componentWillUnmount() {
         this.eventBus().destroy();
         this.componentWillUnmount();
     }
 
-    protected componentWillUnmount() { }
+    protected componentWillUnmount() {
+
+    }
 
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);

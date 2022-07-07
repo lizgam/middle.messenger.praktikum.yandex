@@ -1,16 +1,17 @@
-import { UserDataDTO, CardDTO, LastMessageDTO, ChatMessageDTO } from 'api/types';
+import { UserDataDTO, CardDTO, LastMessageDTO, ChatMessageDTO } from "api/types";
 
 export const transformUser = (data: UserDataDTO): UserData => {
+    const avatar = data.avatar ? `https://ya-praktikum.tech/api/v2/resources${data.avatar}` : null;
     return {
         id: data.id,
-        avatar: data.avatar,
+        avatar: avatar,
         login: data.login,
         first_name: data.first_name,
         second_name: data.second_name,
         display_name: data.display_name,
         email: data.email,
         phone: data.phone
-    }
+    };
 };
 
 export const transformCards = (data: CardDTO[]): CardInfo[] => {
@@ -22,8 +23,8 @@ export const transformCards = (data: CardDTO[]): CardInfo[] => {
             unread_count: i.unread_count,
             last_message: transformLastMessage(i.last_message)
         } as CardInfo;
-    })
-}
+    });
+};
 
 export const transformLastMessage = (data: LastMessageDTO): LastMessage | null => {
     if (data) {
@@ -35,9 +36,8 @@ export const transformLastMessage = (data: LastMessageDTO): LastMessage | null =
     }
 
     return null;
-}
+};
 
-// {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
 export const transformMessages = (data: ChatMessageDTO, userId: number): ChatMessage => {
     return {
         id: data.id,
@@ -47,5 +47,5 @@ export const transformMessages = (data: ChatMessageDTO, userId: number): ChatMes
         content: data.content,
         isRead: data.is_read,
         isHost: (data.user_id === userId) ? true : false,
-    }
+    };
 };

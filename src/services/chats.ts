@@ -1,7 +1,7 @@
 
 import ChatsAPI from "../api/chatsAPI";
 import { APIError } from "api/types";
-import { CardDTO } from 'api/types';
+import { CardDTO } from "api/types";
 import type { Dispatch } from "core";
 import { transformCards, isErrorResponse } from "utilities";
 import { transformMessages } from "utilities/apiTransformers";
@@ -82,7 +82,7 @@ export const createNewChat = async (dispatch: Dispatch<AppState>, state: AppStat
 
     await getChats(dispatch, state, {});
     dispatch({ isLoading: false });
-    window.router.go('/chat');
+    window.router.go("/chat");
 };
 
 export const sendMessage = (chatId: number, message: string) => {
@@ -93,9 +93,9 @@ export const sendMessage = (chatId: number, message: string) => {
             type: "message",
         }));
     } else {
-        console.log('No connection. Needs to reconnect');
+        console.log("No connection. Needs to reconnect");
     }
-}
+};
 
 
 export const createChat = async (
@@ -111,20 +111,19 @@ export const createChat = async (
         const chatToken = await api.getToken(payload.chatId);
 
         if (isErrorResponse(chatToken)) {
-            // somehow display the error
             console.log("somehow display the error: ", chatToken);
             return;
         }
 
-        console.log('chat token received: ', chatToken);
-        console.log('userId: ', payload.userId);
+        console.log("chat token received: ", chatToken);
+        console.log("userId: ", payload.userId);
 
-        let socketURI = `wss://ya-praktikum.tech/ws/chats/${payload.userId}/${payload.chatId}/${chatToken.token}`;
+        const socketURI = `wss://ya-praktikum.tech/ws/chats/${payload.userId}/${payload.chatId}/${chatToken.token}`;
         console.log(socketURI);
         socket = new WebSocket(socketURI);
 
-        socket.addEventListener('open', () => {
-            console.log('connection established');
+        socket.addEventListener("open", () => {
+            console.log("connection established");
             openConnections[payload.chatId] = socket;
 
             // get list of all the previous messages
@@ -132,44 +131,34 @@ export const createChat = async (
                 content: "0",
                 type: "get old",
             }));
-
-
-            // interval = setInterval(() => {
-            //     socket.send(JSON.stringify({
-            //         type: "ping",
-            //     }));
-            // }, 8000);
-
         });
 
-        socket.addEventListener('close', event => {
+        socket.addEventListener("close", event => {
             delete openConnections[payload.chatId];
             openConnections[payload.chatId] = null;
             if (event.wasClean) {
-                console.log('Соединение закрыто чисто');
+                console.log("Соединение закрыто чисто");
             } else {
-                console.log('Обрыв соединения');
+                console.log("Обрыв соединения");
             }
-
-            //clearInterval(interval);
 
             console.log(`Код: ${event.code} | Причина: ${event.reason}`);
         });
 
-        socket.addEventListener('message', event => {
+        socket.addEventListener("message", event => {
             let parsedData: any[] = JSON.parse(event.data);
             if (!Array.isArray(parsedData)) {
                 parsedData = [parsedData];
             }
 
             const messages = parsedData.map((msg: any) => transformMessages(msg, payload.userId));
-            messages.sort((d1: ChatMessage, d2: ChatMessage) => { return d2.id - d1.id });
+            messages.sort((d1: ChatMessage, d2: ChatMessage) => { return d2.id - d1.id; });
             dispatch({ messages: [...(window.store.getState().messages || []), ...messages] });
         });
 
-        socket.addEventListener('error', event => {
-            console.log('Ошибка', event.message);
+        socket.addEventListener("error", event => {
+            console.log("Ошибка", event.message);
         });
     }
-}
+};
 

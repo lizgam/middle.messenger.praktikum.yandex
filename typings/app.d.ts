@@ -23,7 +23,7 @@ declare global {
     }
     export type UserData = {
         id: number;
-        avatar?: string;
+        avatar?: string | null;
         login: string;
         first_name: string;
         second_name: string;

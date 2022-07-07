@@ -1,7 +1,7 @@
 import { ValidationRule } from "../utilities/validation";
 import { register } from "../services/auth";
 import { Block, Router, Store } from "core";
-import { withStore, withRouter } from 'utilities';
+import { withStore, withRouter } from "utilities";
 
 type RegisterPageProps = {
     onRegister?: () => void;
@@ -18,27 +18,27 @@ export class RegisterPage extends Block<RegisterPageProps> {
             onRegister: () => {
                 const loginData: Partial<UserData> = {
                     login: (
-                        this.element?.querySelector('[name="login"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"login\"]") as HTMLInputElement
                     ).value,
                     first_name: (
-                        this.element?.querySelector('[name="first_name"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"first_name\"]") as HTMLInputElement
                     ).value,
                     second_name: (
-                        this.element?.querySelector('[name="second_name"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"second_name\"]") as HTMLInputElement
                     ).value,
                     email: (
-                        this.element?.querySelector('[name="email"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"email\"]") as HTMLInputElement
                     ).value,
                     password: (
-                        this.element?.querySelector('[name="password"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"password\"]") as HTMLInputElement
                     ).value,
                     phone: (
-                        this.element?.querySelector('[name="phone"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"phone\"]") as HTMLInputElement
                     ).value,
                 };
 
                 if (this.checkFormValidity()) {
-                    this.props.store.dispatch(register, loginData)
+                    this.props.store.dispatch(register, loginData);
                 }
             },
         });
@@ -51,11 +51,11 @@ export class RegisterPage extends Block<RegisterPageProps> {
     protected getStateFromProps(): void {
         this.state = {
 
-        }
+        };
     }
     componentDidMount() {
         if (this.props.store.getState().user) {
-            this.props.router.go('/profile');
+            this.props.router.go("/profile");
         }
     }
 

@@ -1,8 +1,7 @@
-import { UserInfoProfileStub } from "../data/data";
 import { ValidationRule } from "../utilities/validation";
 import { Block, Router, Store } from "core";
 import { changeAvatar, changePassword } from "../services/user"; //TODO
-import { withStore, withRouter } from 'utilities';
+import { withStore, withRouter } from "utilities";
 
 type UserDataKey = keyof UserData;
 
@@ -14,27 +13,36 @@ interface EditInfoPageProps {
     isEditAvatar: boolean;
     onClose?: () => void;
     onSave?: () => void;
+    uploadFile?: () => void;
 }
 
 export class EditInfoPage extends Block<EditInfoPageProps> {
     static componentName = "EditInfoPage";
     constructor(props: EditInfoPageProps) {
-        // debugger;
         super({
             ...props,
-            // isEditAvatar: props.store.getState().isEditAvatar,
             onSave: () => {
                 const passwordSet = {
                     oldPassword: (
-                        this.element?.querySelector('[name="oldPassword"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"oldPassword\"]") as HTMLInputElement
                     ).value,
                     newPassword: (
-                        this.element?.querySelector('[name="newPassword"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"newPassword\"]") as HTMLInputElement
                     ).value,
                 };
                 if (this.checkFormValidity()) {
                     this.props.store.dispatch(changePassword, passwordSet);
                 }
+            },
+            uploadFile: () => {
+                const avatar: HTMLInputElement = document.getElementById("avatar") as HTMLInputElement;
+                if (avatar && avatar.files) {
+                    let image: File = avatar.files[0];
+                    const form = new FormData();
+                    form.append("avatar", image);
+                    this.props.store.dispatch(changeAvatar, form);
+                }
+
             },
             onClose: () => {
                 this.props.router.go("/profile");
@@ -69,13 +77,13 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
     }
 
     protected render() {
-        console.log('render editInfo', this.props.isEditAvatar);
+        console.log("render editInfo", this.props.isEditAvatar);
 
         return `
             <div class="chat-board edit_mode">
                 <section class="form_container">
                     <h2>Edit Info:</h2>
-                    <form action="#" method="post">
+                    <form action="#" method="post" id="useEditForm">
 
                         {{#if isEditAvatar}}
                             {{{InputControl
@@ -84,7 +92,8 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                                 name = "avatar"
                                 ref="avatar"
                                 inputType = "file"
-                                acceptfile = "image/png, image/jpeg"
+                                acceptfile = "image/*"
+
                             }}}
                         {{else}}
                             {{{InputControl
@@ -106,15 +115,24 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                         {{/if}}
 
                         <div class="button-container">
+
+                        {{{ Button
+                            btnText="Close"
+                            onClick=onClose
+                            passive="passive"
+                        }}}
+                        {{#if isEditAvatar}}
                             {{{ Button
-                                btnText="Cancel"
-                                onClick=onClose
-                                passive="passive"
+                                btnText="Upload"
+                                onClick=uploadFile
                             }}}
+                        {{else}}
                             {{{ Button
                                 btnText="Update"
                                 onClick=onSave
                             }}}
+                        {{/if}}
+
                         </div>
                     </form>
                 </section>

@@ -4,7 +4,7 @@ export const UserInfoProfileStub: UserData = {
     login: "TempD",
     first_name: "Temp",
     second_name: "Data",
-    displayed_name: "Temp D.",
+    display_name: "Temp D.",
     email: "lala@mir.ru",
     password: "Temp data",
     phone: "123-456-7890",

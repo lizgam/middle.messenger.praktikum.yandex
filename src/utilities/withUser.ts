@@ -1,4 +1,4 @@
-import { BlockClass } from 'core';
+import { BlockClass } from "core";
 import { isEqual } from "utilities/helpers";
 
 type WithUserProps = {
@@ -28,16 +28,16 @@ export function withUser<P extends WithUserProps>(WrappedBlock: BlockClass<P>) {
                 // @ts-expect-error this is not typed
                 this.setProps({ ...this.props, user: newStoreState.user });
             }
-        }
+        };
 
         componentDidMount(props: P) {
             super.componentDidMount(props);
-            window.store.on('changed', this.__onChangeUserCallback);
+            window.store.on("changed", this.__onChangeUserCallback);
         }
 
         componentWillUnmount() {
             super.componentWillUnmount();
-            window.store.off('changed', this.__onChangeUserCallback);
+            window.store.off("changed", this.__onChangeUserCallback);
         }
     } as BlockClass<Omit<P, "user">>;
 

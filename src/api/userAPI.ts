@@ -23,23 +23,25 @@ type SearchByLoginData = {
 
 export default class UserAPI extends BaseAPI {
     constructor() {
-        super('/user');
+        super("/user");
     }
 
-    updateUser (data: ChangeProfileData): Promise<unknown> {
+    updateUser(data: ChangeProfileData): Promise<unknown> {
         return this.http.put("/profile", {
             data, headers: { "Content-Type": "application/json" }
         });
     }
-    changePassword (data: ChangePasswordData): Promise<unknown> {
+    changePassword(data: ChangePasswordData): Promise<unknown> {
         return this.http.put("/password", {
             data, headers: { "Content-Type": "application/json" }
         });
     }
-    changeAvatar (data: ChangeAvatarData): Promise<unknown> {
-        return this.http.put("/profile/avatar", { data });
+    changeAvatar(data: ChangeAvatarData): Promise<unknown> {
+        return this.http.put("/profile/avatar", {
+            data
+        });
     }
-    searchByLogin (data: SearchByLoginData): Promise<unknown> {
+    searchByLogin(data: SearchByLoginData): Promise<unknown> {
         return this.http.post("/search", {
             data, headers: { "Content-Type": "application/json" }
         });

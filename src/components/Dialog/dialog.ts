@@ -15,18 +15,18 @@ export class Dialog extends Block<DialogProps> {
         super({
             ...props,
             onAction: () => {
-                const userId = (this.element?.querySelector('[name="userId"]') as HTMLInputElement
+                const userId = (this.element?.querySelector("[name=\"userId\"]") as HTMLInputElement
                 ).value;
                 if (userId === "") {
                     const userIdError = (this.refs.userId as Dialog).refs.error;
                     userIdError.setProps({
                         errorMsg: "Field can not be empty",
-                    })
+                    });
                 } else {
                     const user = parseInt(userId);
                     props.remove ? removeUserFromChat({ users: [user], chatId: this.props.chatId }) :
                         addUserToChat({ users: [user], chatId: this.props.chatId });
-                    (document.getElementById('userIdInput') as HTMLInputElement).value = "";
+                    (document.getElementById("userIdInput") as HTMLInputElement).value = "";
                 }
             }
         });
@@ -49,7 +49,7 @@ export class Dialog extends Block<DialogProps> {
                         }}}
                         <div class="button-container">
                             {{{ Button
-                                btnText="Cancel"
+                                btnText="Close"
                                 onClick=onCancel
                                 passive="passive"
                             }}}

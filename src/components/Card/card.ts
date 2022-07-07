@@ -12,7 +12,7 @@ export class Card extends Block {
     static componentName = "Card";
     constructor({ onDelete, onChooseCard, ...props }: CardProps) {
         super({
-            events: { click: () => { onChooseCard(props.card) }, delete: onDelete },
+            events: { click: () => { onChooseCard(props.card); }, delete: onDelete },
             ...props,
         });
 

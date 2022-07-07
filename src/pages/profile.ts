@@ -1,9 +1,8 @@
-// import { UserInfoProfileStub } from "../data/data";
 import { ValidationRule } from "../utilities/validation";
 import { Block, Router, Store } from "core";
 import { updateUser } from "../services/user";
 import { logout } from "../services/auth";
-import { withStore, withRouter, withUser, isValidInfo } from 'utilities';
+import { withStore, withRouter, withUser, isValidInfo } from "utilities";
 
 interface EditInfoPageProps {
     isEditAvatar?: boolean;
@@ -17,6 +16,7 @@ interface EditInfoPageProps {
     editAvaClick?: () => void;
     editPasswordClick?: () => void;
     formError?: () => string | null;
+    avatar?: () => string | null;
 
 }
 
@@ -28,22 +28,22 @@ export class ProfilePage extends Block<EditInfoPageProps> {
             onSave: () => {
                 const loginData: Partial<UserData> = {
                     login: (
-                        this.element?.querySelector('[name="login"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"login\"]") as HTMLInputElement
                     ).value,
                     first_name: (
-                        this.element?.querySelector('[name="first_name"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"first_name\"]") as HTMLInputElement
                     ).value,
                     second_name: (
-                        this.element?.querySelector('[name="second_name"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"second_name\"]") as HTMLInputElement
                     ).value,
                     display_name: (
-                        this.element?.querySelector('[name="display_name"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"display_name\"]") as HTMLInputElement
                     ).value,
                     email: (
-                        this.element?.querySelector('[name="email"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"email\"]") as HTMLInputElement
                     ).value,
                     phone: (
-                        this.element?.querySelector('[name="phone"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"phone\"]") as HTMLInputElement
                     ).value,
                 };
 
@@ -68,6 +68,7 @@ export class ProfilePage extends Block<EditInfoPageProps> {
         });
         this.setProps({
             formError: () => this.props.store.getState().authError,
+            avatar: () => this.props.store.getState().user?.avatar,
         });
     }
 
@@ -80,8 +81,8 @@ export class ProfilePage extends Block<EditInfoPageProps> {
                     {{{ Button btnText="Log out" onClick=onLogout }}}
                     <form action="#" method="post" class="profile_mode">
                         <div class="avatar_block">
-                            {{#if data.avatar}}
-                                <img src="${values.first_name}" alt="user avatar">
+                            {{#if avatar}}
+                                <img src="{{avatar}}" alt="user avatar">
                             {{else}}
                                 <div class="profile-avatar"></div>
                             {{/if}}
@@ -99,7 +100,7 @@ export class ProfilePage extends Block<EditInfoPageProps> {
                         {{{ErrorLabel errorMsg=formError}}}
                         <div class="button-container">
                             {{{ Button
-                                btnText="Cancel"
+                                btnText="Close"
                                 onClick=onClose
                                 passive="passive"
                             }}}

@@ -1,5 +1,5 @@
 export type APIError = {
-  reason: string;
+    reason: string;
 };
 
 export type UserDataDTO = {
@@ -14,30 +14,29 @@ export type UserDataDTO = {
 };
 
 export type CardDTO = {
-  id: number;
-  title: string;
-  avatar: string;
-  unread_count: number;
-  last_message: LastMessageDTO;
+    id: number;
+    title: string;
+    avatar: string;
+    unread_count: number;
+    last_message: LastMessageDTO;
 };
 
 export type LastMessageDTO = {
-  user: UserDataDTO;
-  time: Date;
-  content: string;
+    user: UserDataDTO;
+    time: Date;
+    content: string;
 };
 
-// {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
 export type ChatMessageDTO = {
-  id: number;
-  user_id: number;
-  chat_id: number;
-  time: Date;
-  content: string;
-  is_read: boolean;
+    id: number;
+    user_id: number;
+    chat_id: number;
+    time: Date;
+    content: string;
+    is_read: boolean;
 };
 
 export type ChangePasswordDataDTO = {
-  oldPassword: string;
-  newPassword: string;
+    oldPassword: string;
+    newPassword: string;
 };

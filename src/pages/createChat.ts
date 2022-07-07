@@ -3,8 +3,6 @@ import { Block, Router, Store } from "core";
 import { withStore, withRouter } from "utilities";
 import { createNewChat, getChats } from "services/chats";
 
-//type UserDataKey = keyof UserData;
-
 type CreateChatPageProps = {
     router: Router;
     store: Store<AppState>;
@@ -20,22 +18,21 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
             ...props,
             createChat: () => {
                 const chatName: string =
-                    (this.element?.querySelector('[name="chatName"]') as HTMLInputElement
+                    (this.element?.querySelector("[name=\"chatName\"]") as HTMLInputElement
                     ).value;
                 const chatNameError = (this.refs.first_name as CreateChatPage).refs.error;
                 if ((chatNameError as CreateChatPage).props.errorMsg === "") {
                     this.props.store.dispatch(createNewChat, { title: chatName });
-                    let oldCards = this.props.store.getState().cards;
-                    //oldCards?.push({ title: chatName })
+                    const oldCards = this.props.store.getState().cards;
                 } else if ((chatNameError as CreateChatPage).props.errorMsg === undefined) {
                     chatNameError.setProps({
                         errorMsg: "Field can not be empty",
-                    })
+                    });
                 }
             },
 
             onClose: () => {
-                this.props.router.go('/chat');
+                this.props.router.go("/chat");
             },
         });
     }
@@ -56,7 +53,7 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                         }}}
                         <div class="button-container">
                             {{{ Button
-                                btnText="Cancel"
+                                btnText="Close"
                                 onClick=onClose
                                 passive="passive"
                             }}}

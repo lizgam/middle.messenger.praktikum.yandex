@@ -3,9 +3,9 @@ import {
     Router,
     Store
 } from "./core/index";
-import { defaultState } from './data/appState';
+import { defaultState } from "./data/appState";
 
-import { initApp } from './services/initApp';
+import { initApp } from "./services/initApp";
 
 import EditInfoPage from "./pages/editInfo";
 import ErrorPage from "./pages/errorPage";
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * Глобальный слушатель изменений в сторе
      * для переключения активного экрана
      */
-    store.on('changed', (prevState, nextState) => {
+    store.on("changed", (prevState, nextState) => {
         router.start();
     });
 
@@ -76,21 +76,22 @@ document.addEventListener("DOMContentLoaded", () => {
      */
 
     router
-        .use('/login', LoginPage)
-        .use('/register', RegisterPage)
-        .use('/chat', ChatPage)
-        .use('/errorPage', ErrorPage)
-        .use('/profile', ProfilePage)
-        .use('/editInfo/avatar', EditInfoPage, { isEditAvatar: true })
-        .use('/editInfo/password', EditInfoPage, { isEditAvatar: false })
-        .use('/createChat', CreateChatPage)
-        .use('/', LoginPage)
-        .use('*', LoginPage)
+        .use("/login", LoginPage)
+        .use("/register", RegisterPage)
+        .use("/chat", ChatPage)
+        .use("/errorPage", ErrorPage)
+        .use("/profile", ProfilePage)
+        .use("/editInfo/avatar", EditInfoPage, { isEditAvatar: true })
+        .use("/editInfo/password", EditInfoPage, { isEditAvatar: false })
+        .use("/createChat", CreateChatPage)
+        .use("/", LoginPage)
+        .use("*", ErrorPage);
 
     /**
      * Загружаем данные для приложения
      */
     setTimeout(() => {
+        console.log("Going to init");
         store.dispatch(initApp);
     }, 100);
 

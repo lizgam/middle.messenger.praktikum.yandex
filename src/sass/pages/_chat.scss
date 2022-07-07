@@ -1,7 +1,6 @@
 .main-board-section {
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
   flex-grow: 1;
   position: relative;
 }
@@ -231,8 +230,9 @@
 
   .action {
     position: absolute;
-    left: 140px;
-    font-size: 14px;
+    left: 175px;
+    font-size: 11px;
+    width: 86px;
     padding: 5px 10px;
     background-color: $bg-color-selected-light;
     border-radius: 19px;
@@ -244,7 +244,7 @@
     }
 
     &__top {
-      top: -13px;
+      top: -8px;
     }
   }
 

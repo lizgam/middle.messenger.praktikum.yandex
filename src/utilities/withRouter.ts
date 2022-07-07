@@ -1,5 +1,5 @@
-import { BlockClass } from 'core';
-import Router from '../core/Router';
+import { BlockClass } from "core";
+import Router from "../core/Router";
 
 type WithRouterProps = { router: Router }
 
@@ -11,5 +11,5 @@ export function withRouter<P extends WithRouterProps>(WrappedBlock: BlockClass<P
         constructor(props: P) {
             super({ ...props, router: window.router });
         }
-    } as BlockClass<Omit<P, 'router'>>;
+    } as BlockClass<Omit<P, "router">>;
 }

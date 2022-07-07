@@ -1,7 +1,7 @@
 import { ValidationRule } from "../utilities/validation";
 import { Block, Router, Store } from "core";
 import { login } from "../services/auth";
-import { withStore, withRouter } from 'utilities';
+import { withStore, withRouter } from "utilities";
 
 type LoginPageProps = {
     onLogin?: () => void;
@@ -18,10 +18,10 @@ export class LoginPage extends Block<LoginPageProps> {
             onLogin: () => {
                 const loginData: Partial<UserData> = {
                     login: (
-                        this.element?.querySelector('[name="login"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"login\"]") as HTMLInputElement
                     ).value,
                     password: (
-                        this.element?.querySelector('[name="password"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"password\"]") as HTMLInputElement
                     ).value,
                 };
                 if (this.checkFormValidity()) {
@@ -38,11 +38,11 @@ export class LoginPage extends Block<LoginPageProps> {
     protected getStateFromProps(): void {
         this.state = {
 
-        }
+        };
     }
     componentDidMount() {
         if (this.props.store.getState().user) {
-            this.props.router.go('/chat');
+            this.props.router.go("/chat");
         }
     }
 
