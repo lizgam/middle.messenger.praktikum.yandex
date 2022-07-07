@@ -24,7 +24,7 @@ export function withUser<P extends WithUserProps>(WrappedBlock: BlockClass<P>) {
              * и прокидывать не целый стор, а необходимые поля
              * с помощью метода mapStateToProps
              */
-            if (!isEqual(prevStoreState.user, newStoreState.user)) {
+            if (JSON.stringify(prevStoreState.user) !== JSON.stringify(newStoreState.user)) {
                 // @ts-expect-error this is not typed
                 this.setProps({ ...this.props, user: newStoreState.user });
             }
