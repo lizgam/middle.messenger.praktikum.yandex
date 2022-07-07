@@ -2,7 +2,7 @@ import { BlockClass } from 'core';
 import { isEqual } from "utilities/helpers";
 
 type WithUserProps = {
-    user: UserData | {};
+    user: UserData | null;
 }
 
 /**

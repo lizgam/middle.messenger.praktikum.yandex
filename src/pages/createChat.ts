@@ -1,9 +1,7 @@
-import { ValidationRule } from "../utilities/validation";
-import { UserInfoProfileStub } from "../data/data";
+import { ValidationRule } from "utilities/validation";
 import { Block, Router, Store } from "core";
-import { withStore, withRouter } from 'utilities';
-import { searchByLogin } from "../services/user"; //TODO
-import { createChat } from "../services/chats"; //TODO
+import { withStore, withRouter } from "utilities";
+import { createNewChat, getChats } from "services/chats";
 
 //type UserDataKey = keyof UserData;
 
@@ -26,29 +24,20 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                     ).value;
                 const chatNameError = (this.refs.first_name as CreateChatPage).refs.error;
                 if ((chatNameError as CreateChatPage).props.errorMsg === "") {
-                    console.log("create success");
-                    this.props.store.dispatch(createChat, chatName);
-                    //succesful message
-                    window.router.go('/chat');
+                    this.props.store.dispatch(createNewChat, { title: chatName });
+                    let oldCards = this.props.store.getState().cards;
+                    //oldCards?.push({ title: chatName })
                 } else if ((chatNameError as CreateChatPage).props.errorMsg === undefined) {
                     chatNameError.setProps({
                         errorMsg: "Field can not be empty",
                     })
-                    console.log("create NOT success");
                 }
             },
 
-
             onClose: () => {
-                window.router.go('/chat');
+                this.props.router.go('/chat');
             },
-            onCreate: () => { }
         });
-    }
-    componentDidMount() {
-        if (this.props.store.getState().user === {}) {
-            this.props.router.go('/login');
-        }
     }
 
     protected render() {
@@ -61,19 +50,19 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                         <div class="avatar_block">
                         </div>
                         {{{ InputControl label="Chat name" placeholder="Enter chat name"
-                            validationRule = "${ValidationRule.First_name}"
+                            validationRule = "${ValidationRule.Login}"
                             inputType="text"
                             id="chatName" name="chatName" ref="first_name"
                         }}}
                         <div class="button-container">
                             {{{ Button
-                                btnText="Back to chats"
+                                btnText="Cancel"
                                 onClick=onClose
                                 passive="passive"
                             }}}
                             {{{ Button
                                 btnText="Create"
-                                onClick=onCreate
+                                onClick=createChat
                             }}}
                         </div>
                     </form>

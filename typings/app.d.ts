@@ -15,11 +15,8 @@ declare global {
 
     export type AppState = {
         isLoading: boolean;
-        // isEditAvatar: boolean;
-        page: Page | null,
         authError: string | null,
-        user: UserData | {},
-        mode: EnumType | null,
+        user: UserData | null,
         cards: CardInfo[] | null,
         selectedCard: CardInfo | null,
         messages: ChatMessage[] | null,

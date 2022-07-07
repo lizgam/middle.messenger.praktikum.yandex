@@ -1,12 +1,9 @@
 // import { UserInfoProfileStub } from "../data/data";
 import { ValidationRule } from "../utilities/validation";
 import { Block, Router, Store } from "core";
-import { setEditMode } from "../services/profile"; //TODO
-import { updateUser } from "../services/user"; //TODO
+import { updateUser } from "../services/user";
 import { logout } from "../services/auth";
 import { withStore, withRouter, withUser, isValidInfo } from 'utilities';
-
-type UserDataKey = keyof UserData;
 
 interface EditInfoPageProps {
     isEditAvatar?: boolean;
@@ -56,11 +53,9 @@ export class ProfilePage extends Block<EditInfoPageProps> {
                 }
             },
             onClose: () => {
-                // console.log("GO TO CHATS");
                 this.props.router.go("/chat");
             },
             onLogout: () => {
-                // console.log("GO TO LOGIN");
                 this.props.store.dispatch(logout);
                 this.props.router.go("/login");
             },
@@ -94,7 +89,7 @@ export class ProfilePage extends Block<EditInfoPageProps> {
                         </div>
                         {{{ InputControl label="First Name" id="first_name" name="first_name" ref="first_name" inputType="text" validationRule = "${ValidationRule.First_name}" value="${values.first_name}"}}}
                         {{{ InputControl label="Second Name" id="second_name" name="second_name" ref="second_name" inputType="text" validationRule = "${ValidationRule.Second_name}" value="${values.second_name}"}}}
-                        {{{ InputControl label="Displayed Name" id="display_name" name="display_name" ref="display_name" inputType="text" validationRule = "${ValidationRule.First_name}" value="${values.display_name}"}}}
+                        {{{ InputControl label="Displayed Name" id="display_name" name="display_name" ref="display_name" inputType="text" validationRule = "${ValidationRule.Login}" value="${values.display_name}"}}}
                         {{{ InputControl label="Email" id="email" name="email" ref="email" inputType="email" validationRule = "${ValidationRule.Email}" value="${values.email}"}}}
                         {{{ InputControl label="Login" id="login" name="login" ref="login" inputType="text" validationRule = "${ValidationRule.Login}" value="${values.login}"}}}
                         {{{ActionClick actionText="Edit password" editClick=editPasswordClick}}}
@@ -104,7 +99,7 @@ export class ProfilePage extends Block<EditInfoPageProps> {
                         {{{ErrorLabel errorMsg=formError}}}
                         <div class="button-container">
                             {{{ Button
-                                btnText="Back to chats"
+                                btnText="Cancel"
                                 onClick=onClose
                                 passive="passive"
                             }}}

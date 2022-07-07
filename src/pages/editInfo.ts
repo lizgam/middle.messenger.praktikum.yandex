@@ -33,17 +33,11 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
                     ).value,
                 };
                 if (this.checkFormValidity()) {
-                    this.props.store.dispatch(changePassword, passwordSet) // for password
-                    // this.props.store.dispatch({ isEditAvatar: false });
+                    this.props.store.dispatch(changePassword, passwordSet);
                 }
             },
             onClose: () => {
-                // this.props.store.dispatch({ isEditAvatar: false });
-                // window.router.go('/profile');
-                // console.log('store updated in EditInfo to false')
-                //this.props.store.dispatch({ isLoading: false });
-                this.props.router.go("/profile"); // ???
-                // window.router.go('/profile');
+                this.props.router.go("/profile");
             }
         });
     }
@@ -113,7 +107,7 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
 
                         <div class="button-container">
                             {{{ Button
-                                btnText="Back to profile"
+                                btnText="Cancel"
                                 onClick=onClose
                                 passive="passive"
                             }}}

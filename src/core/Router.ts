@@ -29,6 +29,7 @@ class Route<P = any>{
     leave() {
         if (this.#block) {
             this.#block.hide();
+            this.#block = null;
         }
     }
     match(pathname: string) {
@@ -54,7 +55,6 @@ class Route<P = any>{
         }
 
         this.#block.setProps({ idPath: id });
-        //debugger;
         this.#block.show();
     }
 }
@@ -83,7 +83,6 @@ export default class Router {
     }
     //по событию onpopstate запускает приложение
     start() {
-        // console.log('enter Router start');
         window.onpopstate = ((event) => {
             this._onRoute(event.currentTarget?.location.pathname);
         });
@@ -98,7 +97,6 @@ export default class Router {
         }
 
         if (this.#currentRoute && this.#currentRoute !== route) {
-            // console.log('switching pages in router');
             this.#currentRoute.leave();
         }
 

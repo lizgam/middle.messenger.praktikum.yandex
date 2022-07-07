@@ -1,6 +1,7 @@
 
 import ChatsAPI from "../api/chatsAPI";
 import { APIError } from "api/types";
+import { CardDTO } from 'api/types';
 import type { Dispatch } from "core";
 import { transformCards, isErrorResponse } from "utilities";
 import { transformMessages } from "utilities/apiTransformers";
@@ -14,6 +15,13 @@ type CardsRequestData = {
 type AddUserRequestData = {
     users: number[],
     chatId: number
+}
+type RemoveUserRequestData = {
+    users: number[],
+    chatId: number
+}
+type CreateNewChatPayload = {
+    title: string;
 }
 
 type CreateChatPayload = {
@@ -34,20 +42,50 @@ export const getChats = async (dispatch: Dispatch<AppState>, state: AppState, ac
         dispatch({ isLoading: false, authError: response.reason });
         return;
     }
-    // console.log('before cards dispatch');
+
     dispatch({ isLoading: false, cards: transformCards(response as CardDTO[]) });
-    // console.log('after cards dispatch');
 };
 
-export const addUserToChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddUserRequestData) => {
+export const addUserToChat = async (action: AddUserRequestData) => {
+    // dispatch({ isLoading: true });
 
+    const api: ChatsAPI = new ChatsAPI();
+    const response = await api.addUserToChat(action);
+
+    if (isErrorResponse(response)) {
+        console.log(response.reason);
+        return;
+    }
 };
-export const removeUserFromChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddUserRequestData) => {
 
+export const removeUserFromChat = async (action: RemoveUserRequestData) => {
+
+    const api: ChatsAPI = new ChatsAPI();
+    const response = await api.removeUserFromChat(action);
+
+    if (isErrorResponse(response)) {
+        console.log(response.reason);
+        return;
+    }
+};
+
+export const createNewChat = async (dispatch: Dispatch<AppState>, state: AppState, action: CreateNewChatPayload) => {
+    dispatch({ isLoading: true });
+
+    const api: ChatsAPI = new ChatsAPI();
+    const response = await api.createChat(action);
+
+    if (isErrorResponse(response)) {
+        dispatch({ isLoading: false, authError: response.reason });
+        return;
+    }
+
+    await getChats(dispatch, state, {});
+    dispatch({ isLoading: false });
+    window.router.go('/chat');
 };
 
 export const sendMessage = (chatId: number, message: string) => {
-    // debugger;
     if (openConnections[chatId]) {
         const socket = openConnections[chatId];
         socket?.send(JSON.stringify({
@@ -66,12 +104,15 @@ export const createChat = async (
     payload: CreateChatPayload,
 ) => {
     let socket: WebSocket;
+    let interval: ReturnType<typeof setInterval>;
+
     if (!openConnections[payload.chatId]) {
         const api: ChatsAPI = new ChatsAPI();
         const chatToken = await api.getToken(payload.chatId);
 
         if (isErrorResponse(chatToken)) {
             // somehow display the error
+            console.log("somehow display the error: ", chatToken);
             return;
         }
 
@@ -83,7 +124,6 @@ export const createChat = async (
         socket = new WebSocket(socketURI);
 
         socket.addEventListener('open', () => {
-            //         debugger;
             console.log('connection established');
             openConnections[payload.chatId] = socket;
 
@@ -92,6 +132,14 @@ export const createChat = async (
                 content: "0",
                 type: "get old",
             }));
+
+
+            // interval = setInterval(() => {
+            //     socket.send(JSON.stringify({
+            //         type: "ping",
+            //     }));
+            // }, 8000);
+
         });
 
         socket.addEventListener('close', event => {
@@ -102,6 +150,8 @@ export const createChat = async (
             } else {
                 console.log('Обрыв соединения');
             }
+
+            //clearInterval(interval);
 
             console.log(`Код: ${event.code} | Причина: ${event.reason}`);
         });

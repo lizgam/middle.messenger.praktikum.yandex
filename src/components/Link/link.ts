@@ -8,7 +8,6 @@ interface LinkProps {
 export class Link extends Block {
     constructor(props: LinkProps) {
         const onClick = (e: MouseEvent) => {
-            console.log("go to:", this.props.address);
             window.router.go(this.props.address);
             e.preventDefault();
         };

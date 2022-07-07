@@ -54,7 +54,7 @@ export class RegisterPage extends Block<RegisterPageProps> {
         }
     }
     componentDidMount() {
-        if (this.props.store.getState().user === {}) {
+        if (this.props.store.getState().user) {
             this.props.router.go('/profile');
         }
     }

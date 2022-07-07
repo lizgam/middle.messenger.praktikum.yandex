@@ -33,10 +33,10 @@ export class ChatPage extends Block<ChatPageProps>{
     }
 
     render(): string {
-        const chatName = this.props.user.displayed_name ?
-            this.props.user.displayed_name :
+        const chatName = this.props.user.display_name ?
+            this.props.user.display_name :
             this.props.user.login;
-        
+
         return `
             <div class="chat-board">
                 <section class="cards-section">
@@ -44,14 +44,13 @@ export class ChatPage extends Block<ChatPageProps>{
                         {{{ InputControl placeholder="Enter searching name" inputType="search" }}}
                     </div>
                     <div class="cards-section__chat-panel">
-                        <div style="display: block;position: absolute;left: 1000px;top: 150px;width: 20%;">User: ${chatName}</div>
                         <ul id="nav-list" class="card-section__nav-list">
                             {{#each store.state.cards}}
                             <li class="user-card">
                                 {{{ Card
                                     selectedCard=../selectedCard
                                     ref="card"
-                                card=this
+                                    card=this
                                     onChooseCard=../onChooseCard
                                 }}}
                             </li>
@@ -61,7 +60,11 @@ export class ChatPage extends Block<ChatPageProps>{
                 </section>
                 <section class="main-board-section">
                     {{{ Navigation}}}
-                    {{{ Chat selectedCard=selectedCard messages=store.state.messages}}}
+                    {{#if selectedCard}}
+                        {{{ Chat selectedCard=selectedCard messages=store.state.messages}}}
+                    {{else }}
+                        <div> <h3>Hello, ${this.props.user.first_name} </h3> <p>Select chat to start chatting or create new Chat</p></div>
+                    {{/if}}
                 </section>
             </div>
     `;
@@ -70,6 +73,4 @@ export class ChatPage extends Block<ChatPageProps>{
 
 export default withRouter(withStore(withUser(ChatPage)));
 
-// {{#if selectedCard}}
-// {{else }}<h3>Hello, ${this.props.user.first_name} <br>Select chat to start chatting or create new Chat</h3>
-// {{/if}}
+

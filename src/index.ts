@@ -1,5 +1,4 @@
 import {
-    renderDOM,
     registerComponent,
     Router,
     Store
@@ -8,34 +7,33 @@ import { defaultState } from './data/appState';
 
 import { initApp } from './services/initApp';
 
-import ChatPage from "./pages/chatPage";
-import LoginPage from "./pages/login";
-import RegisterPage from "./pages/register";
-import ErrorPage from "./pages/errorPage";
 import EditInfoPage from "./pages/editInfo";
-import ProfilePage from "./pages/profile";
+import ErrorPage from "./pages/errorPage";
+import ChatPage from "./pages/chatPage";
 import CreateChatPage from "./pages/createChat";
+import LoginPage from "./pages/login";
+import ProfilePage from "./pages/profile";
+import RegisterPage from "./pages/register";
 
-import Addgroup from "./components/Addgroup";
+import ActionClick from "./components/ActionClick";
 import Button from "./components/Button";
 import Card from "./components/Card";
 import Chat from "./components/Chat";
+import Dialog from "./components/Dialog";
 import ErrorLabel from "./components/ErrorLabel";
 import Input from "./components/Input";
 import InputControl from "./components/InputControl";
 import Link from "./components/Link";
-import ActionClick from "./components/Edit";
 import MessageBoard from "./components/MessageBoard";
 import Message from "./components/Message";
 import Navigation from "./components/Navigation";
-import Profile from "./components/Profile";
 
 import "./sass/style.scss";
 
-registerComponent(Addgroup);
 registerComponent(Button);
 registerComponent(Card);
 registerComponent(Chat);
+registerComponent(Dialog);
 registerComponent(ErrorLabel);
 registerComponent(Input);
 registerComponent(InputControl);
@@ -44,7 +42,6 @@ registerComponent(ActionClick);
 registerComponent(MessageBoard);
 registerComponent(Message);
 registerComponent(Navigation);
-registerComponent(Profile);
 
 
 declare global {
@@ -71,14 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * для переключения активного экрана
      */
     store.on('changed', (prevState, nextState) => {
-        // console.log('store update triggered');
         router.start();
-        //if (process.env.DEBUG) {
-        // console.log(
-        //     '%cstore updated',
-        //     'background: #222; color: #bada55',
-        //     nextState
-        // );
     });
 
     /**

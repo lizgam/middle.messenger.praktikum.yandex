@@ -1,12 +1,11 @@
-import { Block, Router, Store } from "core";
-import { withStore, withRouter } from 'utilities';
+import { Block } from "core";
 
-export class ErrorPage extends Block {
+export default class ErrorPage extends Block {
     protected render() {
         const staticData = {
             pageName: "404",
             errorTitle: "We cannot find the requested page",
-            href: "#login",
+            href: "/login",
             linkText: "Back to Login Page",
         };
         return `
@@ -21,5 +20,3 @@ export class ErrorPage extends Block {
         `;
     }
 }
-
-export default withRouter(withStore(ErrorPage));

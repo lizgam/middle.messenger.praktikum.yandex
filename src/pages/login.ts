@@ -13,7 +13,6 @@ type LoginPageProps = {
 
 export class LoginPage extends Block<LoginPageProps> {
     constructor(props: LoginPageProps) {
-        // console.log('enter LoginPage. props', props);
         super({
             ...props,
             onLogin: () => {
@@ -34,7 +33,6 @@ export class LoginPage extends Block<LoginPageProps> {
         this.setProps({
             formError: () => this.props.store.getState().authError,
         });
-        // console.log('enter LoginPage. props', props); //??? 2 times?
     }
 
     protected getStateFromProps(): void {
@@ -43,7 +41,7 @@ export class LoginPage extends Block<LoginPageProps> {
         }
     }
     componentDidMount() {
-        if (this.props.store.getState().user === {}) {
+        if (this.props.store.getState().user) {
             this.props.router.go('/chat');
         }
     }

@@ -221,17 +221,22 @@
   position: absolute;
   top: 40px;
   background-color: $bg-color-selected-light;
-  padding: 10px 36px 10px 10px;
+  padding: 10px 73px 10px 10px;
   border-radius: 30px;
+
+  .icon-info {
+    position: absolute;
+    right: 35px;
+  }
 
   .action {
     position: absolute;
-    left: 116px;
+    left: 140px;
     font-size: 14px;
     padding: 5px 10px;
     background-color: $bg-color-selected-light;
     border-radius: 19px;
-    border: 1px solid;
+    border: 1px dashed $button-color;
     cursor: pointer;
 
     &__bottom {
