@@ -20,7 +20,6 @@ function queryStringify(data: any = {}) {
 }
 
 export default class HTTPTransport {
-    static API_URL = "https://ya-praktikum.tech/api/v2";
     protected prefix: string;
 
     constructor(prefix: string) {
@@ -60,7 +59,7 @@ export default class HTTPTransport {
     request = (url: string, options: RequestOptions = {}, timeout = 5000) => {
         const { method, data, headers = {} } = options;
 
-        const nomilizedUrl = `${HTTPTransport.API_URL}${this.prefix}${url}`;
+        const nomilizedUrl = `${process.env.API_ENDPOINT}${this.prefix}${url}`;
 
 
         return new Promise((resolve, reject) => {

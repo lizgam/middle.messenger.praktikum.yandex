@@ -1,4 +1,3 @@
-
 import ChatsAPI from "api/chatsAPI";
 import UserAPI from "api/userAPI";
 import { CardDTO, SearchedUsersByLoginDTO, UserDataDTO } from "api/types";
@@ -163,7 +162,7 @@ export const openChat = async (
         console.log("chat token received: ", chatToken);
         console.log("userId: ", payload.userId);
 
-        const socketURI = `wss://ya-praktikum.tech/ws/chats/${payload.userId}/${payload.chatId}/${chatToken.token}`;
+        const socketURI = `${process.env.WS_ENDPOINT}/${payload.userId}/${payload.chatId}/${chatToken.token}`;
         console.log(socketURI);
         socket = new WebSocket(socketURI);
 
@@ -191,23 +190,27 @@ export const openChat = async (
         });
 
         socket.addEventListener("message", event => {
-            let parsedData: any[] = JSON.parse(event.data);
-            if (!Array.isArray(parsedData)) {
-                parsedData = [parsedData];
-            }
+            try {
+                let parsedData: any[] = JSON.parse(event.data);
+                if (!Array.isArray(parsedData)) {
+                    parsedData = [parsedData];
+                }
 
-            const messages = parsedData.map((msg: any) => transformMessages(msg, payload.userId));
-            messages.sort((d1: ChatMessage, d2: ChatMessage) => { return d2.id - d1.id; });
+                const messages = parsedData.map((msg: any) => transformMessages(msg, payload.userId));
+                messages.sort((d1: ChatMessage, d2: ChatMessage) => { return d2.id - d1.id; });
 
-            const updatedMessages: Chat = window.store.getState().messages;
-            if (payload.chatId in window.store.getState().messages) {
-                updatedMessages[payload.chatId] = [...window.store.getState().messages[payload.chatId], ...messages];
-            }
-            else {
-                updatedMessages[payload.chatId] = messages;
-            }
+                const updatedMessages: Chat = window.store.getState().messages;
+                if (payload.chatId in window.store.getState().messages) {
+                    updatedMessages[payload.chatId] = [...window.store.getState().messages[payload.chatId], ...messages];
+                }
+                else {
+                    updatedMessages[payload.chatId] = messages;
+                }
 
-            dispatch({ messages: updatedMessages });
+                dispatch({ messages: updatedMessages });
+            } catch (e) {
+                console.error("Something went wrong: ", e);
+            }
         });
 
         socket.addEventListener("error", event => {

@@ -1,7 +1,7 @@
 import { UserDataDTO, CardDTO, LastMessageDTO, ChatMessageDTO } from "api/types";
 
 export const transformUser = (data: UserDataDTO): UserData => {
-    const avatar = data.avatar ? `https://ya-praktikum.tech/api/v2/resources${data.avatar}` : null;
+    const avatar = data.avatar ? `${process.env.API_ENDPOINT}/resources${data.avatar}` : null;
     return {
         id: data.id,
         avatar: avatar,
