@@ -1,6 +1,6 @@
 import Block from "../../core/Block";
 
-interface ButtonProps {
+type ButtonProps = {
     btnText: string;
     onClick: () => void;
 }

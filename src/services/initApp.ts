@@ -15,7 +15,6 @@ export async function initApp(dispatch: Dispatch<AppState>) {
 
         if (hasError(response)) {
             console.log("Init Error:", response.reason);
-            console.log("...redirecting to Login Page");
             window.router.go("/login");
             return;
         }

@@ -1,4 +1,4 @@
-export { transformUser, transformCards } from "./apiTransformers";
+export { transformUser, transformCards, transformSearchedUsers, transformMessages } from "./apiTransformers";
 export { default as HTTPTransport } from "./httpTransport";
 export { withStore } from "./withStore";
 export { withRouter } from "./withRouter";

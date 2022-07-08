@@ -1,6 +1,6 @@
 import Block from "../../core/Block";
 
-export interface CardProps {
+type CardProps = {
     card: CardInfo;
     onDelete: () => void;
     onChooseCard: (card: CardInfo) => void;
@@ -10,9 +10,9 @@ export interface CardProps {
 
 export class Card extends Block {
     static componentName = "Card";
-    constructor({ onDelete, onChooseCard, ...props }: CardProps) {
+    constructor(props: CardProps) {
         super({
-            events: { click: () => { onChooseCard(props.card); }, delete: onDelete },
+            events: { click: () => { props.onChooseCard(props.card); }, delete: props.onDelete },
             ...props,
         });
 
@@ -23,7 +23,7 @@ export class Card extends Block {
     }
 
     protected render(): string {
-        
+
         return `
             <div class="card {{#if isSelected}}card_selected{{/if}}">
                 {{#if card.avatar}}

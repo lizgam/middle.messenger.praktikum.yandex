@@ -89,18 +89,16 @@ export default class Block<P = any> {
         this.componentDidMount(props);
     }
 
-    protected componentDidMount(props: P): void {
-
-    }
+    //eslint-disable-next-line
+    protected componentDidMount(props: P): void { }
 
     private _componentWillUnmount() {
         this.eventBus().destroy();
         this.componentWillUnmount();
     }
 
-    protected componentWillUnmount() {
-
-    }
+    //eslint-disable-next-line
+    protected componentWillUnmount() { }
 
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);

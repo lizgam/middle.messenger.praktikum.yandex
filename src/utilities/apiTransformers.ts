@@ -14,6 +14,21 @@ export const transformUser = (data: UserDataDTO): UserData => {
     };
 };
 
+export const transformSearchedUsers = (data: UserDataDTO[]): UserData[] => {
+    return data.map((i): UserData => {
+        return {
+            id: i.id,
+            avatar: i.avatar,
+            login: i.login,
+            first_name: i.first_name,
+            second_name: i.second_name,
+            display_name: i.display_name,
+            email: i.email,
+            phone: i.phone
+        } as UserData;
+    });
+};
+
 export const transformCards = (data: CardDTO[]): CardInfo[] => {
     return data.map((i) => {
         return {

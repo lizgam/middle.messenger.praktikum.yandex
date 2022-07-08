@@ -91,7 +91,6 @@ export default class HTTPTransport {
             req.timeout = timeout;
             req.ontimeout = reject;
             req.withCredentials = true;
-
             if (method === Methods.GET || !data) {
                 req.send();
             } else {

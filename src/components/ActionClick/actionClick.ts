@@ -1,6 +1,6 @@
 import Block from "../../core/Block";
 
-interface ActionClickProps {
+type ActionClickProps = {
     actionText: string;
     editClick: () => void;
 }

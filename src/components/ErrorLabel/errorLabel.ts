@@ -1,10 +1,10 @@
 import Block from "../../core/Block";
 
-export interface ErrorLabelProps {
+type ErrorLabelProps = {
     errorMsg: string;
 }
 
-export class ErrorLabel extends Block {
+export class ErrorLabel extends Block<ErrorLabelProps> {
     static componentName = "ErrorLabel";
 
     protected render(): string {

@@ -1,9 +1,9 @@
 import { Block, Router, Store } from "core";
 import { withStore, withRouter, withUser, Mode } from "utilities";
-import { createChat } from "services/chats";
+import { openChat } from "services/chats";
 import { getChats } from "services/chats";
 
-interface ChatPageProps {
+type ChatPageProps = {
     router: Router;
     store: Store<AppState>;
     user: UserData;
@@ -21,7 +21,7 @@ export class ChatPage extends Block<ChatPageProps>{
         this.setProps({
             onChooseCard: (card: CardInfo) => {
                 this.setProps({ selectedCard: card });
-                this.props.store.dispatch(createChat, { userId: this.props.user.id, chatId: card.id });
+                this.props.store.dispatch(openChat, { userId: this.props.user.id, chatId: card.id });
             }
         });
     }
@@ -41,6 +41,11 @@ export class ChatPage extends Block<ChatPageProps>{
             this.props.user.display_name :
             this.props.user.login;
 
+        // let chatMessages: ChatMessage[];
+        // if (this.props.selectedCard) {
+        //     chatMessages = this.props.store.getState().messages[this.props.selectedCard.id];
+        // }
+        // console.log('chatMessages=', chatMessages);
 
         return `
             <div class="chat-board">

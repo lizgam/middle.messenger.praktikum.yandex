@@ -5,7 +5,7 @@ import { withStore, withRouter } from "utilities";
 
 type UserDataKey = keyof UserData;
 
-interface EditInfoPageProps {
+type EditInfoPageProps = {
     user?: UserData;
     errorMsg?: string;
     router: Router;
@@ -37,7 +37,7 @@ export class EditInfoPage extends Block<EditInfoPageProps> {
             uploadFile: () => {
                 const avatar: HTMLInputElement = document.getElementById("avatar") as HTMLInputElement;
                 if (avatar && avatar.files) {
-                    let image: File = avatar.files[0];
+                    const image: File = avatar.files[0];
                     const form = new FormData();
                     form.append("avatar", image);
                     this.props.store.dispatch(changeAvatar, form);

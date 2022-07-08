@@ -1,6 +1,5 @@
-import AuthAPI from "../api/authAPI";
 import UserAPI from "../api/userAPI";
-import { UserDataDTO, APIError } from "api/types";
+import { UserDataDTO } from "api/types";
 import type { Dispatch } from "core";
 import { transformUser, isErrorResponse } from "utilities";
 
@@ -28,13 +27,13 @@ type SearchByLoginData = {
 export const updateUser = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    action: ChangeProfilePayload,
+    payload: ChangeProfilePayload,
 ) => {
     dispatch({ isLoading: true });
 
     const api: UserAPI = new UserAPI();
 
-    const response = await api.updateUser(action);
+    const response = await api.updateUser(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
@@ -51,13 +50,13 @@ export const updateUser = async (
 export const changePassword = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    action: ChangePasswordData,
+    payload: ChangePasswordData,
 ) => {
     dispatch({ isLoading: true });
 
     const api: UserAPI = new UserAPI();
 
-    const response = await api.changePassword(action);
+    const response = await api.changePassword(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
@@ -72,12 +71,12 @@ export const changePassword = async (
 export const changeAvatar = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    action: ChangeAvatarData,
+    payload: ChangeAvatarData,
 ) => {
     dispatch({ isLoading: true });
 
     const api: UserAPI = new UserAPI();
-    const response = await api.changeAvatar(action);
+    const response = await api.changeAvatar(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
@@ -85,6 +84,7 @@ export const changeAvatar = async (
     }
 
     dispatch({ isLoading: false, authError: null });
+    dispatch({ user: transformUser(response as UserDataDTO) });
 
     window.router.go("/profile");
 };
@@ -92,13 +92,13 @@ export const changeAvatar = async (
 export const searchByLogin = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    action: SearchByLoginData,
+    payload: SearchByLoginData,
 ) => {
     dispatch({ isLoading: true });
 
     const api: UserAPI = new UserAPI();
 
-    const response = await api.searchByLogin(action);
+    const response = await api.searchByLogin(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });

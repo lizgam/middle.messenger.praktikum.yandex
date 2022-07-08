@@ -1,13 +1,12 @@
 import Block from "../../core/Block";
 import { sendMessage } from "services/chats";
 
-interface ChatProps {
+type ChatProps = {
     selectedCard?: CardInfo | null;
     addUserClick: () => void;
     removeUserClick: () => void;
     onCancelClick: () => void;
-    messages?: ChatMessage[] | null;
-    chatId: number;
+    messages: Chat;
     onSendMessage?: (e: Event) => void;
     showAddDialog: boolean;
     showRemoveDialog: boolean;
@@ -71,7 +70,7 @@ export class Chat extends Block<ChatProps> {
                             }}}
                         {{/if}}
                     </div>
-                    {{{ MessageBoard chatMessages=messages}}}
+                    {{{ MessageBoard messages=messages chatId=selectedCard.id }}}
                 {{/if }}
 
                 <div class="chat-section__input">

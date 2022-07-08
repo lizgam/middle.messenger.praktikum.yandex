@@ -35,50 +35,6 @@ export function set(object: Indexed | unknown, path: string, value: unknown): In
     return merge(object as Indexed, interObj);
 }
 
-/*
-type PlainObject<T = any> = {
-    [k in string]: T;
-};
-
-type PlainObjectKisString<T = unknown> = {
-    k: string;
-};
-const Foo: PlainObjectKisString = { k: 'str' };
-const Foo1: PlainObjectKisString = { k: 123 }; //error
-const Foo2: PlainObjectKisString = { foo: 'str' }; //error
-
-//[k in string] - создаст тип, у которого м быть произвольный ключ строкового типа т ошибок не будет:
-const Foo3: PlainObject = { k: 123 }; //error
-const Foo4: PlainObject = { foo: 'str' };
-
-~~~ Record<string,T>
-
-export function isEqual(a: PlainObject, b: PlainObject): boolean {
-    if (a === b) {
-    return true;
-  }
-  else if ((typeof a == "object" && a != null) && (typeof b == "object" && b != null)) {
-    if (Object.keys(a).length !== Object.keys(b).length)
-      return false;
-
-    for (const [key, value] of Object.entries(a)) {
-      const t = b[key];
-      if (b.hasOwnProperty(key))
-      {
-        if (! isEqual(value, t))
-          return false;
-      } else
-        return false;
-    }
-
-    return true;
-  }
-  else
-    return false;
-}
-*/
-
-
 function isPlainObject(value: unknown): value is PlainObject {
     return typeof value === "object"
         && value !== null
@@ -145,42 +101,6 @@ export function queryStringify(data: PlainObject) {
 
     return getParams(data).map(arr => arr.join("=")).join("&");
 }
-
-/*
-function queryStringify(data: StringIndexed): string | never {
-
-  if (typeof data !== "object") {
-      throw new Error("input must be an object");
-  }
-  let k = Object.keys(data);
-  let result= k.reduce((acc, i, index ) => {
-    let v:any = data[i];
-    const tail = index < k.length - 1 ? "&" : "";
-
-    if (v instanceof Array) {
-      let arr = v.reduce((res,ind,val) => ({
-        ...res,[`${i}[${val}]`]: `${ind}`
-      }),{});
-      return `${acc}${queryStringify(arr)}${tail}`;
-    }
-
-    if (v instanceof Object) {
-      let obj = Object.keys(v)
-      .reduce((res,t) => (
-        {...res,[`${i}[${t}]`]: v[t]}
-      ),{});
-      return `${acc}${queryStringify(obj)}${tail}`;
-    }
-
-    return `${acc}${i}=${v}${tail}`;
-  },"");
-
-  return result;
-}
-
-*/
-
-
 
 export function cloneDeep<T extends object = object>(obj: T) {
     return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {

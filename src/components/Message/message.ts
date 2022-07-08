@@ -1,13 +1,12 @@
 import Block from "../../core/Block";
 
-export interface MessageProps {
+type MessageProps = {
     message: ChatMessage;
 }
 
 export class Message extends Block<MessageProps> {
     constructor(props: MessageProps) {
         super(props);
-        console.log(">>>> message=", props.message);
     }
     static componentName = "Message";
 

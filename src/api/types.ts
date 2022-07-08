@@ -40,3 +40,5 @@ export type ChangePasswordDataDTO = {
     oldPassword: string;
     newPassword: string;
 };
+
+export type SearchedUsersByLoginDTO = Partial<UserData>[];

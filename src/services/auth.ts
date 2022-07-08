@@ -20,13 +20,13 @@ type RegisterPayload = {
 export const login = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    action: LoginPayload,
+    payload: LoginPayload,
 ) => {
     dispatch({ isLoading: true });
 
     const api: AuthAPI = new AuthAPI();
 
-    const response = await api.signIn(action);
+    const response = await api.signIn(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
@@ -50,13 +50,13 @@ export const login = async (
 export const register = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
-    action: RegisterPayload,
+    payload: RegisterPayload,
 ) => {
     dispatch({ isLoading: true });
 
     const api: AuthAPI = new AuthAPI();
 
-    const response = await api.signUp(action);
+    const response = await api.signUp(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });

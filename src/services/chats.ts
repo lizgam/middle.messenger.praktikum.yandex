@@ -1,10 +1,9 @@
 
-import ChatsAPI from "../api/chatsAPI";
-import { APIError } from "api/types";
-import { CardDTO } from "api/types";
+import ChatsAPI from "api/chatsAPI";
+import UserAPI from "api/userAPI";
+import { CardDTO, SearchedUsersByLoginDTO, UserDataDTO } from "api/types";
 import type { Dispatch } from "core";
-import { transformCards, isErrorResponse } from "utilities";
-import { transformMessages } from "utilities/apiTransformers";
+import { transformCards, isErrorResponse, transformMessages, transformSearchedUsers } from "utilities";
 
 type CardsRequestData = {
     offset?: number;
@@ -29,14 +28,19 @@ type CreateChatPayload = {
     chatId: number;
 }
 
+type SearchByLoginData = {
+    login: string;
+};
+
+
 const openConnections: Record<string, WebSocket | null> = {};
 
-export const getChats = async (dispatch: Dispatch<AppState>, state: AppState, action: CardsRequestData) => {
+export const getChats = async (dispatch: Dispatch<AppState>, state: AppState, payload: CardsRequestData) => {
     dispatch({ isLoading: true });
 
     const api: ChatsAPI = new ChatsAPI();
 
-    const response = await api.getChats(action);
+    const response = await api.getChats(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
@@ -46,34 +50,75 @@ export const getChats = async (dispatch: Dispatch<AppState>, state: AppState, ac
     dispatch({ isLoading: false, cards: transformCards(response as CardDTO[]) });
 };
 
-export const addUserToChat = async (action: AddUserRequestData) => {
-    // dispatch({ isLoading: true });
+export const addUserToChat = async (userLogin: string, chatId: number) => {
+
+    const apiUser: UserAPI = new UserAPI();
+
+    const responseUserLogin = await apiUser.searchByLogin({ login: userLogin } as SearchByLoginData);
+
+
+    if (isErrorResponse(responseUserLogin)) {
+        console.log(responseUserLogin.reason);
+        window.store.dispatch({ isLoading: false, authError: responseUserLogin.reason });
+        return;
+    }
 
     const api: ChatsAPI = new ChatsAPI();
-    const response = await api.addUserToChat(action);
 
-    if (isErrorResponse(response)) {
-        console.log(response.reason);
-        return;
+    const searchedUsers: SearchedUsersByLoginDTO = transformSearchedUsers(responseUserLogin as UserDataDTO[]);
+
+    if (searchedUsers.length > 0) {
+        // TODO: implement functionality for selecting particular user from list of returned users by login. Now - the first one is taken
+        const userForAdding = searchedUsers[0].id;
+        const response = await api.addUserToChat({ users: [userForAdding], chatId: chatId } as AddUserRequestData);
+        alert(`User ${searchedUsers[0].login} added`);
+
+        if (isErrorResponse(response)) {
+            console.log(response.reason);
+            return;
+        }
+    } else {
+        alert("No users with such login exist");
     }
 };
 
-export const removeUserFromChat = async (action: RemoveUserRequestData) => {
+export const removeUserFromChat = async (userLogin: string, chatId: number) => {
+
+    const apiUser: UserAPI = new UserAPI();
+
+    const responseUserLogin = await apiUser.searchByLogin({ login: userLogin } as SearchByLoginData);
+
+
+    if (isErrorResponse(responseUserLogin)) {
+        console.log(responseUserLogin.reason);
+        window.store.dispatch({ isLoading: false, authError: responseUserLogin.reason });
+        return;
+    }
 
     const api: ChatsAPI = new ChatsAPI();
-    const response = await api.removeUserFromChat(action);
 
-    if (isErrorResponse(response)) {
-        console.log(response.reason);
-        return;
+    const searchedUsers: SearchedUsersByLoginDTO = transformSearchedUsers(responseUserLogin as UserDataDTO[]);
+
+    if (searchedUsers.length > 0) {
+        // TODO: implement functionality for selecting particular user from list of returned users by login. Now - the first one is taken
+        const userForAdding = searchedUsers[0].id;
+        const response = await api.removeUserFromChat({ users: [userForAdding], chatId: chatId } as RemoveUserRequestData);
+        alert(`User ${searchedUsers[0].login} removed`);
+
+        if (isErrorResponse(response)) {
+            console.log(response.reason);
+            return;
+        }
+    } else {
+        alert("No users with such login exist");
     }
 };
 
-export const createNewChat = async (dispatch: Dispatch<AppState>, state: AppState, action: CreateNewChatPayload) => {
+export const createNewChat = async (dispatch: Dispatch<AppState>, state: AppState, payload: CreateNewChatPayload) => {
     dispatch({ isLoading: true });
 
     const api: ChatsAPI = new ChatsAPI();
-    const response = await api.createChat(action);
+    const response = await api.createChat(payload);
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
@@ -98,7 +143,7 @@ export const sendMessage = (chatId: number, message: string) => {
 };
 
 
-export const createChat = async (
+export const openChat = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
     payload: CreateChatPayload,
@@ -153,7 +198,16 @@ export const createChat = async (
 
             const messages = parsedData.map((msg: any) => transformMessages(msg, payload.userId));
             messages.sort((d1: ChatMessage, d2: ChatMessage) => { return d2.id - d1.id; });
-            dispatch({ messages: [...(window.store.getState().messages || []), ...messages] });
+
+            const updatedMessages: Chat = window.store.getState().messages;
+            if (payload.chatId in window.store.getState().messages) {
+                updatedMessages[payload.chatId] = [...window.store.getState().messages[payload.chatId], ...messages];
+            }
+            else {
+                updatedMessages[payload.chatId] = messages;
+            }
+
+            dispatch({ messages: updatedMessages });
         });
 
         socket.addEventListener("error", event => {

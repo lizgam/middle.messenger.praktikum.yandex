@@ -13,13 +13,16 @@ declare global {
 
     type EnumType = { [s: any]: any }
 
+    export type Chat = Record<number, ChatMessage[]>;
+
     export type AppState = {
         isLoading: boolean;
+        informBar: string | null;
         authError: string | null,
         user: UserData | null,
         cards: CardInfo[] | null,
         selectedCard: CardInfo | null,
-        messages: ChatMessage[] | null,
+        messages: Chat,
     }
     export type UserData = {
         id: number;

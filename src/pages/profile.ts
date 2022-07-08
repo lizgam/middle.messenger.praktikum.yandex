@@ -4,7 +4,7 @@ import { updateUser } from "../services/user";
 import { logout } from "../services/auth";
 import { withStore, withRouter, withUser, isValidInfo } from "utilities";
 
-interface EditInfoPageProps {
+type EditInfoPageProps = {
     isEditAvatar?: boolean;
     errorMsg?: string;
     user: UserData;
@@ -16,7 +16,7 @@ interface EditInfoPageProps {
     editAvaClick?: () => void;
     editPasswordClick?: () => void;
     formError?: () => string | null;
-    avatar?: () => string | null;
+    avatar?: () => string | null | undefined;
 
 }
 
@@ -49,7 +49,6 @@ export class ProfilePage extends Block<EditInfoPageProps> {
 
                 if (this.checkFormValidity(loginData)) {
                     this.props.store.dispatch(updateUser, loginData);
-                    this.props.router.go("/chat");
                 }
             },
             onClose: () => {
@@ -77,7 +76,7 @@ export class ProfilePage extends Block<EditInfoPageProps> {
         return `
             <div class="chat-board edit_mode">
                 <section class="form_container">
-                    <h2>Profile: Hello, ${values.login} </h2>
+                    <h2>Hello, ${values.login} </h2>
                     {{{ Button btnText="Log out" onClick=onLogout }}}
                     <form action="#" method="post" class="profile_mode">
                         <div class="avatar_block">
@@ -120,7 +119,7 @@ export class ProfilePage extends Block<EditInfoPageProps> {
         const loginError = (this.refs.login as ProfilePage).refs.error;
         const first_nameError = (this.refs.first_name as ProfilePage).refs
             .error;
-        const displayed_nameError = (this.refs.first_name as ProfilePage).refs
+        const display_nameError = (this.refs.display_name as ProfilePage).refs
             .error;
         const second_nameError = (this.refs.second_name as ProfilePage).refs
             .error;
@@ -131,29 +130,17 @@ export class ProfilePage extends Block<EditInfoPageProps> {
             loginError,
             first_nameError,
             second_nameError,
-            displayed_nameError,
+            display_nameError,
             emailError,
             phoneError,
         ];
 
-        if (Object.values(data).every(isValidInfo) ||
+        if (Object.values(data).every(isValidInfo) &&
             inputMsgValidArray.every(
-                (msgInput) => (msgInput as ProfilePage).props.errorMsg === ""
-            )
+                (msgInput) => (!(msgInput as ProfilePage).props.errorMsg))
         ) {
             return true;
         } else {
-            inputMsgValidArray
-                .filter(
-                    (errorLabel) =>
-                        (errorLabel as ProfilePage).props.errorMsg ===
-                        undefined
-                )
-                .map((errorLabel) =>
-                    errorLabel.setProps({
-                        errorMsg: "Field can not be empty",
-                    })
-                );
             return false;
         }
     }
