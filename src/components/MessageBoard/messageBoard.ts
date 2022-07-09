@@ -1,25 +1,33 @@
-import { MessageStub } from "../../data/data";
 import Block from "../../core/Block";
 
-export interface MessageBoardProps {
-    chatMessages: Message[];
+type MessageBoardProps = {
+    messages?: Chat;
+    chatId: number;
+    currentChatMessages?: ChatMessage[];
 }
 
 export class MessageBoard extends Block {
     static componentName = "MessageBoard";
-    constructor({ ...props }: MessageBoardProps) {
-        super({
-            ...props,
-            chatMessages: MessageStub,
-        });
+    constructor(props: MessageBoardProps) {
+        super(props);
+
+        if (this.props.messages) {
+            this.setProps({
+                currentChatMessages: this.props.messages[this.props.chatId]
+            });
+        }
+    }
+    async componentDidMount() {
+        document.getElementById("hidden")?.scrollIntoView();
     }
 
     protected render(): string {
         return `
-            <div class="messages-board__messages">
-            {{#each chatMessages}}
-                {{{Message msg=this.text date=this.date userId=this.id}}}
+            <div class="messages-board__messages" id="message-container">
+            {{#each currentChatMessages}}
+                {{{ Message message=this }}}
             {{/each}}
+            <span id="hidden"></span>
             </div>
          `;
     }

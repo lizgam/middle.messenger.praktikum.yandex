@@ -3,37 +3,63 @@ declare global {
     export type Keys<T extends Record<string, unknown>> = keyof T;
     export type Values<T extends Record<string, unknown>> = T[Keys<T>];
 
+    export type Indexed<T = unknown> = {
+        [key in string]: T;
+    };
+
+    type PlainObject<T = unknown> = {
+        [k in string]: T;
+    };
+
+    type EnumType = { [s: any]: any }
+
+    export type Chat = Record<number, ChatMessage[]>;
+
+    export type AppState = {
+        isLoading: boolean;
+        informBar: string | null;
+        authError: string | null,
+        user: UserData | null,
+        cards: CardInfo[] | null,
+        selectedCard: CardInfo | null,
+        messages: Chat,
+    }
     export type UserData = {
         id: number;
-        avatar: string;
+        avatar?: string | null;
         login: string;
         first_name: string;
         second_name: string;
-        displayed_name?: string;
+        display_name?: string;
         email: string;
-        password: string;
+        password?: string;
         phone: string;
     };
-    export enum Mode {
-        Profile = "Profile",
-        Chat = "Chat",
-        Addgroup = "Addgroup",
-    }
+
     export type CardInfo = {
         id: number;
-        name: string;
-        avatar?: string;
-        message?: string;
-        date?: string;
-        count?: number;
-        selected?: boolean;
+        title: string;
+        avatar: string;
+        unread_count: number;
+        last_message: LastMessage;
     };
-    export type Message = {
-        text: string;
-        date: string; //TODO: change to new Date() ->
-        //use format: get Date()/ getMonth() and getHours(): getMinutes()
+    export type LastMessage = {
+        user: User<Omit<User, "id">>;
+        time: string;
+        content: string;
+    };
+
+    // {"id":1,"user_id":4614,"chat_id":81,"type":"message","time":"2022-07-03T06:13:19+00:00","content":"some test message","is_read":true,"file":null
+    export type ChatMessage = {
         id: number;
+        userId: number;
+        chatId: number;
+        time: Date;
+        content: string;
+        isRead: boolean;
+        isHost: boolean;
     };
+
     export type ChatGroup = {
         id: number;
         avatar?: string;
@@ -41,4 +67,4 @@ declare global {
     };
 }
 
-export {};
+export { };

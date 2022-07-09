@@ -1,39 +1,47 @@
 import Block from "../../core/Block";
 
-export interface CardProps {
-    users: CardInfo[];
+type CardProps = {
+    card: CardInfo;
     onDelete: () => void;
-    onClick: () => void;
+    onChooseCard: (card: CardInfo) => void;
+    selectedCard?: CardInfo;
+    isSelected: boolean;
 }
 
 export class Card extends Block {
-    constructor({ onDelete, onClick, ...props }: CardProps) {
+    static componentName = "Card";
+    constructor(props: CardProps) {
         super({
-            events: { select: onClick, delete: onDelete },
+            events: { click: () => { props.onChooseCard(props.card); }, delete: props.onDelete },
             ...props,
         });
+
+        if (props.card && props.selectedCard) {
+            const selected: boolean = this.props.card.id == this.props.selectedCard.id ? true : false;
+            this.setProps({ isSelected: selected });
+        }
     }
-    static componentName = "Card";
 
     protected render(): string {
+
         return `
-            <div class="card {{#if selected}}card_selected{{/if}}">
-                {{#if this.avatar}}
-                    <img class="card-avatar" src="{{{this.avatar}}}" alt="">
+            <div class="card {{#if isSelected}}card_selected{{/if}}">
+                {{#if card.avatar}}
+                    <img class="card-avatar" src="{{{card.avatar}}}" alt="">
                 {{else}}
                     <div class="card-avatar"></div>
                 {{/if}}
 
                 <div class="card-info">
                     <div class="card-msg">
-                        <h5 class="card-name">{{this.name}}</h5>
-                        <p class="card-msg__text">{{this.message}}</p>
+                        <h5 class="card-name">{{card.title}}</h5>
+                        <p class="card-msg__text">{{card.last_message.content}}</p>
                         {{#if delete}}<span class="card_delete">Delete</span>{{/if}}
                     </div>
                     <div class="card__msg-details">
-                        <time class="card__msg-details__msg-time">{{this.date}}</time>
-                        {{#if this.count}}
-                            <span class="card__msg-details__msg_counter">{{this.count}}</span>
+                        <time class="card__msg-details__msg-time">{{card.last_message.time}}</time>
+                        {{#if card.unread_count}}
+                            <span class="card__msg-details__msg_counter">{{card.unread_count}}</span>
                         {{/if}}
                         </span>
                     </div>

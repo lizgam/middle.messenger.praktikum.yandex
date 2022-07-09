@@ -2,7 +2,7 @@ import Block from "./Block";
 import Handlebars, { HelperOptions } from "handlebars";
 
 interface BlockConstructable<Props = any> {
-    new (props: Props): Block;
+    new(props: Props): Block;
     componentName: string;
 }
 

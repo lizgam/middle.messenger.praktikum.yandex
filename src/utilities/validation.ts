@@ -38,7 +38,7 @@ const validatePhone = (phone: string) => {
 export function validateInput(rule: ValidationRule, value: string): string {
     if (rule === ValidationRule.Login) {
         if (value.length < 3 || value.length > 20) {
-            return "Login must contain 3 to 20 symbols";
+            return "Must contain 3 to 20 symbols";
         } else if (!validateLogin(value)) {
             return "Numbers, letters ,'_' ,'-' are allowed. No space";
         }
@@ -46,7 +46,7 @@ export function validateInput(rule: ValidationRule, value: string): string {
         if (!validatePassword(value)) {
             return "At least one uppercase letter, at least one number";
         } else if (value.length < 8 || value.length > 40) {
-            return "Login must contain 8 to 40 symbols";
+            return "Password must contain 8 to 40 symbols";
         }
     } else if (rule === ValidationRule.First_name) {
         if (!validateName(value)) {

@@ -1,12 +1,13 @@
 import Block from "../../core/Block";
 
-export interface InputProps {
+type InputProps = {
     id?: string;
     inputType?: "text" | "password" | "email" | "tel" | "file";
     name?: string;
     placeholder?: string;
     value?: string;
     disabled?: boolean;
+    acceptfile?: string;
 
     onChange?: () => void;
     onEnter?: () => void;
@@ -44,6 +45,7 @@ export class Input extends Block {
             placeholder="{{placeholder}}"
             value="{{value}}"
             {{#if disabled}} disabled {{/if}}
+            {{#if acceptfile}} accept="{{acceptfile}}{{/if}}"
          />
          `;
     }

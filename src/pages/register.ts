@@ -1,41 +1,62 @@
 import { ValidationRule } from "../utilities/validation";
-import Block from "../core/Block";
+import { register } from "../services/auth";
+import { Block, Router, Store } from "core";
+import { withStore, withRouter } from "utilities";
 
-interface RegisterPageProps {
+type RegisterPageProps = {
     onRegister?: () => void;
+    errorMsg?: string;
+    router: Router;
+    store: Store<AppState>;
+    formError?: () => string | null;
 }
 
-export class RegisterPage extends Block {
+export class RegisterPage extends Block<RegisterPageProps> {
     constructor(props: RegisterPageProps) {
         super({
             ...props,
             onRegister: () => {
                 const loginData: Partial<UserData> = {
                     login: (
-                        this.element?.querySelector('[name="login"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"login\"]") as HTMLInputElement
                     ).value,
                     first_name: (
-                        this.element?.querySelector('[name="first_name"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"first_name\"]") as HTMLInputElement
                     ).value,
                     second_name: (
-                        this.element?.querySelector('[name="second_name"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"second_name\"]") as HTMLInputElement
                     ).value,
                     email: (
-                        this.element?.querySelector('[name="email"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"email\"]") as HTMLInputElement
                     ).value,
                     password: (
-                        this.element?.querySelector('[name="password"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"password\"]") as HTMLInputElement
                     ).value,
                     phone: (
-                        this.element?.querySelector('[name="phone"]') as HTMLInputElement
+                        this.element?.querySelector("[name=\"phone\"]") as HTMLInputElement
                     ).value,
                 };
 
                 if (this.checkFormValidity()) {
-                    console.log("SUBMITED values on the Page:", loginData);
+                    this.props.store.dispatch(register, loginData);
                 }
             },
         });
+
+        this.setProps({
+            formError: () => this.props.store.getState().authError,
+        });
+    }
+
+    protected getStateFromProps(): void {
+        this.state = {
+
+        };
+    }
+    componentDidMount() {
+        if (this.props.store.getState().user) {
+            this.props.router.go("/profile");
+        }
     }
 
     checkFormValidity() {
@@ -83,7 +104,7 @@ export class RegisterPage extends Block {
         const staticData = {
             pageName: "Registration Page",
             textForReffer: "Already have a Chatopolis account?",
-            href: "#login",
+            href: "/login",
             linkText: "Log in",
         };
         return `
@@ -96,6 +117,7 @@ export class RegisterPage extends Block {
                     {{{ InputControl label="Second Name" id="second_name" name="second_name" ref="second_name" validationRule = "${ValidationRule.Second_name}" inputType="text" }}}
                     {{{ InputControl label="Password" id="password" name="password" ref="password" validationRule = "${ValidationRule.Password}" inputType="password" }}}
                     {{{ InputControl label="Phone" id="phone" name="phone" ref="phone" validationRule = "${ValidationRule.Phone}" inputType="tel" placeholder="+1234567890" }}}
+                    {{{ErrorLabel errorMsg=formError}}}
                     {{{ Button btnText="Register" onClick=onRegister}}}
                     <span>${staticData.textForReffer}</span>
                     {{{ Link reasonText=textForReffer address="${staticData.href}" linkText="${staticData.linkText}"}}}
@@ -104,3 +126,5 @@ export class RegisterPage extends Block {
         `;
     }
 }
+
+export default withRouter(withStore(RegisterPage));

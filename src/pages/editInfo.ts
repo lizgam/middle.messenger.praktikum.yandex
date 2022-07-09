@@ -1,97 +1,138 @@
-import { UserInfoProfileStub } from "../data/data";
-import Block from "../core/Block";
+import { ValidationRule } from "../utilities/validation";
+import { Block, Router, Store } from "core";
+import { changeAvatar, changePassword } from "../services/user"; //TODO
+import { withStore, withRouter } from "utilities";
 
 type UserDataKey = keyof UserData;
 
-interface EditInfoPageProps {
-    userInfo?: UserData;
-    editedField?: UserDataKey;
-    isPassword?: boolean;
+type EditInfoPageProps = {
+    user?: UserData;
     errorMsg?: string;
+    router: Router;
+    store: Store<AppState>;
+    isEditAvatar: boolean;
     onClose?: () => void;
     onSave?: () => void;
+    uploadFile?: () => void;
 }
 
-export class EditInfoPage extends Block {
+export class EditInfoPage extends Block<EditInfoPageProps> {
+    static componentName = "EditInfoPage";
     constructor(props: EditInfoPageProps) {
         super({
             ...props,
-            userInfo: UserInfoProfileStub,
-            editedField: "login",
-            isPassword: false,
             onSave: () => {
-                const field = this.props.editedField;
-                const editedData = {
-                    editedField: (
-                        document.getElementById(field) as HTMLInputElement
+                const passwordSet = {
+                    oldPassword: (
+                        this.element?.querySelector("[name=\"oldPassword\"]") as HTMLInputElement
+                    ).value,
+                    newPassword: (
+                        this.element?.querySelector("[name=\"newPassword\"]") as HTMLInputElement
                     ).value,
                 };
-
-                const fieldError = (this.refs[field] as EditInfoPage).refs
-                    .error;
-
-                if ((fieldError as EditInfoPage).props.errorMsg === "") {
-                    console.log("New", field, "was setted!", editedData);
+                if (this.checkFormValidity()) {
+                    this.props.store.dispatch(changePassword, passwordSet);
                 }
             },
+            uploadFile: () => {
+                const avatar: HTMLInputElement = document.getElementById("avatar") as HTMLInputElement;
+                if (avatar && avatar.files) {
+                    const image: File = avatar.files[0];
+                    const form = new FormData();
+                    form.append("avatar", image);
+                    this.props.store.dispatch(changeAvatar, form);
+                }
+
+            },
+            onClose: () => {
+                this.props.router.go("/profile");
+            }
         });
+    }
+    checkFormValidity() {
+        const oldPasswordError = (this.refs.oldPassword as EditInfoPage).refs.error;
+        const newPasswordError = (this.refs.newPassword as EditInfoPage).refs.error;
+
+        const inputMsgValidArray = [oldPasswordError, newPasswordError];
+
+        if (
+            inputMsgValidArray.every(
+                (msgInput) => (msgInput as EditInfoPage).props.errorMsg === ""
+            )
+        ) {
+            return true;
+        } else {
+            inputMsgValidArray
+                .filter(
+                    (errorLabel) =>
+                        (errorLabel as EditInfoPage).props.errorMsg === undefined
+                )
+                .map((errorLabel) =>
+                    errorLabel.setProps({
+                        errorMsg: "Field can not be empty",
+                    })
+                );
+            return false;
+        }
     }
 
     protected render() {
-        const userDataObj = this.props.userInfo;
-        const editField = this.props.editedField;
-        let val = this.props.isPassword ? "" : userDataObj[editField];
-        let infoType = "";
-        switch (editField) {
-            case "email":
-                infoType = "email";
-                break;
-            case "password":
-                infoType = "password";
-                val = "";
-                break;
-            case "phone":
-                infoType = "tel";
-                break;
-            default:
-                infoType = "text";
-        }
+        console.log("render editInfo", this.props.isEditAvatar);
 
         return `
             <div class="chat-board edit_mode">
                 <section class="form_container">
-                    <h2>Edit ${editField}:</h2>
-                    <form action="#" method="post">
-                        {{{InputControl
-                            label = "${editField}"
-                            id="${editField}"
-                            name = "${editField}"
-                            validationRule = "${editField}"
-                            value="${val}"
-                            ref="${editField}"
-                            inputType = "${infoType}"
-                        }}}
-                        {{#if isPassword}}
+                    <h2>Edit Info:</h2>
+                    <form action="#" method="post" id="useEditForm">
+
+                        {{#if isEditAvatar}}
                             {{{InputControl
-                                label = "Repeat password"
-                                id="passwordConfermed"
-                                name = "password"
-                                value="${val}"
-                                ref="passwordConfermed"
+                                label = "Choose file for avatar"
+                                id="avatar"
+                                name = "avatar"
+                                ref="avatar"
+                                inputType = "file"
+                                acceptfile = "image/*"
+
+                            }}}
+                        {{else}}
+                            {{{InputControl
+                                label = "Enter old password"
+                                id="oldPassword"
+                                name = "oldPassword"
+                                validationRule = "${ValidationRule.Password}"
+                                ref="oldPassword"
+                                inputType = "password"
+                            }}}
+                            {{{InputControl
+                                label = "Enter new password"
+                                id="newPassword"
+                                name = "newPassword"
+                                validationRule = "${ValidationRule.Password}"
+                                ref="newPassword"
                                 inputType = "password"
                             }}}
                         {{/if}}
 
                         <div class="button-container">
+
+                        {{{ Button
+                            btnText="Close"
+                            onClick=onClose
+                            passive="passive"
+                        }}}
+                        {{#if isEditAvatar}}
                             {{{ Button
-                                btnText="Close"
-                                onClick=onClose
-                                passive="passive"
+                                btnText="Upload"
+                                onClick=uploadFile
                             }}}
+                        {{else}}
                             {{{ Button
-                                btnText="Save"
+                                btnText="Update"
                                 onClick=onSave
                             }}}
+                        {{/if}}
+
                         </div>
                     </form>
                 </section>
@@ -99,3 +140,5 @@ export class EditInfoPage extends Block {
          `;
     }
 }
+
+export default withRouter(withStore(EditInfoPage));

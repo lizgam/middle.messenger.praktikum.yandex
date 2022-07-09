@@ -19,7 +19,13 @@ function queryStringify(data: any = {}) {
     return `?${str.join("&")}`;
 }
 
-export class HTTPTransport {
+export default class HTTPTransport {
+    protected prefix: string;
+
+    constructor(prefix: string) {
+        this.prefix = prefix;
+    }
+
     get = (url: string, options: RequestOptions = {}) => {
         const dataUrl = queryStringify(options.data);
         const getUrl = dataUrl ? `${url}${dataUrl}` : url;
@@ -53,32 +59,45 @@ export class HTTPTransport {
     request = (url: string, options: RequestOptions = {}, timeout = 5000) => {
         const { method, data, headers = {} } = options;
 
+        const nomilizedUrl = `${process.env.API_ENDPOINT}${this.prefix}${url}`;
+
+
         return new Promise((resolve, reject) => {
             if (!method) {
                 reject("No method");
                 return;
             }
-            const xhr = new XMLHttpRequest();
+            const req = new XMLHttpRequest();
+            req.responseType = "json";
 
-            xhr.open(method, url);
+            req.open(method, nomilizedUrl);
 
             Object.keys(headers).forEach((key) => {
-                xhr.setRequestHeader(key, headers[key]);
+                req.setRequestHeader(key, headers[key]);
             });
 
-            xhr.onload = function () {
-                resolve(xhr);
+            req.onload = function () {
+                const responsonseData = req.response;
+                if (req.status === 200 || (req.status >= 400 && req.status < 500)) {
+                    resolve(responsonseData);
+                } else {
+                    reject(responsonseData);
+                }
             };
 
-            xhr.onabort = reject;
-            xhr.onerror = reject;
-            xhr.timeout = timeout;
-            xhr.ontimeout = reject;
-
+            req.onabort = reject;
+            req.onerror = reject;
+            req.timeout = timeout;
+            req.ontimeout = reject;
+            req.withCredentials = true;
             if (method === Methods.GET || !data) {
-                xhr.send();
+                req.send();
             } else {
-                xhr.send(data);
+                if (data instanceof FormData) {
+                    req.send(data as unknown as FormData);
+                } else {
+                    req.send(JSON.stringify(data));
+                }
             }
         });
     };

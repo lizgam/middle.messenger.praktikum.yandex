@@ -1,22 +1,19 @@
 import Block from "../../core/Block";
 
-interface LinkProps {
+type LinkProps = {
     linkText: string;
     address: string;
 }
 
 export class Link extends Block {
-    constructor(props: LinkProps) {
-        super({
-            ...props,
-            onClick: (e: MouseEvent) => {
-                console.log("clicked on link", props.address);
-                document.location.pathname = props.address;
-                e.preventDefault();
-            },
-        });
-    }
     static componentName = "Link";
+    constructor(props: LinkProps) {
+        const onClick = (e: MouseEvent) => {
+            window.router.go(this.props.address);
+            e.preventDefault();
+        };
+        super({ events: { click: onClick }, ...props });
+    }
 
     render() {
         return `

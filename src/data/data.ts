@@ -4,7 +4,7 @@ export const UserInfoProfileStub: UserData = {
     login: "TempD",
     first_name: "Temp",
     second_name: "Data",
-    displayed_name: "Temp D.",
+    display_name: "Temp D.",
     email: "lala@mir.ru",
     password: "Temp data",
     phone: "123-456-7890",
@@ -39,6 +39,16 @@ export const MessageStub: Message[] = [
         text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris malesuada eros semper est condimentum, in finibus sem posuere. Mauris quis est sit amet ipsum ultricies ornare. Proin aliquam magna quis mattis rutrum. Donec scelerisque in ex sed pretium. Nam rutrum massa at libero lobortis facilisis. Quisque molestie ante ac ipsum molestie efficitur. Ut id lorem lectus. Donec arcu ex, posuere id consequat id, vulputate nec odio. Nam mattis at tellus vitae lacinia. Fusce erat nisi, imperdiet vel interdum non, egestas vitae sapien. Aenean pellentesque lobortis tortor in tempus. Proin at gravida dui, pretium sodales purus. Quisque egestas, velit ut suscipit semper, dolor neque rhoncus enim, ut blandit velit felis sagittis urna. In scelerisque ornare orci, sit amet convallis neque tincidunt nec.Cras id lacinia mauris.",
         date: "10:50",
         id: 1010,
+    },
+    {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris malesuada eros semper est condimentum, in finibus sem posuere. Mauris quis est sit amet ipsum ultricies ornare. Proin aliquam magna quis mattis rutrum. Donec scelerisque in ex sed pretium. Nam rutrum massa at libero lobortis facilisis. Quisque molestie ante ac ipsum molestie efficitur. Ut id lorem lectus. Donec arcu ex, posuere id consequat id, vulputate nec odio. Nam mattis at tellus vitae lacinia. Fusce erat nisi, imperdiet vel interdum non, egestas vitae sapien. Aenean pellentesque lobortis tortor in tempus. Proin at gravida dui, pretium sodales purus. Quisque egestas, velit ut suscipit semper, dolor neque rhoncus enim, ut blandit velit felis sagittis urna. In scelerisque ornare orci, sit amet convallis neque tincidunt nec.Cras id lacinia mauris.",
+        date: "10:50",
+        id: 1017,
+    },
+    {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris malesuada eros semper est condimentum, in finibus sem posuere. Mauris quis est sit amet ipsum ultricies ornare. Proin aliquam magna quis mattis rutrum. Donec scelerisque in ex sed pretium. Nam rutrum massa at libero lobortis facilisis. Quisque molestie ante ac ipsum molestie efficitur. Ut id lorem lectus. Donec arcu ex, posuere id consequat id, vulputate nec odio. Nam mattis at tellus vitae lacinia. Fusce erat nisi, imperdiet vel interdum non, egestas vitae sapien. Aenean pellentesque lobortis tortor in tempus. Proin at gravida dui, pretium sodales purus. Quisque egestas, velit ut suscipit semper, dolor neque rhoncus enim, ut blandit velit felis sagittis urna. In scelerisque ornare orci, sit amet convallis neque tincidunt nec.Cras id lacinia mauris.",
+        date: "10:50",
+        id: 1017,
     },
     {
         text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris malesuada eros semper est condimentum, in finibus sem posuere. Mauris quis est sit amet ipsum ultricies ornare. Proin aliquam magna quis mattis rutrum. Donec scelerisque in ex sed pretium. Nam rutrum massa at libero lobortis facilisis. Quisque molestie ante ac ipsum molestie efficitur. Ut id lorem lectus. Donec arcu ex, posuere id consequat id, vulputate nec odio. Nam mattis at tellus vitae lacinia. Fusce erat nisi, imperdiet vel interdum non, egestas vitae sapien. Aenean pellentesque lobortis tortor in tempus. Proin at gravida dui, pretium sodales purus. Quisque egestas, velit ut suscipit semper, dolor neque rhoncus enim, ut blandit velit felis sagittis urna. In scelerisque ornare orci, sit amet convallis neque tincidunt nec.Cras id lacinia mauris.",
