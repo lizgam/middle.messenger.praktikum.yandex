@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev": "parcel ./src/index.html --no-cache",
+        "dev": "webpack",
         "build": "parcel build ./src/index.html --no-cache",
         "start": "parcel build ./src/index.html --no-cache && node server.js",
         "eslint": "node_modules/.bin/eslint .",
@@ -15,15 +15,6 @@
     },
     "author": "Lisa Hamaliy",
     "license": "ISC",
-    "alias": {
-        "api": "./src/api",
-        "components": "./src/components",
-        "core": "./src/core",
-        "model": "./src/model",
-        "pages": "./src/pages",
-        "services": "./src/services",
-        "utilities": "./src/utilities"
-    },
     "bugs": {
         "url": "https://github.com/lizgam/chatopolis/issues"
     },
@@ -35,15 +26,22 @@
         "@typescript-eslint/parser": "5.18.0",
         "assert": "2.0.0",
         "console-browserify": "1.2.0",
+        "css-loader": "6.7.1",
         "eslint": "8.12.0",
         "express": "4.17.3",
+        "html-webpack-plugin": "5.5.0",
+        "mini-css-extract-plugin": "2.6.1",
         "parcel": "2.3.2",
         "process": "0.11.10",
+        "sass-loader": "13.1.0",
         "stylelint": "14.6.1",
         "stylelint-config-standard-scss": "3.0.0",
         "stylelint-scss": "4.2.0",
+        "ts-loader": "9.4.1",
         "typescript": "4.6.3",
-        "util": "0.12.4"
+        "util": "0.12.4",
+        "webpack": "5.74.0",
+        "webpack-cli": "4.10.0"
     },
     "engines": {
         "nodeVersion": ">=14 <16"
