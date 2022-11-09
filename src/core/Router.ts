@@ -82,7 +82,7 @@ export default class Router {
     //по событию onpopstate запускает приложение
     start() {
         window.onpopstate = ((event) => {
-            this._onRoute(event.currentTarget?.location.pathname);
+            this._onRoute((event.currentTarget as Window).location.pathname);
         });
 
         this._onRoute(window.location.pathname);

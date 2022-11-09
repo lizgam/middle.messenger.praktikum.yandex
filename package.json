@@ -7,7 +7,8 @@
         "build": "parcel build ./src/index.html --no-cache",
         "start": "parcel build ./src/index.html --no-cache && node server.js",
         "eslint": "node_modules/.bin/eslint .",
-        "stylelint": "npx stylelint '**/*.scss'"
+        "stylelint": "npx stylelint '**/*.scss'",
+        "test": "jest"
     },
     "repository": {
         "type": "git",
@@ -21,6 +22,7 @@
     "homepage": "https://github.com/lizgam/chatopolis#readme",
     "devDependencies": {
         "@parcel/transformer-sass": "2.3.2",
+        "@types/jest": "27.5.1",
         "@types/node": "17.0.23",
         "@typescript-eslint/eslint-plugin": "5.18.0",
         "@typescript-eslint/parser": "5.18.0",
@@ -30,6 +32,7 @@
         "eslint": "8.12.0",
         "express": "4.17.3",
         "html-webpack-plugin": "5.5.0",
+        "jest": "^27",
         "mini-css-extract-plugin": "2.6.1",
         "parcel": "2.3.2",
         "process": "0.11.10",
@@ -37,6 +40,7 @@
         "stylelint": "14.6.1",
         "stylelint-config-standard-scss": "3.0.0",
         "stylelint-scss": "4.2.0",
+        "ts-jest": "^27",
         "ts-loader": "9.4.1",
         "typescript": "4.6.3",
         "util": "0.12.4",
@@ -48,6 +52,33 @@
     },
     "dependencies": {
         "handlebars": "4.7.7",
+        "jsdom": "20.0.2",
         "nanoid": "3.3.2"
+    },
+    "jest": {
+        "testEnvironment": "jsdom",
+        "setupFiles": [
+            "<rootDir>/src/tests/setupEnv.ts"
+        ],
+        "setupFilesAfterEnv": [
+            "<rootDir>/src/tests/setup.ts"
+        ],
+        "moduleNameMapper": {
+            "\\.(css)$": "identity-obj-proxy",
+            "^api(.*)$": "<rootDir>/src/api$1",
+            "^components(.*)$": "<rootDir>/src/components$1",
+            "^core(.*)$": "<rootDir>/src/core$1",
+            "^model(.*)$": "<rootDir>/src/model$1",
+            "^pages(.*)$": "<rootDir>/src/pages$1",
+            "^services(.*)$": "<rootDir>/src/services$1",
+            "^utilities(.*)$": "<rootDir>/src/utilities$1"
+        },
+        "preset": "ts-jest",
+        "transform": {
+            "^.+\\.ts?$": "ts-jest"
+        },
+        "transformIgnorePatterns": [
+            "<rootDir>/node_modules/"
+        ]
     }
 }
