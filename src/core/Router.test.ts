@@ -1,49 +1,36 @@
 import Router from './Router';
-// import BlockClass from './Block';
-// import registerComponent from './registerComponent';
+import BlockClass from './Block';
+import registerComponent from './registerComponent';
 
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 
-let testRouter: Router;
+class myTempBlock extends BlockClass<any> { }
 
-// class myTempBlock extends BlockClass<any> {
-//     constructor(props: P = {}) {
-//         super(props);
-//     }
-
-//     render(): string {
-//         const tmpl = new Templator(TEMPLATE);
-//         return tmpl.compile(this.props);
-//     }
-// }
-
-// registerComponent(myTempBlock);
+registerComponent(myTempBlock);
 
 
 describe('core/Router', () => {
-    const dom = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`, { url: 'https://localhost:1234' });
-    console.log(dom.window.document.querySelector("p").textContent); // "Hello world"
-    (global as any).window = dom.window;
-    (global as any).document = dom.window.document;
-    const router = new Router();;
-    testRouter = router;
+    const testRouter = new Router();
 
+    test('should register route', () => {
+        testRouter.use("/testUrl", myTempBlock);
+        const check = testRouter.getRoute("/testUrl");
 
-    // test('should register route and return itself', () => {
-    //     testRouter.use("/testUrl", myTempBlock);
-    //     const check = testRouter.getRoute("/testUrl");
-    //     console.log(check);
+        expect(check?.match("/testUrl")).toEqual(true);
+    });
 
-    //     expect(check?.match("/testUrl")).toEqual(true);
-    // });
-
-    test('should go to particular route', () => {
+    test('should go to the route and push it to history', () => {
         testRouter.go('/changePage1');
         testRouter.go('/changePage2');
 
         expect(window.history.length).toEqual(3);
         expect(window.location.pathname).toEqual('/changePage2');
+    });
+
+    test("should work with history back function", () => {
+        const methodMock = jest.spyOn(window.history, "back");
+        testRouter.back();
+
+        expect(methodMock).toHaveBeenCalled();
     });
 });
 

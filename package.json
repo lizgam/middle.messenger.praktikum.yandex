@@ -34,6 +34,7 @@
         "html-webpack-plugin": "5.5.0",
         "jest": "^27",
         "mini-css-extract-plugin": "2.6.1",
+        "msw": "0.48.1",
         "parcel": "2.3.2",
         "process": "0.11.10",
         "sass-loader": "13.1.0",
@@ -57,17 +58,12 @@
     },
     "jest": {
         "testEnvironment": "jsdom",
-        "setupFiles": [
-            "<rootDir>/src/tests/setupEnv.ts"
-        ],
-        "setupFilesAfterEnv": [
-            "<rootDir>/src/tests/setup.ts"
-        ],
         "moduleNameMapper": {
             "\\.(css)$": "identity-obj-proxy",
             "^api(.*)$": "<rootDir>/src/api$1",
             "^components(.*)$": "<rootDir>/src/components$1",
             "^core(.*)$": "<rootDir>/src/core$1",
+            "^data(.*)$": "<rootDir>/src/data$1",
             "^model(.*)$": "<rootDir>/src/model$1",
             "^pages(.*)$": "<rootDir>/src/pages$1",
             "^services(.*)$": "<rootDir>/src/services$1",
