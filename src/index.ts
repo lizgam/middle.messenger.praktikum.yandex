@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * Глобальный слушатель изменений в сторе
      * для переключения активного экрана
      */
-    store.on("changed", (prevState, nextState) => {
+    store.on("changed", () => {
         router.start();
     });
 

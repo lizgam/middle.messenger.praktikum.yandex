@@ -3,7 +3,7 @@ import { Block, Router, Store } from "core";
 import { changeAvatar, changePassword } from "../services/user"; //TODO
 import { withStore, withRouter } from "utilities";
 
-type UserDataKey = keyof UserData;
+// type UserDataKey = keyof UserData;
 
 type EditInfoPageProps = {
     user?: UserData;

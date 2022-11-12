@@ -4,8 +4,6 @@ import Handlebars from "handlebars";
 
 type Events = Values<typeof Block.EVENTS>;
 
-export type Props = Record<any, any>;
-
 export interface BlockClass<P> extends Function {
     new(props: P): Block<P>;
     componentName?: string;
@@ -23,7 +21,7 @@ export default class Block<P = any> {
     public id = nanoid(6);
     static componentName: string;
     protected _element: Nullable<HTMLElement> = null;
-    protected readonly props: Props;
+    protected readonly props: P;
     protected children: { [id: string]: Block } = {};
 
     eventBus: () => EventBus<Events>;
@@ -91,6 +89,7 @@ export default class Block<P = any> {
         this.componentDidMount(props);
     }
 
+    //eslint-disable-next-line
     protected componentDidMount(_props: P): void { }
 
     private _componentWillUnmount() {
@@ -117,7 +116,7 @@ export default class Block<P = any> {
         return true;
     }
 
-    setProps = (nextProps: Props) => {
+    setProps = (nextProps: Partial<P>) => {
         if (!nextProps) {
             return;
         }

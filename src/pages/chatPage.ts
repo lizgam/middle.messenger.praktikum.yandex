@@ -1,5 +1,5 @@
 import { Block, Router, Store } from "core";
-import { withStore, withRouter, withUser, Mode } from "utilities";
+import { withStore, withRouter, withUser } from "utilities";
 import { openChat } from "services/chats";
 import { getChats } from "services/chats";
 

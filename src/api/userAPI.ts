@@ -13,9 +13,6 @@ type ChangePasswordData = {
     oldPassword: string;
     newPassword: string;
 };
-type ChangeAvatarData = {
-    avatar: string;
-};
 
 type SearchByLoginData = {
     login: string;
@@ -36,7 +33,7 @@ export default class UserAPI extends BaseAPI {
             data, headers: { "Content-Type": "application/json" }
         });
     }
-    changeAvatar(data: ChangeAvatarData): Promise<unknown> {
+    changeAvatar(data: FormData): Promise<unknown> {
         return this.http.put("/profile/avatar", {
             data
         });

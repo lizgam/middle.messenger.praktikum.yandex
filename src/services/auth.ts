@@ -19,7 +19,7 @@ type RegisterPayload = {
 
 export const login = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
+    _state: AppState,
     payload: LoginPayload,
 ) => {
     dispatch({ isLoading: true });
@@ -49,7 +49,7 @@ export const login = async (
 
 export const register = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
+    _state: AppState,
     payload: RegisterPayload,
 ) => {
     dispatch({ isLoading: true });

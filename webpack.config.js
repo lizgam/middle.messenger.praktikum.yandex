@@ -1,5 +1,6 @@
 const prod = process.env.NODE_ENV === 'production';
 const path = require('path');
+var webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -17,23 +18,30 @@ module.exports = {
     output: {
         path: DIST_DIR,
         filename: 'main.js',
-        publicPath: '/'
+        // publicPath: '/'
+    },
+    devServer: {
+        static: DIST_DIR,
+        port: 3333,
+        historyApiFallback: true,
+        compress: true,
     },
     module: {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                exclude: /node_modules/,
-                use: 'ts-loader',
+                //use: 'ts-loader',
+                use: [
+                    {
+                        loader: "ts-loader",
+                        options: {
+                            configFile: path.resolve(__dirname, "tsconfig.json"),
+                            // allowTsInNodeModules: false
+                        },
+                    },
+                ],
+                exclude: /node_modules/
             },
-            // {
-            //     test: /\.html /,
-            //     use: [
-            //         {
-            //             loader: 'html?name=[name].[ext]'
-            //         }
-            //     ]
-            // },
             {
                 test: /\.s[ac]ss$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
@@ -52,7 +60,6 @@ module.exports = {
         ]
     },
     resolve: {
-        modules: ['src'],
         extensions: ['.ts', '.js', '.json'],
         alias: {
             api: path.resolve(ROOT_DIR, "api"),
@@ -71,5 +78,9 @@ module.exports = {
             template: 'src/index.html',
         }),
         new MiniCssExtractPlugin(),
+        new webpack.EnvironmentPlugin({
+            API_ENDPOINT: "https://ya-praktikum.tech/api/v2",
+            WS_ENDPOINT: "wss://ya-praktikum.tech/ws/chats",
+        })
     ],
 };

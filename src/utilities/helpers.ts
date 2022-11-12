@@ -62,7 +62,7 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
     for (const [key, value] of Object.entries(lhs)) {
         const rightValue = rhs[key];
         if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-            if (isEqual(value, rightValue)) {
+            if (isEqual(value as PlainObject, rightValue as PlainObject)) {
                 continue;
             }
             return false;
@@ -102,75 +102,75 @@ export function queryStringify(data: PlainObject) {
     return getParams(data).map(arr => arr.join("=")).join("&");
 }
 
-export function cloneDeep<T extends object = object>(obj: T) {
-    return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
-        // Handle:
-        // * null
-        // * undefined
-        // * boolean
-        // * number
-        // * string
-        // * symbol
-        // * function
-        if (item === null || typeof item !== "object") {
-            return item;
-        }
+// export function cloneDeep<T extends object = object>(obj: T) {
+//     return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
+//         // Handle:
+//         // * null
+//         // * undefined
+//         // * boolean
+//         // * number
+//         // * string
+//         // * symbol
+//         // * function
+//         if (item === null || typeof item !== "object") {
+//             return item;
+//         }
 
-        // Handle:
-        // * Date
-        if (item instanceof Date) {
-            return new Date(item.valueOf());
-        }
+//         // Handle:
+//         // * Date
+//         if (item instanceof Date) {
+//             return new Date(item.valueOf());
+//         }
 
-        // Handle:
-        // * Array
-        if (item instanceof Array) {
-            const copy: any[] = [];
+//         // Handle:
+//         // * Array
+//         if (item instanceof Array) {
+//             const copy: any[] = [];
 
-            item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])));
+//             item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])));
 
-            return copy;
-        }
+//             return copy;
+//         }
 
-        // Handle:
-        // * Set
-        if (item instanceof Set) {
-            const copy = new Set();
+//         // Handle:
+//         // * Set
+//         if (item instanceof Set) {
+//             const copy = new Set();
 
-            item.forEach(v => copy.add(_cloneDeep(v)));
+//             item.forEach(v => copy.add(_cloneDeep(v)));
 
-            return copy;
-        }
+//             return copy;
+//         }
 
-        // Handle:
-        // * Map
-        if (item instanceof Map) {
-            const copy = new Map();
+//         // Handle:
+//         // * Map
+//         if (item instanceof Map) {
+//             const copy = new Map();
 
-            item.forEach((v, k) => copy.set(k, _cloneDeep(v)));
+//             item.forEach((v, k) => copy.set(k, _cloneDeep(v)));
 
-            return copy;
-        }
+//             return copy;
+//         }
 
-        // Handle:
-        // * Object
-        if (item instanceof Object) {
-            const copy: { [key: string]: any } = {};
+//         // Handle:
+//         // * Object
+//         if (item instanceof Object) {
+//             const copy: { [key: string]: any } = {};
 
-            // Handle:
-            // * Object.symbol
-            Object.getOwnPropertySymbols(item).forEach(s => (copy[s] = _cloneDeep(item[s])));
+//             // Handle:
+//             // * Object.symbol
+//             Object.getOwnPropertySymbols(item).forEach(s => (copy[s] = _cloneDeep(item[s])));
 
-            // Handle:
-            // * Object.name (other)
-            Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k])));
+//             // Handle:
+//             // * Object.name (other)
+//             Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k])));
 
-            return copy;
-        }
+//             return copy;
+//         }
 
-        throw new Error(`Unable to copy object: ${item}`);
-    })(obj);
-}
+//         throw new Error(`Unable to copy object: ${item}`);
+//     })(obj);
+// }
 
 export function deepCopy<T>(target: T): T {
     if (target === null) {

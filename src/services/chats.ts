@@ -34,7 +34,7 @@ type SearchByLoginData = {
 
 const openConnections: Record<string, WebSocket | null> = {};
 
-export const getChats = async (dispatch: Dispatch<AppState>, state: AppState, payload: CardsRequestData) => {
+export const getChats = async (dispatch: Dispatch<AppState>, _state: AppState, payload: CardsRequestData) => {
     dispatch({ isLoading: true });
 
     const api: ChatsAPI = new ChatsAPI();
@@ -144,11 +144,10 @@ export const sendMessage = (chatId: number, message: string) => {
 
 export const openChat = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
+    _state: AppState,
     payload: CreateChatPayload,
 ) => {
     let socket: WebSocket;
-    let interval: ReturnType<typeof setInterval>;
 
     if (!openConnections[payload.chatId]) {
         const api: ChatsAPI = new ChatsAPI();
@@ -159,10 +158,11 @@ export const openChat = async (
             return;
         }
 
-        console.log("chat token received: ", chatToken);
+        const token = (chatToken as { token: string}).token
+        console.log("chat token received: ", token);
         console.log("userId: ", payload.userId);
 
-        const socketURI = `${process.env.WS_ENDPOINT}/${payload.userId}/${payload.chatId}/${chatToken.token}`;
+        const socketURI = `${process.env.WS_ENDPOINT}/${payload.userId}/${payload.chatId}/${token}`;
         console.log(socketURI);
         socket = new WebSocket(socketURI);
 
@@ -214,7 +214,7 @@ export const openChat = async (
         });
 
         socket.addEventListener("error", event => {
-            console.log("Ошибка", event.message);
+            console.log("Ошибка", event);
         });
     }
 };

@@ -11,14 +11,14 @@ class Route<P = any>{
     #pathname: string;
     #blockClass: BlockClass<P>;
     #block: Block | null = null;
-    // #props: props;
+    #props: props;
     #isPrefixId: boolean | undefined;
 
-    constructor(pathname: string, view: BlockClass<P>, _props: props) {
+    constructor(pathname: string, view: BlockClass<P>, props: props) {
         this.#isPrefixId = pathname.includes(":id");
         this.#pathname = pathname.replace("/:id", "");
         this.#blockClass = view;
-        // this.#props = props;
+        this.#props = props;
     }
     //метод для отображения вьюшки, если переданный URL совпадает с URL текущего Route;
     navigate(pathname: string) {
@@ -47,7 +47,8 @@ class Route<P = any>{
         const { id } = this.#prefixHandler();
         if (!this.#block) {
             // this.#block = new this.#blockClass({ ...this.#props, idPath: id });
-            this.#block = new this.#blockClass({} as P);
+            this.#block = new this.#blockClass(this.#props as P);
+            // this.#block = new this.#blockClass({} as P);
             renderDOM(this.#block);
             return;
         }

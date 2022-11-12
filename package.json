@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev": "webpack",
+        "dev": "webpack --config webpack.config.js",
         "build": "parcel build ./src/index.html --no-cache",
         "start": "parcel build ./src/index.html --no-cache && node server.js",
         "eslint": "node_modules/.bin/eslint .",
