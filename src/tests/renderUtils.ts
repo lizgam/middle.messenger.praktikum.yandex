@@ -1,8 +1,6 @@
 import { BlockClass, renderDOM, registerComponent, Store, Router } from 'core';
 import { defaultState } from 'data/appState';
-import ProfilePage from '../pages/profile';
 import Button from '../components/Button';
-// import { initRouter } from '../router';
 
 type RenderBlockParams<T> = {
     Block: BlockClass<T>;
@@ -30,7 +28,7 @@ export async function renderBlock<T extends Object>({ Block, props, state = defa
     //will render block into DOM
     renderDOM(new Block(props as T));
 
-    store.on("changed", (prevState, nextState) => {
+    store.on("changed", (_prevState, _nextState) => {
         router.start();
     });
 
@@ -45,7 +43,7 @@ export async function renderBlock<T extends Object>({ Block, props, state = defa
     await sleep(); //задержка
 }
 
-export async function step(name: string, callback: () => void) {
+export async function step(_name: string, callback: () => void) {
     await callback();
 }
 
