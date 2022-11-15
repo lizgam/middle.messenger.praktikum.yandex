@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "webpack serve --config webpack.config.js",
         "build": "webpack --config webpack.config.js",
+        "start": "webpack --config webpack.config.js && && node server.js",
         "eslint": "node_modules/.bin/eslint .",
         "stylelint": "npx stylelint '**/*.scss'",
         "test": "jest"
