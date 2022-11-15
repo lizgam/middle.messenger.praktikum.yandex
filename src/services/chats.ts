@@ -67,7 +67,6 @@ export const addUserToChat = async (userLogin: string, chatId: number) => {
     const searchedUsers: SearchedUsersByLoginDTO = transformSearchedUsers(responseUserLogin as UserDataDTO[]);
 
     if (searchedUsers.length > 0) {
-        // TODO: implement functionality for selecting particular user from list of returned users by login. Now - the first one is taken
         const userForAdding = searchedUsers[0].id;
         const response = await api.addUserToChat({ users: [userForAdding], chatId: chatId } as AddUserRequestData);
         alert(`User ${searchedUsers[0].login} added`);
@@ -99,7 +98,6 @@ export const removeUserFromChat = async (userLogin: string, chatId: number) => {
     const searchedUsers: SearchedUsersByLoginDTO = transformSearchedUsers(responseUserLogin as UserDataDTO[]);
 
     if (searchedUsers.length > 0) {
-        // TODO: implement functionality for selecting particular user from list of returned users by login. Now - the first one is taken
         const userForAdding = searchedUsers[0].id;
         const response = await api.removeUserFromChat({ users: [userForAdding], chatId: chatId } as RemoveUserRequestData);
         alert(`User ${searchedUsers[0].login} removed`);
@@ -158,7 +156,7 @@ export const openChat = async (
             return;
         }
 
-        const token = (chatToken as { token: string}).token
+        const token = (chatToken as { token: string }).token;
         console.log("chat token received: ", token);
         console.log("userId: ", payload.userId);
 

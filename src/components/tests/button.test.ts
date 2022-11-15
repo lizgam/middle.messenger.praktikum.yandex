@@ -9,7 +9,6 @@ describe('core/Block', () => {
 
         document.body.innerHTML = '<div id="app"></div>';
         renderDOM(button);
-        // console.log(document.body);
         expect(document.querySelector("button")).toBeInstanceOf(HTMLButtonElement);
     });
 

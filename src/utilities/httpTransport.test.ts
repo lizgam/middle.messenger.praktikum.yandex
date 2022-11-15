@@ -4,7 +4,6 @@ import HTTPTransport from './httpTransport';
 
 const endpoint = 'api.com';
 const url = `${endpoint}/`;
-//handlers that we'd like to catch in testing
 const handlers = [
     rest.post('http://localhost/undefined/test/api.com/', (_req, res, ctx) => {
         console.log('Endpoint was INVOKED');
@@ -15,14 +14,14 @@ const handlers = [
 
 const server = setupServer(...handlers);
 
-
 describe('utilities/httpTransport', () => {
 
-    // test('should htttpTransport object created', () => {
-    //     const httpTestObj = new HTTPTransport(endpoint);
-    //     expect(httpTestObj).toBeInstanceOf(HTTPTransport);
+    test('should htttpTransport object created', () => {
+        const httpTestObj = new HTTPTransport(endpoint);
+        expect(httpTestObj).toBeInstanceOf(HTTPTransport);
 
-    // });
+    });
+
     test('should post request work', async () => {
         server.listen();
         const httpTestObj = new HTTPTransport("/test/");
@@ -34,10 +33,3 @@ describe('utilities/httpTransport', () => {
         server.close();
     });
 });
-
-
-//jest.mock('./Block', () => BlockMock);
-
-// jest.mock('./Block',()) => {
-//     return jest.fn().mockImplementation
-// } ;

@@ -5,7 +5,6 @@
     "scripts": {
         "dev": "webpack serve --config webpack.config.js",
         "build": "webpack --config webpack.config.js",
-        "start": "parcel build ./src/index.html --no-cache && node server.js",
         "eslint": "node_modules/.bin/eslint .",
         "stylelint": "npx stylelint '**/*.scss'",
         "test": "jest"

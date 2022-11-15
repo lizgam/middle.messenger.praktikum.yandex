@@ -46,9 +46,7 @@ class Route<P = any>{
     render() {
         const { id } = this.#prefixHandler();
         if (!this.#block) {
-            // this.#block = new this.#blockClass({ ...this.#props, idPath: id });
             this.#block = new this.#blockClass(this.#props as P);
-            // this.#block = new this.#blockClass({} as P);
             renderDOM(this.#block);
             return;
         }

@@ -11,7 +11,6 @@ describe('core/Store', () => {
         const store = new Store({});
         store.set({ user: 12 });
 
-        //// @ts-expect-error
         expect(store.getState()).toEqual({ user: 12 });
     });
 

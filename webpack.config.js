@@ -5,12 +5,8 @@ var webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const SRC_DIR = path.resolve(__dirname, '..', 'src');
 const DIST_DIR = path.join(__dirname, './dist');
 const ROOT_DIR = path.join(__dirname, './src');
-console.log('S', SRC_DIR);
-console.log('D', DIST_DIR);
-console.log('R', ROOT_DIR);
 
 module.exports = {
     mode: prod ? 'production' : 'development',
@@ -18,7 +14,6 @@ module.exports = {
     output: {
         path: DIST_DIR,
         filename: 'main.js',
-        // publicPath: '/'
     },
     devServer: {
         static: DIST_DIR,
@@ -30,13 +25,11 @@ module.exports = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                //use: 'ts-loader',
                 use: [
                     {
                         loader: "ts-loader",
                         options: {
                             configFile: path.resolve(__dirname, "tsconfig.json"),
-                            // allowTsInNodeModules: false
                         },
                     },
                 ],

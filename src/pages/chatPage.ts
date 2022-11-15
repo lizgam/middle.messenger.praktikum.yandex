@@ -41,12 +41,6 @@ export class ChatPage extends Block<ChatPageProps>{
             this.props.user.display_name :
             this.props.user.login;
 
-        // let chatMessages: ChatMessage[];
-        // if (this.props.selectedCard) {
-        //     chatMessages = this.props.store.getState().messages[this.props.selectedCard.id];
-        // }
-        // console.log('chatMessages=', chatMessages);
-
         return `
             <div class="chat-board">
                 <section class="cards-section">
