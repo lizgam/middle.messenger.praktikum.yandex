@@ -6,9 +6,20 @@
         "dev": "webpack serve --config webpack.config.js",
         "build": "webpack --config webpack.config.js",
         "start": "webpack --config webpack.config.js && node server.js",
-        "eslint": "node_modules/.bin/eslint .",
-        "stylelint": "npx stylelint '**/*.scss'",
-        "test": "jest"
+        "eslint": "eslint .",
+        "eslint:fix": "eslint . --fix",
+        "stylelint": "stylelint '**/*.scss'",
+        "test": "jest",
+        "prepare": "husky install",
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{ts, js}": [
+            "npm run test && npm run eslint"
+        ],
+        "*.{scss, css}": [
+            "npm run stylelint"
+        ]
     },
     "repository": {
         "type": "git",
@@ -30,9 +41,10 @@
         "console-browserify": "1.2.0",
         "css-loader": "6.7.1",
         "eslint": "8.12.0",
-        "express": "4.17.3",
         "html-webpack-plugin": "5.5.0",
+        "husky": "^8.0.0",
         "jest": "^27",
+        "lint-staged": "13.0.3",
         "mini-css-extract-plugin": "2.6.1",
         "msw": "0.48.1",
         "parcel": "2.3.2",
@@ -46,18 +58,23 @@
         "typescript": "4.6.3",
         "util": "0.12.4",
         "webpack": "5.74.0",
-        "webpack-cli": "4.10.0"
+        "webpack-cli": "4.10.0",
+        "webpack-dev-server": "4.11.1"
     },
     "engines": {
         "nodeVersion": ">=14 <16"
     },
     "dependencies": {
         "handlebars": "4.7.7",
+        "express": "4.17.3",
         "jsdom": "20.0.2",
         "nanoid": "3.3.2"
     },
     "jest": {
         "testEnvironment": "jsdom",
+        "setupFiles": [
+            "<rootDir>/src/tests/setupEnv.ts"
+        ],
         "moduleNameMapper": {
             "\\.(css)$": "identity-obj-proxy",
             "^api(.*)$": "<rootDir>/src/api$1",

@@ -22,7 +22,7 @@ export default class ChatsAPI extends BaseAPI {
     }
 
     createChat(data: ChatRequestData): Promise<unknown> {
-        return this.http.post("", { data, headers: { "Content-Type": "application/json" } });
+        return this.http.post("", { data });
     }
 
     getChats(data: CardsRequestData): Promise<unknown> {
@@ -30,15 +30,15 @@ export default class ChatsAPI extends BaseAPI {
     }
 
     addUserToChat(data: ChatUserRequestData): Promise<unknown> {
-        return this.http.put("/users", { data, headers: { "Content-Type": "application/json" } });
+        return this.http.put("/users", { data });
     }
 
     removeUserFromChat(data: ChatUserRequestData): Promise<unknown> {
-        return this.http.delete("/users", { data, headers: { "Content-Type": "application/json" } });
+        return this.http.delete("/users", { data });
     }
 
     getToken(chatId: number): Promise<unknown> {
-        return this.http.post(`/token/${chatId}`, { headers: { "Content-Type": "application/json" } });
+        return this.http.post(`/token/${chatId}`);
     }
 
     create = undefined;

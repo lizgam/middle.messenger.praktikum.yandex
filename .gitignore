@@ -1,7 +1,7 @@
 # Dependencies
 node_modules/
-.parcel-cache/
 .DS_Store
 .github/
 dist/
 .vscode/
+.husky/

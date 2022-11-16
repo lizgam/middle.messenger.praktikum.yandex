@@ -14,7 +14,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         const response = await api.readUser();
 
         if (hasError(response)) {
-            console.log("Init Error:", response.reason);
+            console.error("Init Error:", response.reason);
             window.router.go("/login");
             return;
         }

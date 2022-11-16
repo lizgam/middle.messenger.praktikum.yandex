@@ -1,25 +1,30 @@
-const prod = process.env.NODE_ENV === 'production';
-const path = require('path');
-var webpack = require('webpack');
+/* global __dirname*/
+/* eslint @typescript-eslint/no-var-requires: "off" */
+/* eslint no-undef: "off"*/
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const prod = process.env.NODE_ENV === "production";
+const path = require("path");
+var webpack = require("webpack");
 
-const DIST_DIR = path.join(__dirname, './dist');
-const ROOT_DIR = path.join(__dirname, './src');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const DIST_DIR = path.join(__dirname, "./dist");
+const ROOT_DIR = path.join(__dirname, "./src");
 
 module.exports = {
-    mode: prod ? 'production' : 'development',
-    entry: path.resolve(ROOT_DIR, 'index.ts'),
+    mode: prod ? "production" : "development",
+    entry: path.resolve(ROOT_DIR, "index.ts"),
     output: {
         path: DIST_DIR,
-        filename: 'main.js',
+        filename: "main.js",
     },
     devServer: {
         static: DIST_DIR,
         port: 3333,
         historyApiFallback: true,
         compress: true,
+        open: true
     },
     module: {
         rules: [
@@ -37,13 +42,13 @@ module.exports = {
             },
             {
                 test: /\.s[ac]ss$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
             },
             {
                 test: /\.(png|jpg|gif)$/,
                 use: [
                     {
-                        loader: 'url-loader',
+                        loader: "url-loader",
                         options: {
                             limit: 8192,
                         },
@@ -53,7 +58,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.js', '.json'],
+        extensions: [".ts", ".js", ".json"],
         alias: {
             api: path.resolve(ROOT_DIR, "api"),
             components: path.resolve(ROOT_DIR, "components"),
@@ -62,13 +67,13 @@ module.exports = {
             pages: path.resolve(ROOT_DIR, "pages"),
             services: path.resolve(ROOT_DIR, "services"),
             utilities: path.resolve(ROOT_DIR, "utilities"),
-            handlebars: 'handlebars/dist/handlebars.min.js',
+            handlebars: "handlebars/dist/handlebars.min.js",
         }
     },
-    devtool: prod ? undefined : 'source-map',
+    devtool: prod ? undefined : "source-map",
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'src/index.html',
+            template: "src/index.html",
         }),
         new MiniCssExtractPlugin(),
         new webpack.EnvironmentPlugin({

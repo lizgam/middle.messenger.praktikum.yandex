@@ -77,9 +77,11 @@ export const changeAvatar = async (
 
     const formData = new FormData();
     formData.append("avatar", payload.avatar);
-  
+
     const api: UserAPI = new UserAPI();
-    const response = await api.changeAvatar(formData);
+    const response = await api.changeAvatar(formData).catch((error) => {
+        console.log(error);
+    });
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });

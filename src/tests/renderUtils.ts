@@ -1,6 +1,6 @@
-import { BlockClass, renderDOM, registerComponent, Store, Router } from 'core';
-import { defaultState } from 'data/appState';
-import Button from '../components/Button';
+import { BlockClass, renderDOM, registerComponent, Store, Router } from "core";
+import { defaultState } from "data/appState";
+import Button from "../components/Button";
 
 type RenderBlockParams<T> = {
     Block: BlockClass<T>;
@@ -9,6 +9,7 @@ type RenderBlockParams<T> = {
 }
 
 //rendering Block into DOM
+//eslint-disable-next-line
 export async function renderBlock<T extends Object>({ Block, props, state = defaultState }: RenderBlockParams<T>) {
     // Object.values(components).forEach((Component: any) => {
     registerComponent(Button);
@@ -23,7 +24,7 @@ export async function renderBlock<T extends Object>({ Block, props, state = defa
     window.store = store;
 
     //initial html container:
-    document.body.innerHTML = '<div id="app"></div>';
+    document.body.innerHTML = "<div id=\"app\"></div>";
 
     //will render block into DOM
     renderDOM(new Block(props as T));
@@ -47,7 +48,7 @@ export async function step(_name: string, callback: () => void) {
     await callback();
 }
 
-export function sleep(ms: number = 200) {
+export function sleep(ms = 200) {
     return new Promise(r => setTimeout(r, ms));
 }
 

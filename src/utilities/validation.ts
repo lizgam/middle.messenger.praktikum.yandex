@@ -13,7 +13,7 @@ const validateLogin = (login: string) => {
 };
 
 const validatePassword = (password: string) => {
-    const res = /^(?=.+[A-Z])(?=.+\d).*$/.test(password);
+    const res = /^(?=.+[A-Za-z])(?=.+\d)[A-Za-z\d]*$/.test(password);
     return res;
 };
 const validateEmail = (email: string) => {

@@ -33,11 +33,13 @@ export const login = async (
         return;
     }
 
-    const responseReadUser = await api.readUser();
+    const responseReadUser = await api.readUser().catch((error) => {
+        console.log(error);
+    });
 
     dispatch({ isLoading: false, authError: null });
 
-    if (isErrorResponse(response)) {
+    if (isErrorResponse(responseReadUser)) {
         dispatch(logout);
         return;
     }
@@ -56,18 +58,22 @@ export const register = async (
 
     const api: AuthAPI = new AuthAPI();
 
-    const response = await api.signUp(payload);
+    const response = await api.signUp(payload).catch((error) => {
+        console.log(error);
+    });
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
         return;
     }
 
-    const responseReadUser = await api.readUser();
+    const responseReadUser = await api.readUser().catch((error) => {
+        console.log(error);
+    });
 
     dispatch({ isLoading: false, authError: null });
 
-    if (isErrorResponse(response)) {
+    if (isErrorResponse(responseReadUser)) {
         dispatch(logout);
         return;
     }
@@ -81,7 +87,9 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
     dispatch({ isLoading: true });
     const api: AuthAPI = new AuthAPI();
 
-    await api.logout();
+    await api.logout().catch((error) => {
+        console.log(error);
+    });
 
     dispatch({ isLoading: false, user: null });
 

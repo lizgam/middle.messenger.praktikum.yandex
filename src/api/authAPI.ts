@@ -20,11 +20,11 @@ export default class AuthAPI extends BaseAPI {
     }
 
     signUp(data: SignUpData): Promise<unknown> {
-        return this.http.post("/signup", { data, headers: { "Content-Type": "application/json" } });
+        return this.http.post("/signup", { data });
     }
 
     signIn(data: SignInData): Promise<unknown> {
-        return this.http.post("/signin", { data, headers: { "Content-Type": "application/json" } });
+        return this.http.post("/signin", { data });
     }
 
     logout(): Promise<unknown> {

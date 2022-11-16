@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export function trim(value: string, params = "") {
     if (params === "") {
         params = "\xA0 ";

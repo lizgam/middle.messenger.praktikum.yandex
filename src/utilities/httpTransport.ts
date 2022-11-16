@@ -96,6 +96,7 @@ export default class HTTPTransport {
                 if (data instanceof FormData) {
                     req.send(data as unknown as FormData);
                 } else {
+                    req.setRequestHeader("Content-Type", "application/json");
                     req.send(JSON.stringify(data));
                 }
             }
