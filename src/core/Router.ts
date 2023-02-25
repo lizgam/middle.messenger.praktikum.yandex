@@ -46,8 +46,7 @@ class Route<P = any>{
     render() {
         const { id } = this.#prefixHandler();
         if (!this.#block) {
-            // this.#block = new this.#blockClass({ ...this.#props, idPath: id });
-            this.#block = new this.#blockClass(this.#props);
+            this.#block = new this.#blockClass(this.#props as P);
             renderDOM(this.#block);
             return;
         }
@@ -82,7 +81,7 @@ export default class Router {
     //по событию onpopstate запускает приложение
     start() {
         window.onpopstate = ((event) => {
-            this._onRoute(event.currentTarget?.location.pathname);
+            this._onRoute((event.currentTarget as Window).location.pathname);
         });
 
         this._onRoute(window.location.pathname);

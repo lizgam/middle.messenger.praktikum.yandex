@@ -24,14 +24,6 @@ export class InputControl extends Block {
             avatar,
             value,
             validationRule,
-            onChange: (e: Event) => {
-                const input = e.target as HTMLInputElement;
-                const value = input.value;
-            },
-            onFocus: (e: FocusEvent) => {
-                const input = e.target as HTMLInputElement;
-                this.refs.error.setProps({ errorMsg: "" });
-            },
             onBlur: (e: FocusEvent) => {
                 const input = e.target as HTMLInputElement;
                 const value = input.value;
@@ -57,8 +49,6 @@ export class InputControl extends Block {
                 name=name
                 placeholder=placeholder
                 value=value
-                onChange=onChange
-                onFocus=onFocus
                 onBlur=onBlur
                 onEnter=onEnter
                 disabled=disabled

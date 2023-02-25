@@ -21,13 +21,15 @@
             "always"
         ],
         "quotes": [
-            "error",
+            "warn",
             "double"
         ],
         "@typescript-eslint/no-this-alias": [
             "error",
             {
-                "allowedNames": ["self"]
+                "allowedNames": [
+                    "self"
+                ]
             }
         ]
     }

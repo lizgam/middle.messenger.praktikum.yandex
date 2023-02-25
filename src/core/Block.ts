@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import EventBus from "./EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
@@ -75,7 +77,7 @@ export default class Block<P = any> {
         return document.createElement(tagName);
     }
 
-    protected getStateFromProps(props: any): void {
+    protected getStateFromProps(_props: any): void {
         this.state = {};
     }
 
@@ -90,7 +92,7 @@ export default class Block<P = any> {
     }
 
     //eslint-disable-next-line
-    protected componentDidMount(props: P): void { }
+    protected componentDidMount(_props: P): void { }
 
     private _componentWillUnmount() {
         this.eventBus().destroy();
@@ -112,7 +114,7 @@ export default class Block<P = any> {
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    componentDidUpdate(oldProps: P, newProps: P) {
+    componentDidUpdate(_oldProps: P, _newProps: P) {
         return true;
     }
 

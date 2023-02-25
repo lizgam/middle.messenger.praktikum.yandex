@@ -26,7 +26,7 @@ type SearchByLoginData = {
 
 export const updateUser = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
+    _state: AppState,
     payload: ChangeProfilePayload,
 ) => {
     dispatch({ isLoading: true });
@@ -49,7 +49,7 @@ export const updateUser = async (
 
 export const changePassword = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
+    _state: AppState,
     payload: ChangePasswordData,
 ) => {
     dispatch({ isLoading: true });
@@ -70,13 +70,18 @@ export const changePassword = async (
 
 export const changeAvatar = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
+    _state: AppState,
     payload: ChangeAvatarData,
 ) => {
     dispatch({ isLoading: true });
 
+    const formData = new FormData();
+    formData.append("avatar", payload.avatar);
+
     const api: UserAPI = new UserAPI();
-    const response = await api.changeAvatar(payload);
+    const response = await api.changeAvatar(formData).catch((error) => {
+        console.log(error);
+    });
 
     if (isErrorResponse(response)) {
         dispatch({ isLoading: false, authError: response.reason });
@@ -91,7 +96,7 @@ export const changeAvatar = async (
 
 export const searchByLogin = async (
     dispatch: Dispatch<AppState>,
-    state: AppState,
+    _state: AppState,
     payload: SearchByLoginData,
 ) => {
     dispatch({ isLoading: true });

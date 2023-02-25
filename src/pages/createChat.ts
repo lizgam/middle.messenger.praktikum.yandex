@@ -1,7 +1,7 @@
 import { ValidationRule } from "utilities/validation";
 import { Block, Router, Store } from "core";
 import { withStore, withRouter } from "utilities";
-import { createNewChat, getChats } from "services/chats";
+import { createNewChat } from "services/chats";
 
 type CreateChatPageProps = {
     router: Router;
@@ -23,7 +23,6 @@ export class CreateChatPage extends Block<CreateChatPageProps> {
                 const chatNameError = (this.refs.first_name as CreateChatPage).refs.error;
                 if ((chatNameError as CreateChatPage).props.errorMsg === "") {
                     this.props.store.dispatch(createNewChat, { title: chatName });
-                    const oldCards = this.props.store.getState().cards;
                 } else if ((chatNameError as CreateChatPage).props.errorMsg === undefined) {
                     chatNameError.setProps({
                         errorMsg: "Field can not be empty",

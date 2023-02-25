@@ -1,6 +1,6 @@
 import Block from "../../core/Block";
 
-type InputProps = {
+export type InputProps = {
     id?: string;
     inputType?: "text" | "password" | "email" | "tel" | "file";
     name?: string;
